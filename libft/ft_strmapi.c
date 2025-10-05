@@ -1,27 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/22 15:46:41 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/02 09:50:40 by mfahmi           ###   ########.fr       */
+/*   Created: 2024/10/27 21:00:28 by mfahmi            #+#    #+#             */
+/*   Updated: 2025/05/10 12:10:38 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int main(int ac, char **av)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	t_cub cub;
+	int		i;
+	char	*str;
 
-	if(ac < 2)
-		return(printf("Erorr\nCheck Program Arguments\n"), 1); //   
-	if(is_cub_file(av[1]))
-		return(printf("Erorr\nCheck File Extension\n"), 1);
-	ft_memset(&cub, 0, sizeof(t_cub));
-	if(parse_cub_file(av[1], &cub))
-		return(printf("Error Parsing\n"), 1);
-	
+	i = 0;
+	if (!s || !f)
+		return (NULL);
+	str = malloc(ft_strlen(s) + 1);
+	if (!str)
+		return (NULL);
+	while (s[i])
+	{
+		str[i] = f(i, s[i]);
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }
+/*int main ()
+{
+	printf("%s",ft_strmapi("hello",f));
+}
+char	f(unsigned int index, char ch)
+{
+			return (ch + index);
+}*/

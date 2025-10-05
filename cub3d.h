@@ -2,7 +2,7 @@
 #define CUB3D_H
 
 # include "./libft/libft.h"
-# include "./w/get_next_line.h"
+# include "./get_next_line/get_next_line.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -14,30 +14,30 @@ typedef struct s_config {
     char *we_texture;
     char *ea_texture;
     int floor_color;
-    int ceiling_color;
+    int ceiling_color; //why u put one integer but we have three arbg
 } t_config;
 
 typedef struct s_player {
-    int x, y;
+    int x;
+    int y;
     char direction;
 } t_player;
 
 typedef struct s_cub {
-    t_config config;
-    char **map;
-    int map_width;
-    int map_height;
+    t_config    config;
+    char        **all_map;
+    char        **map;
     t_player player;
 } t_cub;
 
-typedef struct s_lines {
-    char *content;
-    struct s_lines *next;
-}   t_lines;
+// typedef struct s_lines {
+//     char *content;
+//     struct s_lines *next;
+// }   t_lines;
 
 
 int is_cub_file(char *filename);
 int parse_cub_file(char *filename, t_cub *cub);
-int read_lines(int fd);
+int read_lines(int fd, t_cub *cub);
 
 #endif

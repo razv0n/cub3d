@@ -1,27 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/22 15:46:41 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/02 09:50:40 by mfahmi           ###   ########.fr       */
+/*   Created: 2024/10/26 09:04:46 by mfahmi            #+#    #+#             */
+/*   Updated: 2025/10/05 12:10:12 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int main(int ac, char **av)
+int	ft_atoi(const char *str)
 {
-	t_cub cub;
+	int		r;
+	int		i;
+	int	signe;
 
-	if(ac < 2)
-		return(printf("Erorr\nCheck Program Arguments\n"), 1); //   
-	if(is_cub_file(av[1]))
-		return(printf("Erorr\nCheck File Extension\n"), 1);
-	ft_memset(&cub, 0, sizeof(t_cub));
-	if(parse_cub_file(av[1], &cub))
-		return(printf("Error Parsing\n"), 1);
-	
+	r = 0;
+	i = 0;
+	signe = 1;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			signe = -signe;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		r = r * 10 + str[i] - '0';
+		if (r > 255)
+			return (-1);
+		i++;
+	}
+	return (r * signe);
 }

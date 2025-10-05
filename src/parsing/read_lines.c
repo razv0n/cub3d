@@ -1,33 +1,35 @@
-// # Reads all lines from .cub file
 #include "../../cub3d.h"
 
-
-int read_lines(int fd)
+int	lenght_map(int fd)
 {
-	t_lines *head = NULL;
-	t_lines *tmp = NULL;
+	char	*line;
+	int 	length;
 
+	length = 0;
+	while (line = get_next_line(fd))
+	{
+		length++;
+		free(line);
+	}
+	return (length);
+}
+
+char **read_lines(int fd, t_cub *cub)
+{
 	char *line;
+	char **map;
+	int		i;
+
+	i = 0;
+	map = malloc(sizeof(char *) * (lenght_map(fd) + 1)); // use ft_malloc();
+	if (!map)
+		perror("leaks here :): \n");
 	while((line = get_next_line(fd)))
 	{
-		t_lines *new_node = malloc(sizeof(t_lines));
-		if(!new_node)
-			return (1);
-		new_node->content = line;
-		new_node->next = NULL;
-		if(!head)
-			head = new_node;
-		else
-			tmp->next = new_node;
-		tmp = new_node;
+		map[i] = line;
+		check_rules_map(line, cub);
+		i++;
 	}
-	close(fd);
-
-	// t_lines *tmp2 = head;
-	// while(tmp2)
-	// {
-	// 	printf("%s", tmp2->content);
-	// 	tmp2 = tmp2->next;
-	// }
-	return 0;
+	map[i] = NULL;
+	return map;
 }

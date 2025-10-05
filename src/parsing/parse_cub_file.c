@@ -1,5 +1,3 @@
- //# Entry point for parsing
-
  #include "../../cub3d.h"
 
 int is_cub_file(char *filename)
@@ -18,8 +16,7 @@ int parse_cub_file(char *filename, t_cub *cub)
 
 	fd = open(filename, O_RDONLY);
 	if(fd < 0)
-		return (1);
-	if(read_lines(fd))
-		return (1);
-	return 0;
+		perror("free all and exit \n");
+	cub->all_map = read_lines(fd, cub);
+	return (0);
 }

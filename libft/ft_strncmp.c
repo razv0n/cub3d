@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/22 15:46:41 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/02 09:50:40 by mfahmi           ###   ########.fr       */
+/*   Created: 2024/10/24 18:28:39 by mfahmi            #+#    #+#             */
+/*   Updated: 2025/06/13 17:35:56 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int main(int ac, char **av)
+int	ft_strncmp(const char *s1, char *s2, size_t n)
 {
-	t_cub cub;
+	size_t	i;
 
-	if(ac < 2)
-		return(printf("Erorr\nCheck Program Arguments\n"), 1); //   
-	if(is_cub_file(av[1]))
-		return(printf("Erorr\nCheck File Extension\n"), 1);
-	ft_memset(&cub, 0, sizeof(t_cub));
-	if(parse_cub_file(av[1], &cub))
-		return(printf("Error Parsing\n"), 1);
-	
+	i = 0;
+	if (n == 0)
+		return (0);
+	while (i < n - 1 && s1[i] == s2[i] && s1[i] && s2[i])
+	{
+		i++;
+	}
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
