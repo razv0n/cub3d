@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/22 15:46:41 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/02 09:50:40 by mfahmi           ###   ########.fr       */
+/*   Created: 2024/10/26 09:09:38 by mfahmi            #+#    #+#             */
+/*   Updated: 2025/06/20 10:32:08 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int main(int ac, char **av)
+void	*ft_calloc(size_t nitems, size_t size)
 {
-	t_cub cub;
+	void	*ptr;
+	size_t	i;
 
-	if(ac < 2)
-		return(printf("Erorr\nCheck Program Arguments\n"), 1); //   
-	if(is_cub_file(av[1]))
-		return(printf("Erorr\nCheck File Extension\n"), 1);
-	ft_memset(&cub, 0, sizeof(t_cub));
-	if(parse_cub_file(av[1], &cub))
-		return(printf("Error Parsing\n"), 1);
-	
+	i = 0;
+	ptr = ft_malloc(nitems * size, SECOUND_P, FREE);
+	while (i < (nitems * size))
+	{
+		((char *)ptr)[i] = 0;
+		i++;
+	}
+	return (ptr);
 }
