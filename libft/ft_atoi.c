@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 09:04:46 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/05 12:10:12 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/06 09:45:59 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int	ft_atoi(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		r = r * 10 + str[i] - '0';
-		if (r > 255)
-			return (-1);
 		i++;
 	}
 	return (r * signe);

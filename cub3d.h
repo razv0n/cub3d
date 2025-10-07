@@ -14,7 +14,7 @@ typedef struct s_config {
     char *we_texture;
     char *ea_texture;
     int floor_color;
-    int ceiling_color; //why u put one integer but we have three arbg
+    int ceiling_color; \
 } t_config;
 
 typedef struct s_player {
@@ -27,6 +27,8 @@ typedef struct s_cub {
     t_config    config;
     char        **all_map;
     char        **map;
+    int         index_a_map;
+    int         first_index_map;
     t_player player;
 } t_cub;
 
@@ -39,5 +41,6 @@ typedef struct s_cub {
 int is_cub_file(char *filename);
 int parse_cub_file(char *filename, t_cub *cub);
 int read_lines(int fd, t_cub *cub);
+void    check_rules_map (char *line, t_cub *cub);
 
 #endif
