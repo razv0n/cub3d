@@ -2,6 +2,23 @@
 
 #include "../../cub3d.h"
 
+static int ft_atoi_byte(const char **str)
+{
+	int		r;
+
+	r = 0;
+	while (**str == ' ' || (**str >= 9 && **str <= 13))
+		(*str)++;
+	while (**str >= '0' && **str <= '9')
+	{
+		r = r * 10 + **str - '0';
+        if (r > 255)
+            return (-1);
+		(*str)++;
+	}
+	return (r);
+}
+
 int     ft_strlen_remove(char *line)
 {
     int i;
@@ -61,8 +78,8 @@ bool    check_rbg(char *line, t_cub *cub, char RBG)
     {
         if (ft_isdigit(*line))
         {
+            rgb_arr[i] = (short)ft_atoi_byte(line);
             if (rgb_arr[i] == -1)
-            rgb_arr[i] = (short)ft_atoi(line);
                 return (false);
             i++;
         }
@@ -129,34 +146,38 @@ bool    check_the_colors(char *line, int nm_line, t_cub *cub)
     }
     return (c & f);
 }
+
 bool    check_map(char *line, t_cub *cub)
 {
     bool        is_exist;
     
     if (!line)
         return false;
-    line = remove_char(line);
+    cub->all_map[cub->index_a_map] = remove_char(line);
 
 }
-void    check_rules_map (char *line, t_cub *cub)
+
+void    check_rules_map (char **line, t_cub *cub)
 {
     static short    nm_line;
-    int             i;
 
-    i = 0;
     nm_line = 0;
-    while (is_whitespace(line[i]))
-        i++;
-    if (!line[i])
+    while (**line == ' ' || **line == '\t')
+        (*line)++;
+    if (!**line)
         return;
     nm_line++;
     if (nm_line <= 4)
-        if (!check_the_texture_wall(line + i, nm_line, cub))
+        if (!check_the_texture_wall(*line, nm_line, cub))
             perror("exit the programme and free !\n");
     else if(nm_line >= 5 && nm_line <= 6)
-        if (!check_the_colors(line + i, nm_line, cub))
+        if (!check_the_colors(*line, nm_line, cub))
             perror("exit the programme and free !\n");
     else
-        if (!check_map(line, cub))
+    {
+        if (nm_line == 7)
+            cub->first_index_map = cub->index_a_map;
+        if (!check_map(*line, cub)) 
             perror("exit the code and  free the programme"); // 1010  1001 . 1100 1100 .1010 0000
+    }
 }

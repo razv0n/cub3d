@@ -14,22 +14,19 @@ int	lenght_map(int fd)
 	return (length);
 }
 
-char **read_lines(int fd, t_cub *cub)
+void	read_lines(int fd, t_cub *cub)
 {
 	char *line;
-	char **map;
-	int		i;
-
-	i = 0;
-	map = malloc(sizeof(char *) * (lenght_map(fd) + 1)); // use ft_malloc();
-	if (!map)
+	
+	cub->index_a_map = 0;
+	cub->all_map = malloc(sizeof(char *) * (lenght_map(fd) + 1)); // use ft_malloc();
+	if (!cub->all_map)
 		perror("leaks here :): \n");
 	while((line = get_next_line(fd)))
 	{
-		map[i] = line;
+		cub->all_map[cub->index_a_map] = line;
 		check_rules_map(line, cub);
-		i++;
+		cub->index_a_map++;
 	}
-	map[i] = NULL;
-	return map;
+	cub->all_map[cub->index_a_map] = NULL;
 }
