@@ -9,27 +9,34 @@ int is_cub_file(char *filename)
 		return(0);
 	return(1);
 }
-
-bool	check_the_state_of_wall(t_cub *cub)
+void	check_error_wall(int i, int j, t_cub *cub)
 {
-	int (i), (j), (lenght);
+	if (cub->map[i][j] != '1' && cub->map[i][j] != '\n')
+	{
+		// free_data
+		exit(ft_print("Error\nState Of Wall\n", 2));
+	}
+}
+void	check_the_state_of_wall(t_cub *cub, int length_map)
+{
+	int (i), (j), (row_length);
 
 	i = 0;
 	while (cub->map[i])
 	{
 		j = 0;
-		lenght = ft_strlen(cub->map[i]);
+		row_length = ft_strlen(cub->map[i]) - 2;
 		while (cub->map[i][j])
 		{
-			if (!i || i == cub->index_a_map - 1)
+			if (!i || i == length_map - 1)
 				check_error_wall(i, j, cub);
 			else
 			{
-				if (cub->map[0] == '1' && cub->map[lenght - 1] == '1')
+				if (cub->map[0] == '1' && cub->map[row_length] == '1')
 					break ;
 				else
 				{
-					free_data(cub);
+					// free the data
 					exit(ft_print("Error\nState Of Wall\n", 2));
 				}
 			}
@@ -39,6 +46,31 @@ bool	check_the_state_of_wall(t_cub *cub)
 	}
 }
 
+
+void	check_element(t_cub *cub, int lenght_map)
+{
+	int i;
+	int j;
+	int length_row;
+
+	i = 0;
+	while(cub->map[i])
+	{
+		j = 1;
+		length_row = ft_strlen(cub->map[i]) - 2;
+		while(j <= length_row)
+		{
+			if (!i || i == lenght_map - 1)
+				break;
+			if (cub->map[i][j] == 'W' || cub->map[i][j] == 'N' || cub->map[i][j] == 'S' || cub->map[i][j] == 'E' && !cub->config.position_player)
+				cub->config.position_player = cub->map[i][j];
+			else if (cub->map[i][j] != '0')
+				exit(printf("free all"));
+			j++;
+		}
+		i++;
+	}
+}
 void	made_map(t_cub *cub)
 {
 	int		length;
@@ -61,7 +93,9 @@ void	made_map(t_cub *cub)
 			cub->map[length_map++] = cub->all_map[length];
 		length++;
 	}
-	check_the_state_of_wall(cub);
+	cub->map[length_map] = NULL;
+	check_the_state_of_wall(cub, length_map);
+	check_element(cub, length_map);
 }
 
 int parse_cub_file(char *filename, t_cub *cub)

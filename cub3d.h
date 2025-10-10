@@ -8,13 +8,15 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-typedef struct s_config {
+typedef struct s_config 
+{
     char *no_texture;
     char *so_texture;
     char *we_texture;
     char *ea_texture;
     int floor_color;
-    int ceiling_color; \
+    int ceiling_color;
+    char position_player;
 } t_config;
 
 typedef struct s_player {
@@ -41,6 +43,6 @@ typedef struct s_cub {
 int is_cub_file(char *filename);
 int parse_cub_file(char *filename, t_cub *cub);
 int read_lines(int fd, t_cub *cub);
-void    check_rules_map (char *line, t_cub *cub);
+void    check_rules_map (char **line, t_cub *cub);
 
 #endif

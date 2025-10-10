@@ -7,8 +7,6 @@ static int ft_atoi_byte(const char **str)
 	int		r;
 
 	r = 0;
-	while (**str == ' ' || (**str >= 9 && **str <= 13))
-		(*str)++;
 	while (**str >= '0' && **str <= '9')
 	{
 		r = r * 10 + **str - '0';
@@ -74,18 +72,18 @@ bool    check_rbg(char *line, t_cub *cub, char RBG)
     i = 0;
     if (!line)
         return (false);
-    while(ft_isdigit(*line) || *line == ',' || *line == ' ' || *line == '\t')
+    line = remove_char(line);
+    while(ft_isdigit(*line)) // 10,3,234234
     {
-        if (ft_isdigit(*line))
-        {
-            rgb_arr[i] = (short)ft_atoi_byte(line);
+            rgb_arr[i] = (short)ft_atoi_byte(&line);
             if (rgb_arr[i] == -1)
                 return (false);
-            i++;
-        }
+        i++;
+        if (*line != ',')
+            return false;
         line++;
     }
-    if(*line)
+    if(*line != '\n')
         return (false);
     if(RBG == 'F')
         cub->config.floor_color = rbg_shift(rgb_arr[0], rgb_arr[1], rgb_arr[2]);
@@ -103,28 +101,32 @@ bool    check_the_texture_wall(char *line, short nm_line, t_cub *cub)
 
     if (ft_strncmp(line, "NO", 2) && !no)
     {
-        cub->config.no_texture = ft_strtrim(line + 2, " \t");
-        no = true;
+        cub->config.no_texture = ft_strtrim(line + 2, " \t\n");
+        if (*cub->config.no_texture)
+            no = true;
     }
     else if (ft_strncmp(line, "SO", 2) && !so)
     {
-        cub->config.so_texture = ft_strtrim(line + 2, " \t");
-        so = true;
+        cub->config.so_texture = ft_strtrim(line + 2, " \t\n");
+        if (*cub->config.so_texture)
+            so = true;
     }
     else if (ft_strncmp(line, "EA", 2) && !ea)
     {
-        cub->config.ea_texture = ft_strtrim(line + 2, " \t");
-        ea = true;
+        cub->config.ea_texture = ft_strtrim(line + 2, " \t\n");
+        if (*cub->config.ea_texture)
+            ea = true;
     }
     else if (ft_strncmp(line, "WE", 2) && !we)
     {
-        cub->config.we_texture = ft_strtrim(line + 2, " \t");
-        we = true;
+        cub->config.we_texture = ft_strtrim(line + 2, " \t\n");
+        if (*cub->config.we_texture)
+            we = true;
     }
     else if (nm_line == 4)
         return (no & so & ea & we);
 
-    return (false);
+    return (true);
 }
 
 bool    check_the_colors(char *line, int nm_line, t_cub *cub)
@@ -135,7 +137,7 @@ bool    check_the_colors(char *line, int nm_line, t_cub *cub)
     if (ft_strncmp("F", line, 1) && !f)
     {
         f = true;
-        if (check_rbg(line + 1, cub, 'F'))
+        if (!check_rbg(line + 1, cub, 'F'))
             return (!f);
     }
     else if (ft_strncmp("C", line ,1) && !c)
@@ -147,14 +149,13 @@ bool    check_the_colors(char *line, int nm_line, t_cub *cub)
     return (c & f);
 }
 
-bool    check_map(char *line, t_cub *cub)
+void   pars_map(char *line, t_cub *cub)
 {
     bool        is_exist;
     
     if (!line)
         return false;
     cub->all_map[cub->index_a_map] = remove_char(line);
-
 }
 
 void    check_rules_map (char **line, t_cub *cub)
@@ -162,7 +163,7 @@ void    check_rules_map (char **line, t_cub *cub)
     static short    nm_line;
 
     nm_line = 0;
-    while (**line == ' ' || **line == '\t')
+    while (**line == ' ' || **line == '\t' || **line == '\n')
         (*line)++;
     if (!**line)
         return;
@@ -177,7 +178,6 @@ void    check_rules_map (char **line, t_cub *cub)
     {
         if (nm_line == 7)
             cub->first_index_map = cub->index_a_map;
-        if (!check_map(*line, cub)) 
-            perror("exit the code and  free the programme"); // 1010  1001 . 1100 1100 .1010 0000
+        pars_map(*line, cub);
     }
 }
