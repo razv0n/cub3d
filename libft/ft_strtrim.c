@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 15:41:03 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/04 11:13:48 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/10 11:56:49 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 // int main ()
 // {
 	
-// 	char *result = ft_strtrim("			this is out home								lol     ", " \t");
+// 	char *result = ft_strtrim("         are the same\n", " \t");
 // 	printf("%s",result);
 // }
