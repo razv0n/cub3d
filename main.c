@@ -22,6 +22,12 @@ int main(int ac, char **av)
 		return(printf("Erorr\nCheck File Extension\n"), 1);
 	ft_memset(&cub, 0, sizeof(t_cub));
 	if(parse_cub_file(av[1], &cub))
-		return(printf("Error Parsing\n"), 1);
-	
+	return(printf("Error Parsing\n"), 1);
+	cub.game = malloc(sizeof(t_game));
+	ft_memset(cub.game, 0, sizeof(t_game));
+	cub.game->mlx = mlx_init();
+	if(!cub.game->mlx)
+		//error
+	mlx_init_and_setup(cub.game);  //      
+    mlx_loop(cub.game->mlx);
 }
