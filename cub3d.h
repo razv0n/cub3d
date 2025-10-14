@@ -3,10 +3,12 @@
 
 # include "./libft/libft.h"
 # include "./get_next_line/get_next_line.h"
+# include "/usr/include/minilibx-linux/mlx.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
+# define SQUARE 80
 
 typedef struct s_config {
     char *no_texture;
@@ -30,7 +32,18 @@ typedef struct s_cub {
     int         index_a_map;
     int         first_index_map;
     t_player player;
+    t_game *game;
 } t_cub;
+
+typedef struct s_game{
+    void *mlx;
+    void *win;
+    int width;
+    int height;
+    void    *img;
+	int     *img_data;
+	int     bpp, size_line, endian;
+} t_game;
 
 // typedef struct s_lines {
 //     char *content;
