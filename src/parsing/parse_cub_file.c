@@ -1,8 +1,8 @@
- #include "../../cub3d.h"
+// #include "../../cub3d.h"
 
-int is_cub_file(char *filename)
-{
-	int lenght;
+// int is_cub_file(char *filename)
+// {
+// 	int lenght;
 	
 	lenght = ft_strlen(filename);
 	if(lenght > 4 && (ft_strcmp(filename + lenght - 4, ".cub") == 0))
@@ -110,3 +110,6 @@ int parse_cub_file(char *filename, t_cub *cub)
 	return (0);
 }
 
+
+//------------------------------------------------
+// this file is full of error handle your shit 
