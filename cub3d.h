@@ -3,7 +3,7 @@
 
 # include "./libft/libft.h"
 # include "./get_next_line/get_next_line.h"
-# include "/usr/include/minilibx-linux/mlx.h"
+#include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -22,9 +22,9 @@ typedef struct s_config
 } t_config;
 
 typedef struct s_player {
-    int x;
-    int y;
-    char direction;
+    int     x;
+    int     y;
+    char    direction;
 } t_player;
 
 typedef struct s_cub {
@@ -33,18 +33,21 @@ typedef struct s_cub {
     char        **map;
     int         index_a_map;
     int         first_index_map;
-    t_player player;
-    t_game *game;
+    t_player    player;
+    t_game      *game;
 } t_cub;
 
 typedef struct s_game{
-    void *mlx;
-    void *win;
-    int width;
-    int height;
+    void    *mlx;
+    void    *win;
+    int     width;
+    int     height;
     void    *img;
 	int     *img_data;
-	int     bpp, size_line, endian;
+	int     bpp;
+    int     size_line;
+    int     endian;
+    
 } t_game;
 
 // typedef struct s_lines {
