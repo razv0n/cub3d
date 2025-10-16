@@ -3,12 +3,14 @@
 
 # include "./libft/libft.h"
 # include "./get_next_line/get_next_line.h"
-# include "/usr/include/minilibx-linux/mlx.h"
+# include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
 # define SQUARE 80
+
+typedef struct s_game t_game;
 
 typedef struct s_config {
     char *no_texture;
@@ -55,5 +57,6 @@ int is_cub_file(char *filename);
 int parse_cub_file(char *filename, t_cub *cub);
 int read_lines(int fd, t_cub *cub);
 void    check_rules_map (char *line, t_cub *cub);
+void mlx_init_and_setup(t_game *game);
 
 #endif
