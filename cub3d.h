@@ -3,25 +3,17 @@
 
 # include "./libft/libft.h"
 # include "./get_next_line/get_next_line.h"
-<<<<<<< HEAD
 #include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
-=======
-# include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
->>>>>>> b73ec859a22abd3c66f8458332ed576c38138f26
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <fcntl.h>
 # define SQUARE 80
 
-<<<<<<< HEAD
-typedef struct s_config 
-{
-=======
 typedef struct s_game t_game;
 
 typedef struct s_config {
->>>>>>> b73ec859a22abd3c66f8458332ed576c38138f26
     char *no_texture;
     char *so_texture;
     char *we_texture;
@@ -53,7 +45,7 @@ typedef struct s_game{
     int     width;
     int     height;
     void    *img;
-	int     *img_data;
+	char     *img_data;
 	int     bpp;
     int     size_line;
     int     endian;
@@ -68,8 +60,9 @@ typedef struct s_game{
 
 int is_cub_file(char *filename);
 int parse_cub_file(char *filename, t_cub *cub);
-int read_lines(int fd, t_cub *cub);
-void    check_rules_map (char *line, t_cub *cub);
+void read_lines(int fd, t_cub *cub);
+void    check_rules_map (char **line, t_cub *cub);
 void mlx_init_and_setup(t_game *game);
-
+void    init_mlx_fun(t_cub *cub);
+int is_cub_file(char *filename);
 #endif

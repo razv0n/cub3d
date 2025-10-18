@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mfahmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 09:48:46 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/20 10:32:52 by mfahmi           ###   ########.fr       */
+/*   Updated: 2024/11/04 21:13:21 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s, t_free_type place)
+char	*ft_strdup(const char *s)
 {
 	char	*d;
 	int		i;
 	int		length;
 
-	if (!s)
-		return (NULL);
 	length = ft_strlen(s);
 	i = 0;
-	d = ft_malloc(length + 1, place, FREE);
+	d = malloc (length + 1);
+	if (!d)
+		return (NULL);
 	while (i <= length)
 	{
 		d[i] = s[i];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mfahmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:00:28 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/10 12:10:38 by mfahmi           ###   ########.fr       */
+/*   Updated: 2024/10/28 09:28:18 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
 	printf("%s",ft_strmapi("hello",f));
 }
-char	f(unsigned int index, char ch)
+char f(unsigned int index, char ch)
 {
-			return (ch + index);
+         return ch + index;
 }*/

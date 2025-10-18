@@ -6,10 +6,12 @@ int	lenght_map(int fd)
 	int 	length;
 
 	length = 0;
-	while (line = get_next_line(fd))
+	line = get_next_line(fd);
+	while (line)
 	{
 		length++;
 		free(line);
+		line = get_next_line(fd);
 	}
 	return (length);
 }
@@ -22,11 +24,13 @@ void	read_lines(int fd, t_cub *cub)
 	cub->all_map = malloc(sizeof(char *) * (lenght_map(fd) + 1)); // use ft_malloc();
 	if (!cub->all_map)
 		perror("leaks here :): \n");
-	while((line = get_next_line(fd)))
+	line = get_next_line(fd);
+	while(line)
 	{
 		cub->all_map[cub->index_a_map] = line;
-		check_rules_map(line, cub);
+		check_rules_map(&line, cub);
 		cub->index_a_map++;
+		line = get_next_line(fd);
 	}
 	cub->all_map[cub->index_a_map] = NULL;
 }
