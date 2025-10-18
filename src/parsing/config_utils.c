@@ -66,16 +66,16 @@ int     rbg_shift(short red, short blue, short green)
 
 bool    check_rbg(char *line, t_cub *cub, char RBG)
 {
-    short     rgb_arr[3];
+    short            rgb_arr[3];
     int              i;
 
     i = 0;
     if (!line)
         return (false);
     line = remove_char(line);
-    while(ft_isdigit(*line)) // 10,3,234234
+    while(ft_isdigit(*line))
     {
-            rgb_arr[i] = (short)ft_atoi_byte(&line);
+            rgb_arr[i] = (short)ft_atoi_byte((const char **)&line);
             if (rgb_arr[i] == -1)
                 return (false);
         i++;
@@ -129,7 +129,7 @@ bool    check_the_texture_wall(char *line, short nm_line, t_cub *cub)
     return (true);
 }
 
-bool    check_the_colors(char *line, int nm_line, t_cub *cub)
+bool    check_the_colors(char *line,int nm_line ,t_cub *cub)
 {
     static bool f;
     static bool c;
@@ -146,15 +146,15 @@ bool    check_the_colors(char *line, int nm_line, t_cub *cub)
         if (!check_rbg(line + 1, cub, 'C'))
             return (!c);
     }
-    return (c & f);
+    if (nm_line == 6)
+        return (c & f);
+    return (true);
 }
 
 void   pars_map(char *line, t_cub *cub)
 {
-    bool        is_exist;
-    
     if (!line)
-        return false;
+        return;
     cub->all_map[cub->index_a_map] = remove_char(line);
 }
 
@@ -169,11 +169,15 @@ void    check_rules_map (char **line, t_cub *cub)
         return;
     nm_line++;
     if (nm_line <= 4)
+    {
         if (!check_the_texture_wall(*line, nm_line, cub))
             perror("exit the programme and free !\n");
+    }
     else if(nm_line >= 5 && nm_line <= 6)
-        if (!check_the_colors(*line, nm_line, cub))
+    {
+        if (!check_the_colors(*line, nm_line ,cub))
             perror("exit the programme and free !\n");
+    }
     else
     {
         if (nm_line == 7)

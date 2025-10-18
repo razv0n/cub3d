@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 22:14:41 by mowardan          #+#    #+#             */
-/*   Updated: 2024/11/29 09:41:39 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/10/18 12:12:58 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #  endif
 # endif
 
-// # include "./libft/libft.h"
+# include "../libft/libft.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>

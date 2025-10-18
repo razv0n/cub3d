@@ -1,8 +1,8 @@
-// #include "../../cub3d.h"
+#include "../../cub3d.h"
 
-// int is_cub_file(char *filename)
-// {
-// 	int lenght;
+int is_cub_file(char *filename)
+{
+	int lenght;
 	
 	lenght = ft_strlen(filename);
 	if(lenght > 4 && (ft_strcmp(filename + lenght - 4, ".cub") == 0))
@@ -14,14 +14,14 @@ void	check_error_wall(int i, int j, t_cub *cub)
 	if (cub->map[i][j] != '1' && cub->map[i][j] != '\n')
 	{
 		// free_data
-		exit(ft_print("Error\nState Of Wall\n", 2));
+		exit(printf("Error\nState Of Wall\n"));
 	}
 }
 void	check_the_state_of_wall(t_cub *cub, int length_map)
 {
 	int (i), (j), (row_length);
-
 	i = 0;
+
 	while (cub->map[i])
 	{
 		j = 0;
@@ -32,12 +32,12 @@ void	check_the_state_of_wall(t_cub *cub, int length_map)
 				check_error_wall(i, j, cub);
 			else
 			{
-				if (cub->map[0] == '1' && cub->map[row_length] == '1')
+				if (cub->map[i][0] == '1' && cub->map[i][row_length] == '1')
 					break ;
 				else
 				{
 					// free the data
-					exit(ft_print("Error\nState Of Wall\n", 2));
+					exit(printf("Error\nState Of Wall\n"));
 				}
 			}
 			j++;
@@ -62,7 +62,7 @@ void	check_element(t_cub *cub, int lenght_map)
 		{
 			if (!i || i == lenght_map - 1)
 				break;
-			if (cub->map[i][j] == 'W' || cub->map[i][j] == 'N' || cub->map[i][j] == 'S' || cub->map[i][j] == 'E' && !cub->config.position_player)
+			if ((cub->map[i][j] == 'W' || cub->map[i][j] == 'N' || cub->map[i][j] == 'S' || cub->map[i][j] == 'E') && !cub->config.position_player)
 				cub->config.position_player = cub->map[i][j];
 			else if (cub->map[i][j] != '0')
 				exit(printf("free all"));
@@ -77,7 +77,7 @@ void	made_map(t_cub *cub)
 	int	length_map;
 
 	length_map = 0;
-	length = cub->index_a_map - cub->first_index_map;
+	length = cub->index_a_map  - cub->first_index_map;
 	while(cub->all_map[length])
 	{
 		if (cub->all_map[length][0])

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mfahmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 11:02:50 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/20 10:33:03 by mfahmi           ###   ########.fr       */
+/*   Updated: 2024/11/06 17:44:55 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*ft_cpyy(size_t len, unsigned int start, char const *s,
-		char *substr)
+static char	*ft_cpyy(size_t len,
+		unsigned int start, char const *s, char *substr)
 {
 	size_t	i;
 
@@ -40,15 +40,15 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	{
 		if (lenght - start < len)
 			len = lenght - start;
-		substr = ft_malloc(len + 1, SECOUND_P, FREE);
+		substr = malloc(len + 1);
 		if (!substr)
 			return (NULL);
 	}
 	else
-		return (ft_strdup("", SECOUND_P));
+		return (ft_strdup(""));
 	return (ft_cpyy(len, start, s, substr));
 }
-/*int	main (void)
+/*int	main ()
 {
 	printf("%s",ft_substr("", 2, 4)); // the start is the index
 }*/

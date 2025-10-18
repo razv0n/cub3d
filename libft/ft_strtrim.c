@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mfahmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 15:41:03 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/10 11:56:49 by mfahmi           ###   ########.fr       */
+/*   Updated: 2024/11/01 18:32:35 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	ft_find_rev(const char *str, char c)
 {
 	int	i;
 
-	i = (int)ft_strlen(str) - 1;
+	i = (int) ft_strlen(str) - 1;
 	while (i >= 0)
 	{
 		if (str[i] == c)
@@ -56,7 +56,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		i++;
 	while (ft_find_rev(set, s1[j]) && s1[i])
 		j--;
-	str = malloc(sizeof(char) * (j - i + 2));
+	str = malloc (sizeof(char) * (j - i + 2));
 	if (!str)
 		return (NULL);
 	while (i <= j)
@@ -64,11 +64,9 @@ char	*ft_strtrim(char const *s1, char const *set)
 	str[in] = '\0';
 	return (str);
 }
-// #include <string.h>
-// #include <stdio.h>
-// int main ()
-// {
-	
-// 	char *result = ft_strtrim("         are the same\n", " \t");
-// 	printf("%s",result);
-// }
+/*#include <string.h>
+int main ()
+{
+	//char *result = ft_strtrim("", "ef");
+    printf("%s",ft_strtrim("   ", " "));
+}*/
