@@ -24,6 +24,5 @@ int main(int ac, char **av)
 	if(parse_cub_file(av[1], &cub))
 		return(printf("Error Parsing\n"), 1);
 	init_mlx_fun(&cub);
-	
 }
 
