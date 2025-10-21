@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 11:41:34 by mfahmi            #+#    #+#             */
-/*   Updated: 2024/11/06 21:47:38 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/20 16:39:17 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	*get_next_word(char const **s, char **result, char c, int index)
 	while (**s != c && **s != '\0')
 		(*s)++;
 	lenght = *s - start;
-	result[index] = malloc ((lenght + 1) * sizeof(char));
+	result[index] = ft_malloc ((lenght + 1) * sizeof(char));
 	if (!result[index])
 		return (NULL);
 	while (start < *s)
@@ -87,7 +87,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	lenght = count_word(s, c);
-	result = malloc ((lenght + 1) * sizeof(char *));
+	result = ft_malloc ((lenght + 1) * sizeof(char *));
 	if (!result)
 		return (NULL);
 	i = 0;

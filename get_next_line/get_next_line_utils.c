@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 22:15:25 by mowardan          #+#    #+#             */
-/*   Updated: 2024/11/27 22:18:29 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:39:17 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*ft_strchr(const char *s, int c)
 // 	if (!s2 && s1)
 // 		return (ft_strdup(s1));
 // 	length = ft_strlen(s1) + ft_strlen(s2);
-// 	str = malloc(sizeof(char) * (length + 1));
+// 	str = ft_malloc(sizeof(char) * (length + 1));
 // 	if (!str)
 // 		return (NULL);
 // 	i = -1;
@@ -77,7 +77,7 @@ char	*ft_strchr(const char *s, int c)
 // 	size_t	i;
 
 // 	len = ft_strlen(str);
-// 	ptr = malloc((len + 1) * (sizeof(char)));
+// 	ptr = ft_malloc((len + 1) * (sizeof(char)));
 // 	if (ptr == NULL)
 // 		return (NULL);
 // 	i = 0;
@@ -102,7 +102,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	j = ft_strlen(s);
 	while (i + start < j && i < len)
 		i++;
-	str = malloc(i + 1);
+	str = ft_malloc(i + 1);
 	if (str == NULL)
 		return (0);
 	j = 0;

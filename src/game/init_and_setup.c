@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_and_setup.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/21 12:06:54 by mfahmi            #+#    #+#             */
+/*   Updated: 2025/10/21 12:08:36 by mfahmi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../cub3d.h"
 
 // void    draw_img()
@@ -21,25 +33,28 @@ void count_map(t_cub *cub)
     cub->game->height = cols;
 }
 
-void mlx_init_and_setup(t_game *game)
+void mlx_init_and_setup(t_cub *cub)
 {
+    t_game *game;
+
+    game = cub->game;
     game->win = mlx_new_window(game->mlx, game->width, game->height, "cub");
     if(!game->win)
-       perror("free the data");
+        ft_free_all();
     game->img = mlx_new_image(game->mlx, (game->height * SQUARE), (game->width * SQUARE));
     if(!game->img)
-        exit(printf("Error\nCreating Image\n"));
+        ft_free_all();
     game->img_data = mlx_get_data_addr(game->img, &game->bpp, &game->size_line, &game->endian);
-    // draw_img(game); // i need to do this funct to draw after this function i will put image to window with mlx_put_image_to_window
+    draw_map(cub);
 }
 
 void    init_mlx_fun(t_cub *cub)
 {
-    cub->game = malloc(sizeof(t_game));
+    cub->game = ft_malloc(sizeof(t_game));
 	ft_memset(cub->game, 0, sizeof(t_game));
 	cub->game->mlx = mlx_init();
 	if(!cub->game->mlx)
-		perror("free the data and done");
-	mlx_init_and_setup(cub->game);    
+		ft_free_all();
+	mlx_init_and_setup(cub);
     mlx_loop(cub->game->mlx);
 }

@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <fcntl.h>
-# define SQUARE 80
+# define SQUARE 80 // what is this 
 
 typedef struct s_game t_game;
 
@@ -65,4 +65,6 @@ void    check_rules_map (char **line, t_cub *cub);
 void mlx_init_and_setup(t_game *game);
 void    init_mlx_fun(t_cub *cub);
 int is_cub_file(char *filename);
+// void    ft_free_all(t_list **head);
+void    ft_free_all();
 #endif

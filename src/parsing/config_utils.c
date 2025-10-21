@@ -43,7 +43,7 @@ char    *remove_char(char *line)
     
     if (!line)
         return NULL;
-    res = malloc(sizeof(char) * (ft_strlen_remove(line) + 1));
+    res = ft_malloc(sizeof(char) * (ft_strlen_remove(line) + 1));
     i = 0;
     ir = 0;
     while(line[i])
@@ -61,7 +61,7 @@ char    *remove_char(char *line)
 
 int     rbg_shift(short red, short blue, short green)
 {
-    return (red << 16 | blue << 8 | green);
+    return (red << 16 | green << 8 | blue);
 }
 
 bool    check_rbg(char *line, t_cub *cub, char RBG)

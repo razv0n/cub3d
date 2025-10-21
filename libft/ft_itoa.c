@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 16:06:44 by mfahmi            #+#    #+#             */
-/*   Updated: 2024/10/31 11:45:37 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/20 16:39:17 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_itoa(int nm)
 	n = nm;
 	i = count_nm(n) - 1;
 	is_neg = 0;
-	str = malloc((i + 2) * sizeof(char));
+	str = ft_malloc((i + 2) * sizeof(char));
 	if (!str)
 		return (NULL);
 	str[i + 1] = '\0';
