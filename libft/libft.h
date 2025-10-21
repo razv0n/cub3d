@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:29:46 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/18 12:20:26 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/21 11:55:30 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 int		ft_strcmp(const char *s1, const char *s2);
+void	*ft_malloc(size_t size);
+t_list	**return_ptr(void);
 
 #endif

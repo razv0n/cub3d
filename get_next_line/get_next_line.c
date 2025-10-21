@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 22:15:07 by mowardan          #+#    #+#             */
-/*   Updated: 2025/10/18 12:11:20 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/21 11:25:10 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ char	*read_line(int fd, char *str)
 	char	*buffer;
 	ssize_t	read_bytes;
 
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buffer = ft_malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
 	if (str == NULL)
 	{
-		str = malloc(1);
+		str = ft_malloc(1);
 		if (!str)
-			return (free(buffer), NULL);
+			return (NULL);
 		str[0] = '\0';
 	}
 	while (!ft_strchr(str, '\n'))
@@ -33,7 +33,7 @@ char	*read_line(int fd, char *str)
 		if (read_bytes == 0)
 			break ;
 		if (read_bytes == -1)
-			return (free(buffer), free(str), NULL);
+			return (NULL);
 		buffer[read_bytes] = '\0';
 		str = ft_strjoin(str, buffer);
 	}
@@ -56,13 +56,12 @@ char	*extract_line(char **str)
 		sub_line_lenght = (size_t)(new_line_position - *str + 1);
 		valid_line = ft_substr(*str, 0, sub_line_lenght);
 		tmp = ft_strdup(new_line_position + 1);
-		free(*str);
+		// free(*str);
 		*str = tmp;
 	}
 	else
 	{
 		valid_line = ft_substr(*str, 0, ft_strlen(*str));
-		free(*str);
 		*str = NULL;
 	}
 	return (valid_line);
@@ -81,7 +80,7 @@ char	*get_next_line(int fd)
 	line = extract_line(&str);
 	if (line == NULL)
 	{
-		free(str);
+		// free(str);
 		str = 0;
 	}
 	return (line);

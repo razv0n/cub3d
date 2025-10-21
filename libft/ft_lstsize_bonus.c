@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:48:12 by mfahmi            #+#    #+#             */
-/*   Updated: 2024/11/07 18:04:42 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/20 16:39:17 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	ft_lstsize(t_list *lst)
 {
 	t_list *head = NULL;
 	t_list *nw , *nww;
-	nw = malloc (sizeof(t_list));
-	nww = malloc (sizeof(t_list));
+	nw = ft_malloc (sizeof(t_list));
+	nww = ft_malloc (sizeof(t_list));
 	head = nw;
 	nw->next = nww;
 	nww->next = NULL;

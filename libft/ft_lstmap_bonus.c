@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 10:39:45 by mfahmi            #+#    #+#             */
-/*   Updated: 2024/11/09 22:20:12 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/20 16:39:17 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ int main ()
 {
     t_list    *head = NULL;
     t_list    *lk, *lk_2, *lk_3;
-    lk = malloc (sizeof(t_list));
-    lk_2 = malloc (sizeof(t_list));
+    lk = ft_malloc (sizeof(t_list));
+    lk_2 = ft_malloc (sizeof(t_list));
     head = lk;
     lk->next = lk_2;
     lk_2->next = NULL;
-    //lk_3 = malloc (sizeof(t_list));
+    //lk_3 = ft_malloc (sizeof(t_list));
     lk->content = ft_strdup("hello");
     lk_2->content = ft_strdup("lol");
     t_list *head_1 = ft_lstmap(head, f, del);

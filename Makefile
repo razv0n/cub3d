@@ -11,6 +11,8 @@ SRCS =	parsing/parse_cub_file.c\
 		parsing/read_lines.c\
 		parsing/config_utils.c\
 		game/init_and_setup.c\
+		free_data/free_all.c\
+		free_data/ft_malloc.c\
 
 MSRCS = main.c 
 
@@ -24,7 +26,7 @@ $(NAME): $(OBJS) $(LIBFT_DIR) $(GET_NEXT_LINE_DIR)
 	$(CC) $(CFLAGS) $(GET_NEXT_LINE_DIR) $(OBJS) $(LIBFT_DIR) $(MLX_LIB) -o $(NAME)
 
 $(LIBFT_DIR):
-	make -C libft
+	make -C libft bonus
 $(GET_NEXT_LINE_DIR):
 	$(CC) $(CFLAGS) get_next_line/get_next_line.c -c
 %.o: %.c

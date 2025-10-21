@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   free_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/26 09:09:38 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/20 16:39:17 by mfahmi           ###   ########.fr       */
+/*   Created: 2025/10/20 16:45:40 by mfahmi            #+#    #+#             */
+/*   Updated: 2025/10/21 11:55:59 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include  "../../cub3d.h"
 
-void	*ft_calloc(size_t nitems, size_t size)
+void    ft_free_all()
 {
-	void	*ptr;
-	size_t	i;
+    t_list **head;
+    t_cub *cub;
 
-	i = 0;
-	ptr = ft_malloc (nitems * size);
-	if (!ptr)
-		return (NULL);
-	while (i < (nitems * size))
-	{
-		((char *)ptr)[i] = 0;
-		i++;
-	}
-	return (ptr);
+    head = return_ptr();
+    cub = (t_cub*)(*head)->content;  
+    // free_mlx_data(cub);
+    ft_lstclear(head, free);
 }
+
+// void    free_mlx_data(t_cub *cub)
+// {
+    // if (!)
+// }

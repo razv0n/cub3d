@@ -13,7 +13,7 @@ void	check_error_wall(int i, int j, t_cub *cub)
 {
 	if (cub->map[i][j] != '1' && cub->map[i][j] != '\n')
 	{
-		// free_data
+		ft_free_all(cub);
 		exit(printf("Error\nState Of Wall\n"));
 	}
 }
@@ -36,7 +36,7 @@ void	check_the_state_of_wall(t_cub *cub, int length_map)
 					break ;
 				else
 				{
-					// free the data
+					ft_free_all(cub);
 					exit(printf("Error\nState Of Wall\n"));
 				}
 			}
@@ -86,7 +86,7 @@ void	made_map(t_cub *cub)
 	}
 	length = cub->index_a_map - cub->first_index_map;
 	length_map = 0;
-	cub->map = malloc(sizeof(char *) * (length_map + 1));
+	cub->map = ft_malloc(sizeof(char *) * (length_map + 1));
 	while(cub->all_map[length])
 	{
 		if (cub->all_map[length][0])
@@ -104,12 +104,8 @@ int parse_cub_file(char *filename, t_cub *cub)
 
 	fd = open(filename, O_RDONLY);
 	if(fd < 0)
-		perror("free all and exit \n");
+		ft_free_all();
 	read_lines(fd, cub);
 	made_map(cub);
 	return (0);
 }
-
-
-//------------------------------------------------
-// this file is full of error handle your shit 

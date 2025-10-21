@@ -20,10 +20,9 @@ void	read_lines(int fd, t_cub *cub)
 {
 	char *line;
 	
+	// printf("%d\n", cub->index_a_map);
 	cub->index_a_map = 0;
-	cub->all_map = malloc(sizeof(char *) * (lenght_map(fd) + 1)); // use ft_malloc();
-	if (!cub->all_map)
-		perror("leaks here :): \n");
+	cub->all_map = ft_malloc(sizeof(char *) * (lenght_map(fd) + 1));
 	line = get_next_line(fd);
 	while(line)
 	{

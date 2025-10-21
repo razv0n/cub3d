@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 15:41:03 by mfahmi            #+#    #+#             */
-/*   Updated: 2024/11/01 18:32:35 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/20 16:39:17 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		i++;
 	while (ft_find_rev(set, s1[j]) && s1[i])
 		j--;
-	str = malloc (sizeof(char) * (j - i + 2));
+	str = ft_malloc (sizeof(char) * (j - i + 2));
 	if (!str)
 		return (NULL);
 	while (i <= j)
