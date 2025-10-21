@@ -24,6 +24,10 @@ int main(int ac, char **av)
 	ft_memset(cub, 0, sizeof(t_cub));
 	if(parse_cub_file(av[1], cub))
 		return(printf("Error Parsing\n"), 1);
+<<<<<<< HEAD
 	init_mlx_fun(cub);
+=======
+	init_mlx_fun(&cub);
+>>>>>>> cb24e812958f064ad681b3926b5801188e5f3bd9
 }
 

@@ -43,12 +43,18 @@ char    *remove_char(char *line)
     
     if (!line)
         return NULL;
+<<<<<<< HEAD
     res = ft_malloc(sizeof(char) * (ft_strlen_remove(line) + 1));
+=======
+    res = malloc(sizeof(char) * (ft_strlen_remove(line) + 1));
+    if(!res)
+        return NULL;
+>>>>>>> cb24e812958f064ad681b3926b5801188e5f3bd9
     i = 0;
     ir = 0;
     while(line[i])
     {
-        if (line[i] == ' ' || line[i] == '\t')
+        if (line[i] != ' ' && line[i] != '\t')
         {
             res[ir] = line[i];
             ir++;
@@ -75,9 +81,9 @@ bool    check_rbg(char *line, t_cub *cub, char RBG)
     line = remove_char(line);
     while(ft_isdigit(*line))
     {
-            rgb_arr[i] = (short)ft_atoi_byte((const char **)&line);
-            if (rgb_arr[i] == -1)
-                return (false);
+        rgb_arr[i] = (short)ft_atoi_byte((const char **)&line);
+        if (rgb_arr[i] == -1)
+            return (false);
         i++;
         if (*line != ',')
             return false;
@@ -125,7 +131,6 @@ bool    check_the_texture_wall(char *line, short nm_line, t_cub *cub)
     }
     else if (nm_line == 4)
         return (no & so & ea & we);
-
     return (true);
 }
 
