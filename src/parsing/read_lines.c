@@ -16,13 +16,15 @@ int	lenght_map(int fd)
 	return (length);
 }
 
-void	read_lines(int fd, t_cub *cub)
+void	read_lines(int fd, t_cub *cub, char *filename)
 {
 	char *line;
 	
 	// printf("%d\n", cub->index_a_map);
 	cub->index_a_map = 0;
 	cub->all_map = ft_malloc(sizeof(char *) * (lenght_map(fd) + 1));
+	close(fd);
+	fd = open(filename, O_RDONLY);
 	line = get_next_line(fd);
 	while(line)
 	{
@@ -31,5 +33,6 @@ void	read_lines(int fd, t_cub *cub)
 		cub->index_a_map++;
 		line = get_next_line(fd);
 	}
+	close(fd);
 	cub->all_map[cub->index_a_map] = NULL;
 }
