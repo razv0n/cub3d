@@ -19,11 +19,17 @@ void    ft_free_all()
 
     head = return_ptr();
     cub = (t_cub*)(*head)->content;  
-    // free_mlx_data(cub);
+    free_mlx_data(cub);
     ft_lstclear(head, free);
 }
 
-// void    free_mlx_data(t_cub *cub)
-// {
-    // if (!)
-// }
+void    free_mlx_data(t_cub *cub)
+{
+    if (!cub || !cub->game)
+        return;
+    if(cub->game->mlx && cub->game->img)
+        mlx_destroy_image(cub->game->mlx, cub->game->img);
+    if(cub->game->mlx && cub->game->win)
+        mlx_destroy_window(cub->game->mlx, cub->game->win);
+    cub->game->mlx = NULL;
+}
