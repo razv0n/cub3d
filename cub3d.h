@@ -3,15 +3,15 @@
 
 # include "./libft/libft.h"
 # include "./get_next_line/get_next_line.h"
-// #include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
+#include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
 // #include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
-#include "/Users/macbook/Downloads/minilibx/mlx.h"
+// #include "/Users/macbook/Downloads/minilibx/mlx.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <fcntl.h>
-# define SQUARE 80 // what is this 
+# define SQUARE 32 
 
 typedef struct s_game t_game;
 
@@ -64,9 +64,11 @@ int is_cub_file(char *filename);
 int parse_cub_file(char *filename, t_cub *cub);
 void read_lines(int fd, t_cub *cub);
 void    check_rules_map (char **line, t_cub *cub);
-void mlx_init_and_setup(t_game *game);
+void mlx_init_and_setup(t_cub *cub);
 void    init_mlx_fun(t_cub *cub);
 int is_cub_file(char *filename);
+// void mlx_init_and_setup(t_cub *cub);
 // void    ft_free_all(t_list **head);
 void    ft_free_all();
+void    draw_map(t_cub *cub);
 #endif

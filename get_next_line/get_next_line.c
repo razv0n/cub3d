@@ -6,10 +6,11 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 22:15:07 by mowardan          #+#    #+#             */
-/*   Updated: 2025/10/21 11:25:10 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/21 16:26:26 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+// #include "../libft/libft.h"
 #include "get_next_line.h"
 
 char	*read_line(int fd, char *str)
@@ -91,7 +92,7 @@ char	*get_next_line(int fd)
 // 	int		fd;
 // 	char	*a;
 
-// 	fd = open("a.txt", O_RDONLY);
+// 	fd = open("../maps/map.cub", O_RDWR);
 // 	while ((a = get_next_line(fd)) != NULL)
 // 	{
 // 		printf("Next line : %s", a);

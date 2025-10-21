@@ -6,7 +6,7 @@
 #    By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 21:42:13 by mfahmi            #+#    #+#              #
-#    Updated: 2025/10/21 11:45:07 by mfahmi           ###   ########.fr        #
+#    Updated: 2025/10/21 16:21:47 by mfahmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = cc
 
 bonus = ft_lstadd_back_bonus.c ft_lstadd_front_bonus.c ft_lstclear_bonus.c ft_lstdelone_bonus.c ft_lstiter_bonus.c ft_lstlast_bonus.c ft_lstmap_bonus.c ft_lstnew_bonus.c ft_lstsize_bonus.c
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -fPIC
 
 NAME = libft.a
 

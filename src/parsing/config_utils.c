@@ -43,13 +43,7 @@ char    *remove_char(char *line)
     
     if (!line)
         return NULL;
-<<<<<<< HEAD
     res = ft_malloc(sizeof(char) * (ft_strlen_remove(line) + 1));
-=======
-    res = malloc(sizeof(char) * (ft_strlen_remove(line) + 1));
-    if(!res)
-        return NULL;
->>>>>>> cb24e812958f064ad681b3926b5801188e5f3bd9
     i = 0;
     ir = 0;
     while(line[i])

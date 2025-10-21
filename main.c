@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:46:41 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/21 11:20:51 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/21 14:46:38 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@ int main(int ac, char **av)
 	ft_memset(cub, 0, sizeof(t_cub));
 	if(parse_cub_file(av[1], cub))
 		return(printf("Error Parsing\n"), 1);
-<<<<<<< HEAD
 	init_mlx_fun(cub);
-=======
-	init_mlx_fun(&cub);
->>>>>>> cb24e812958f064ad681b3926b5801188e5f3bd9
 }
 
