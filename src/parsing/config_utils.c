@@ -161,7 +161,6 @@ void    check_rules_map (char **line, t_cub *cub)
 {
     static short    nm_line;
 
-    nm_line = 0;
     while (**line == ' ' || **line == '\t' || **line == '\n')
         (*line)++;
     if (!**line)

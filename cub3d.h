@@ -62,7 +62,7 @@ typedef struct s_game{
 
 int is_cub_file(char *filename);
 int parse_cub_file(char *filename, t_cub *cub);
-void read_lines(int fd, t_cub *cub);
+// void read_lines(int fd, t_cub *cub);
 void    check_rules_map (char **line, t_cub *cub);
 void mlx_init_and_setup(t_cub *cub);
 void    init_mlx_fun(t_cub *cub);
@@ -70,5 +70,7 @@ int is_cub_file(char *filename);
 // void mlx_init_and_setup(t_cub *cub);
 // void    ft_free_all(t_list **head);
 void    ft_free_all();
+void	read_lines(int fd, t_cub *cub, char *filename);
+void    free_mlx_data(t_cub *cub);
 void    draw_map(t_cub *cub);
 #endif

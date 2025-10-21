@@ -105,7 +105,7 @@ int parse_cub_file(char *filename, t_cub *cub)
 	fd = open(filename, O_RDONLY);
 	if(fd < 0)
 		ft_free_all();
-	read_lines(fd, cub);
+	read_lines(fd, cub, filename);
 	made_map(cub);
 	return (0);
 }
