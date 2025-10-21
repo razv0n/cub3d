@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:06:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/21 12:08:36 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/21 14:57:06 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void mlx_init_and_setup(t_cub *cub)
         ft_free_all();
     game->img_data = mlx_get_data_addr(game->img, &game->bpp, &game->size_line, &game->endian);
     draw_map(cub);
+    // mlx_put_img_to_window()
+    mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 }
 
 void    init_mlx_fun(t_cub *cub)

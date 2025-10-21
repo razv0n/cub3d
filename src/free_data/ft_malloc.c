@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 16:09:13 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/21 11:51:34 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/21 15:55:08 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	*ft_malloc(size_t size)
 {
 	void	*ptr;
 	t_list  **head;
-
 	head = return_ptr();
 	ptr = malloc(size);
 	if (!ptr)
