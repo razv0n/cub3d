@@ -79,7 +79,7 @@ bool    check_rbg(char *line, t_cub *cub, char RBG)
         if (rgb_arr[i] == -1)
             return (false);
         i++;
-        if (*line != ',')
+        if (*line != ',' && i != 3)
             return false;
         line++;
     }
@@ -99,31 +99,31 @@ bool    check_the_texture_wall(char *line, short nm_line, t_cub *cub)
     static bool    ea;
     static bool    we;
 
-    if (ft_strncmp(line, "NO", 2) && !no)
+    if (!ft_strncmp(line, "NO", 2) && !no)
     {
         cub->config.no_texture = ft_strtrim(line + 2, " \t\n");
         if (*cub->config.no_texture)
             no = true;
     }
-    else if (ft_strncmp(line, "SO", 2) && !so)
+    else if (!ft_strncmp(line, "SO", 2) && !so)
     {
         cub->config.so_texture = ft_strtrim(line + 2, " \t\n");
         if (*cub->config.so_texture)
             so = true;
     }
-    else if (ft_strncmp(line, "EA", 2) && !ea)
+    else if (!ft_strncmp(line, "EA", 2) && !ea)
     {
         cub->config.ea_texture = ft_strtrim(line + 2, " \t\n");
         if (*cub->config.ea_texture)
             ea = true;
     }
-    else if (ft_strncmp(line, "WE", 2) && !we)
+    else if (!ft_strncmp(line, "WE", 2) && !we)
     {
         cub->config.we_texture = ft_strtrim(line + 2, " \t\n");
         if (*cub->config.we_texture)
             we = true;
     }
-    else if (nm_line == 4)
+    if (nm_line == 4)
         return (no & so & ea & we);
     return (true);
 }
@@ -133,13 +133,13 @@ bool    check_the_colors(char *line,int nm_line ,t_cub *cub)
     static bool f;
     static bool c;
 
-    if (ft_strncmp("F", line, 1) && !f)
+    if (!ft_strncmp("F", line, 1) && !f)
     {
         f = true;
         if (!check_rbg(line + 1, cub, 'F'))
             return (!f);
     }
-    else if (ft_strncmp("C", line ,1) && !c)
+    else if (!ft_strncmp("C", line ,1) && !c)
     {
         c = true;
         if (!check_rbg(line + 1, cub, 'C'))
