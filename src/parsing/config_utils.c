@@ -157,14 +157,14 @@ void   pars_map(char *line, t_cub *cub)
     cub->all_map[cub->index_a_map] = remove_char(line);
 }
 
-void    check_rules_map (char **line, t_cub *cub)
+bool    check_rules_map(char **line, t_cub *cub)
 {
     if (!line)
-        return;
+        return false;
     while (**line == ' ' || **line == '\t' || **line == '\n')
         (*line)++;
     if (!**line)
-        return;
+        return false;
     cub->nm_line++;
     if (cub->nm_line <= 4)
     {
@@ -182,4 +182,5 @@ void    check_rules_map (char **line, t_cub *cub)
             cub->first_index_map = cub->index_a_map;
         pars_map(*line, cub);
     }
+    return true;
 }

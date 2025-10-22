@@ -19,7 +19,9 @@ int	lenght_map(int fd)
 void	read_lines(int fd, t_cub *cub, char *filename)
 {
 	char *line;
-	
+	bool  check;
+
+	check = true;
 	// printf("%d\n", cub->index_a_map);
 	cub->index_a_map = 0;
 	cub->all_map = ft_malloc(sizeof(char *) * (lenght_map(fd) + 1));
@@ -28,8 +30,8 @@ void	read_lines(int fd, t_cub *cub, char *filename)
 	line = get_next_line(fd);
 	while(line)
 	{
-		check_rules_map(&line, cub);
-		if (cub->nm_line < 7)
+		check = check_rules_map(&line, cub);		
+		if (cub->nm_line < 7 || !check)
 			cub->all_map[cub->index_a_map] = line;
 		cub->index_a_map++;
 		line = get_next_line(fd);
