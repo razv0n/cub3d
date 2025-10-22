@@ -83,7 +83,7 @@ bool    check_rbg(char *line, t_cub *cub, char RBG)
             return false;
         line++;
     }
-    if(*line != '\n')
+    if(*line)
         return (false);
     if(RBG == 'F')
         cub->config.floor_color = rbg_shift(rgb_arr[0], rgb_arr[1], rgb_arr[2]);
@@ -159,26 +159,26 @@ void   pars_map(char *line, t_cub *cub)
 
 void    check_rules_map (char **line, t_cub *cub)
 {
-    static short    nm_line;
-
+    if (!line)
+        return;
     while (**line == ' ' || **line == '\t' || **line == '\n')
         (*line)++;
     if (!**line)
         return;
-    nm_line++;
-    if (nm_line <= 4)
+    cub->nm_line++;
+    if (cub->nm_line <= 4)
     {
-        if (!check_the_texture_wall(*line, nm_line, cub))
+        if (!check_the_texture_wall(*line, cub->nm_line, cub))
             perror("exit the programme and free !\n");
     }
-    else if(nm_line >= 5 && nm_line <= 6)
+    else if(cub->nm_line >= 5 && cub->nm_line <= 6)
     {
-        if (!check_the_colors(*line, nm_line ,cub))
+        if (!check_the_colors(*line, cub->nm_line ,cub))
             perror("exit the programme and free !\n");
     }
     else
     {
-        if (nm_line == 7)
+        if (cub->nm_line == 7)
             cub->first_index_map = cub->index_a_map;
         pars_map(*line, cub);
     }

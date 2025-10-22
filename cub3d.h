@@ -33,6 +33,7 @@ typedef struct s_player {
 
 typedef struct s_cub {
     t_config    config;
+    int         nm_line;
     char        **all_map;
     char        **map;
     int         index_a_map;

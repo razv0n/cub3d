@@ -28,8 +28,9 @@ void	read_lines(int fd, t_cub *cub, char *filename)
 	line = get_next_line(fd);
 	while(line)
 	{
-		cub->all_map[cub->index_a_map] = line;
 		check_rules_map(&line, cub);
+		if (cub->nm_line < 7)
+			cub->all_map[cub->index_a_map] = line;
 		cub->index_a_map++;
 		line = get_next_line(fd);
 	}

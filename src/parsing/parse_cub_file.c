@@ -77,16 +77,16 @@ void	made_map(t_cub *cub)
 	int	length_map;
 
 	length_map = 0;
-	length = cub->index_a_map  - cub->first_index_map;
+	length = cub->first_index_map;
 	while(cub->all_map[length])
 	{
 		if (cub->all_map[length][0])
 			length_map++;
 		length++;
 	}
-	length = cub->index_a_map - cub->first_index_map;
-	length_map = 0;
 	cub->map = ft_malloc(sizeof(char *) * (length_map + 1));
+	length = cub->first_index_map;
+	length_map = 0;
 	while(cub->all_map[length])
 	{
 		if (cub->all_map[length][0])
