@@ -18,8 +18,12 @@ void    ft_free_all()
     t_cub *cub;
 
     head = return_ptr();
-    cub = (t_cub*)(*head)->content;  
-    free_mlx_data(cub);
+    //the list itself may be empty
+    if (!head || !*head)
+        return;
+    cub = (t_cub*)(*head)->content;
+    if (cub)
+        free_mlx_data(cub);
     ft_lstclear(head, free);
 }
 
