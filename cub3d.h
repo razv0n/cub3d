@@ -62,9 +62,10 @@ typedef struct s_game{
 
 
 int is_cub_file(char *filename);
+// bool    check_rules_map(char **line, t_cub *cub);
 int parse_cub_file(char *filename, t_cub *cub);
 // void read_lines(int fd, t_cub *cub);
-void    check_rules_map (char **line, t_cub *cub);
+bool   check_rules_map (char **line, t_cub *cub);
 void mlx_init_and_setup(t_cub *cub);
 void    init_mlx_fun(t_cub *cub);
 int is_cub_file(char *filename);
