@@ -64,7 +64,7 @@ void	check_element(t_cub *cub, int lenght_map)
 				break;
 			if ((cub->map[i][j] == 'W' || cub->map[i][j] == 'N' || cub->map[i][j] == 'S' || cub->map[i][j] == 'E') && !cub->config.position_player)
 				cub->config.position_player = cub->map[i][j];
-			else if (cub->map[i][j] != '0')
+			else if (cub->map[i][j] != '0' && cub->map[i][j] != '1' && cub->map[i][j] != '\n')
 				exit(printf("free all"));
 			j++;
 		}

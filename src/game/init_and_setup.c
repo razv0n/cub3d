@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:06:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/21 14:57:06 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/23 12:34:24 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void mlx_init_and_setup(t_cub *cub)
     t_game *game;
 
     game = cub->game;
+    game->width = 500;
+    game->height = 1000;
     game->win = mlx_new_window(game->mlx, game->width, game->height, "cub");
     if(!game->win)
         ft_free_all();
