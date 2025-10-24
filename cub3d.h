@@ -3,15 +3,23 @@
 
 # include "./libft/libft.h"
 # include "./get_next_line/get_next_line.h"
-#include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
-// #include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
+// #include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
+#include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
 // #include "/Users/macbook/Downloads/minilibx/mlx.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include <stdbool.h>
 #include <fcntl.h>
-# define SQUARE 32 
+# define SQUARE 32
+#define KEY_ESC 65307
+#define KEY_W 119
+#define KEY_A 97
+#define KEY_S 115
+#define KEY_D 100
+#define KEY_LEFT 65361
+#define KEY_RIGHT 65363
 
 typedef struct s_game t_game;
 
@@ -26,9 +34,14 @@ typedef struct s_config {
 } t_config;
 
 typedef struct s_player {
-    int     x;
-    int     y;
+    double  x;
+    double  y;
     char    direction;
+    double  dir_x;
+    double  dir_y;
+    double  plane_x;
+    double  plane_y;
+    double  move_speed;
 } t_player;
 
 typedef struct s_cub {
@@ -52,7 +65,7 @@ typedef struct s_game{
 	int     bpp;
     int     size_line;
     int     endian;
-    
+    int     keys[256];
 } t_game;
 
 // typedef struct s_lines {
@@ -71,6 +84,8 @@ void    init_mlx_fun(t_cub *cub);
 int is_cub_file(char *filename);
 // void mlx_init_and_setup(t_cub *cub);
 // void    ft_free_all(t_list **head);
+void    init_player(t_cub *cub);
+void    move_player(t_cub *cub, double move_x, double move_y);
 void    ft_free_all();
 void	read_lines(int fd, t_cub *cub, char *filename);
 void    free_mlx_data(t_cub *cub);
