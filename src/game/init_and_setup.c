@@ -43,10 +43,11 @@ void mlx_init_and_setup(t_cub *cub)
     game->win = mlx_new_window(game->mlx, game->width, game->height, "cub");
     if(!game->win)
         ft_free_all();
-    game->img = mlx_new_image(game->mlx, (game->height * SQUARE), (game->width * SQUARE));
+    game->img = mlx_new_image(game->mlx, game->width, game->height);
     if(!game->img)
         ft_free_all();
     game->img_data = mlx_get_data_addr(game->img, &game->bpp, &game->size_line, &game->endian);
+    init_player(cub);
     draw_map(cub);
     // mlx_put_img_to_window()
     mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);

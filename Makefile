@@ -22,6 +22,8 @@ SRCS =	parsing/parse_cub_file.c\
  		free_data/free_all.c\
  		free_data/ft_malloc.c\
 		rendering/draw.c\
+		game/player.c\
+		game/events.c\
 
 MSRCS = main.c 
 

@@ -1,6 +1,6 @@
 // # Player logic and movement
 
-#include "cub3d.h"
+#include "../../cub3d.h"
 
 static void find_player_position(t_cub *cub)
 {
@@ -25,6 +25,18 @@ static void find_player_position(t_cub *cub)
     }
 }
 
+
+//        North (Up)
+//        dir_y = -1
+//             ↑
+//             |
+// West ←------+-----→ East
+// dir_x=-1    |    dir_x=1
+//             |
+//             ↓
+//         South (Down)
+//         dir_y = 1
+
 static void set_player_direction(t_cub *cub)
 {
     char dir;
@@ -32,27 +44,32 @@ static void set_player_direction(t_cub *cub)
     dir = cub->config.position_player;
     if (dir == 'N')
     {
-        
+        cub->player.dir_x = 0;
+        cub->player.dir_y = -1;
     }
     else if (dir == 'S')
     {
-       
+        cub->player.dir_x = 0;
+        cub->player.dir_y = 1;
     }
     else if (dir == 'E')
     {
-        
+        cub->player.dir_x = 1;
+        cub->player.dir_y = 0;
     }
     else if (dir == 'W')
     {
-       
+        cub->player.dir_y = 0;
+        cub->player.dir_x = -1;
     }
 }
 
 
-int init_player(t_cub *cub)
+void init_player(t_cub *cub)
 {
     find_player_position(cub);
     set_player_direction(cub);
-    cub->player.move_speed = 0.1;
-    return (0);
+    cub->player.move_speed = 0.5;
+    cub->player.rot_speed = 0.5;
+    return;
 }
