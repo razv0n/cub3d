@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/25 16:36:26 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/25 17:46:50 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void draw_map(t_cub *cub)
     while (cub->map[y])
     {
         int x = 0;
-        while (cub->map[y][x])
+        while (x < cub->game->width)
         {
-            if (cub->map[y][x] == '1')
+            if ((x >= (int)ft_strlen(cub->map[y]) && x < cub->game->width) || cub->map[y][x] == '1')
                 draw_sq(cub->game, x, y, 0xFFFFFF);
             else if (cub->map[y][x] == '0')
                 draw_sq(cub->game, x, y, 0x000000);

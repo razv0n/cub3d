@@ -48,7 +48,7 @@ char    *remove_char(char *line)
     ir = 0;
     while(line[i])
     {
-        if (line[i] != ' ' && line[i] != '\t')
+        if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
         {
             res[ir] = line[i];
             ir++;

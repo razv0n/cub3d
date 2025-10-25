@@ -11,7 +11,7 @@ int is_cub_file(char *filename)
 }
 void	check_error_wall(int i, int j, t_cub *cub)
 {
-	if (cub->map[i][j] != '1' && cub->map[i][j] != '\n')
+	if (cub->map[i][j] != '1')
 	{
 		ft_free_all(cub);
 		exit(printf("Error\nState Of Wall\n"));
@@ -25,7 +25,7 @@ void	check_the_state_of_wall(t_cub *cub, int length_map)
 	while (cub->map[i])
 	{
 		j = 0;
-		row_length = ft_strlen(cub->map[i]) - 2;
+		row_length = ft_strlen(cub->map[i]) - 1;
 		while (cub->map[i][j])
 		{
 			if (!i || i == length_map - 1)
@@ -51,20 +51,20 @@ void	check_element(t_cub *cub)
 {
 	int i;
 	int j;
-	int length_row;
+	// int length_row;
 
 	i = 0;
 	while(cub->map[i])
 	{
-		j = 1;
-		length_row = ft_strlen(cub->map[i]) - 2;
-		while(j <= length_row)
+		j = 0;
+		// length_row = ft_strlen(cub->map[i]);
+		while(cub->map[i][j])
 		{
 			if (cub->game->width <= j)
-				cub->game->width = j;
+				cub->game->width = j + 1;
 			if ((cub->map[i][j] == 'W' || cub->map[i][j] == 'N' || cub->map[i][j] == 'S' || cub->map[i][j] == 'E') && !cub->config.position_player)
 				cub->config.position_player = cub->map[i][j];
-			else if (cub->map[i][j] != '0' && cub->map[i][j] != '1' && cub->map[i][j] != '\n')
+			else if (cub->map[i][j] != '0' && cub->map[i][j] != '1')
 				exit(printf("free all"));
 			j++;
 		}
