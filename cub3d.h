@@ -3,8 +3,8 @@
 
 # include "./libft/libft.h"
 # include "./get_next_line/get_next_line.h"
-#include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
-// #include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
+// #include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
+#include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
 // #include "/Users/macbook/Downloads/minilibx/mlx.h"
 #include <unistd.h>
 #include <stdlib.h>
@@ -92,4 +92,11 @@ void	check_element(t_cub *cub);
 void	read_lines(int fd, t_cub *cub, char *filename);
 void    free_mlx_data(t_cub *cub);
 void    draw_map(t_cub *cub);
+void    init_player(t_cub *cub);
+int     handle_key(int keycode, t_cub *cub);
+void    move_forward(t_cub *cub);
+void    move_backward(t_cub *cub);
+
+
+
 #endif

@@ -40,7 +40,7 @@ void mlx_init_and_setup(t_cub *cub)
     game = cub->game;
     // game->width = 50;
     // game->height = 50;
-    game->win = mlx_new_window(game->mlx, game->width * SQUARE, game->height * SQUARE, "game lhrba");
+    game->win = mlx_new_window(game->mlx, game->width * SQUARE, game->height * SQUARE, "ghorayr");
     if(!game->win)
         ft_free_all();
     // exit(1);
@@ -49,7 +49,7 @@ void mlx_init_and_setup(t_cub *cub)
     if(!game->img)
         ft_free_all();
     game->img_data = mlx_get_data_addr(game->img, &game->bpp, &game->size_line, &game->endian);
-    // init_player(cub);
+    init_player(cub);
     draw_map(cub);
     // mlx_put_img_to_window()
     mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
@@ -61,5 +61,7 @@ void    init_mlx_fun(t_cub *cub)
 	if(!cub->game->mlx)
 		ft_free_all();
 	mlx_init_and_setup(cub);
+    mlx_hook(cub->game->win, 2, 1L<<0, handle_key, cub);
+    mlx_hook(cub->game->win, 17, 0, (void *)ft_free_all, cub);
     mlx_loop(cub->game->mlx);
 }
