@@ -88,6 +88,7 @@ int is_cub_file(char *filename);
 void    init_player(t_cub *cub);
 // void    move_player(t_cub *cub, double move_x, double move_y);
 void    ft_free_all();
+void	check_element(t_cub *cub);
 void	read_lines(int fd, t_cub *cub, char *filename);
 void    free_mlx_data(t_cub *cub);
 void    draw_map(t_cub *cub);
