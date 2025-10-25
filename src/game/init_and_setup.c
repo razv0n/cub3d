@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:06:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/23 12:34:24 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/25 16:03:22 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,18 @@ void mlx_init_and_setup(t_cub *cub)
     t_game *game;
 
     game = cub->game;
-    game->width = 500;
-    game->height = 1000;
-    game->win = mlx_new_window(game->mlx, game->width, game->height, "cub");
+    // game->width = 50;
+    // game->height = 50;
+    game->win = mlx_new_window(game->mlx, game->width * SQUARE, game->height * SQUARE, "game lhrba");
     if(!game->win)
         ft_free_all();
-    game->img = mlx_new_image(game->mlx, game->width, game->height);
+    // exit(1);
+    printf("the gmae height : %d  the game width : %d \n", game->height, game->width);
+    game->img = mlx_new_image(game->mlx, game->width * SQUARE, game->height * SQUARE);
     if(!game->img)
         ft_free_all();
     game->img_data = mlx_get_data_addr(game->img, &game->bpp, &game->size_line, &game->endian);
-    init_player(cub);
+    // init_player(cub);
     draw_map(cub);
     // mlx_put_img_to_window()
     mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
@@ -55,8 +57,6 @@ void mlx_init_and_setup(t_cub *cub)
 
 void    init_mlx_fun(t_cub *cub)
 {
-    cub->game = ft_malloc(sizeof(t_game));
-	ft_memset(cub->game, 0, sizeof(t_game));
 	cub->game->mlx = mlx_init();
 	if(!cub->game->mlx)
 		ft_free_all();

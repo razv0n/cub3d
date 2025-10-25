@@ -24,7 +24,7 @@
 typedef struct s_game t_game;
 
 typedef struct s_config {
-    char *no_texture;
+    char *no_texture; //  TODO fill this and check if it is NULL or not
     char *so_texture;
     char *we_texture;
     char *ea_texture;
@@ -86,7 +86,7 @@ int is_cub_file(char *filename);
 // void mlx_init_and_setup(t_cub *cub);
 // void    ft_free_all(t_list **head);
 void    init_player(t_cub *cub);
-void    move_player(t_cub *cub, double move_x, double move_y);
+// void    move_player(t_cub *cub, double move_x, double move_y);
 void    ft_free_all();
 void	read_lines(int fd, t_cub *cub, char *filename);
 void    free_mlx_data(t_cub *cub);

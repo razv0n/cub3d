@@ -28,6 +28,8 @@ void	check_the_state_of_wall(t_cub *cub, int length_map)
 		row_length = ft_strlen(cub->map[i]) - 2;
 		while (cub->map[i][j])
 		{
+			if (cub->game->width <= j)
+				cub->game->width = j;
 			if (!i || i == length_map - 1)
 				check_error_wall(i, j, cub);
 			else
@@ -94,6 +96,7 @@ void	made_map(t_cub *cub)
 		length++;
 	}
 	cub->map[length_map] = NULL;
+	cub->game->height = length_map;
 	check_the_state_of_wall(cub, length_map);
 	check_element(cub, length_map);
 }
