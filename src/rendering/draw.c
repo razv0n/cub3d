@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/21 15:23:39 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/25 16:14:09 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void    put_pixel(t_game *game, int x, int y, int color)
 {
     char *ptr_img;
 
-    ptr_img = game->img_data + ((y * game->size_line) + (x * (game->bpp / 8)));
+    ptr_img = game->img_data + ((x * game->size_line) + (y * (game->bpp / 8)));
     *(unsigned int *)ptr_img = color;
 }
 

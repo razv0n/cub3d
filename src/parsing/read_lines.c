@@ -30,7 +30,7 @@ void	read_lines(int fd, t_cub *cub, char *filename)
 	line = get_next_line(fd);
 	while(line)
 	{
-		check = check_rules_map(&line, cub);		
+		check = check_rules_map(&line, cub);	
 		if (cub->nm_line < 7 || !check)
 			cub->all_map[cub->index_a_map] = line;
 		cub->index_a_map++;

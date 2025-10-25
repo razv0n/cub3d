@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 16:45:40 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/21 11:55:59 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/24 10:00:33 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void    ft_free_all()
     if (cub)
         free_mlx_data(cub);
     ft_lstclear(head, free);
+    exit(0);
 }
 
 void    free_mlx_data(t_cub *cub)

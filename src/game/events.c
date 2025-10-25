@@ -5,6 +5,5 @@
 int handle_close()
 {
     ft_free_all();
-    exit(0);
     return (0);
 }
