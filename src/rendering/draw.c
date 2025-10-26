@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/25 17:46:50 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/26 15:42:37 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,23 @@ void put_pixel(t_game *game, int x, int y, int color)
     *(unsigned int *)ptr_img = color;
 }
 
+void    draw_player(t_game *game, int x, int y, int color)
+{
+    int i;
+    int j;
+
+    i = 0;
+    while (i < 11)
+    {
+        j = 0;
+        while(j < 11)
+        {
+            put_pixel(game, x * SQUARE + i, y * SQUARE + j, color);
+            j++;
+        }
+        i++;
+    }
+}
 
 void draw_sq(t_game *game, int x, int y,int color)
 {
@@ -39,6 +56,8 @@ void draw_sq(t_game *game, int x, int y,int color)
     }
 }
 
+// void    draw_
+
 void draw_map(t_cub *cub)
 {
     int y = 0;
@@ -51,8 +70,8 @@ void draw_map(t_cub *cub)
                 draw_sq(cub->game, x, y, 0xFFFFFF);
             else if (cub->map[y][x] == '0')
                 draw_sq(cub->game, x, y, 0x000000);
-            else if (cub->map[y][x] != '\n')
-                draw_sq(cub->game, x, y, 0x00FF00);
+            else
+                draw_player(cub->game, x, y, 0x00FF00);
             x++;
         }
         y++;

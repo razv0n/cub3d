@@ -8,9 +8,10 @@ static int is_walkable(t_cub *cub, int x, int y)
 {
     if (y < 0 || x < 0)
         return (0);
-    if (!cub->map[y] || !cub->map[y][x])
+    if (!cub->map[x] || !cub->map[x][y])
         return (0);
-    return (cub->map[y][x] != '1');
+    printf("the map [x][y] is %c   the x %d and y %d is \n",cub->map[x][y], x, y);
+    return (cub->map[x][y] != '1');
 }
 
 static void find_player_position(t_cub *cub)
@@ -59,12 +60,15 @@ void move_forward(t_cub *cub)
     double new_x;
     double new_y;
 
-    new_x = cub->player.x + cub->player.dir_x * cub->player.move_speed;
-    new_y = cub->player.y + cub->player.dir_y * cub->player.move_speed;
+    new_x = cub->player.x + (cub->player.dir_x * cub->player.move_speed);
+    new_y = cub->player.y + (cub->player.dir_y * cub->player.move_speed);
     if (is_walkable(cub, (int)new_x, (int)cub->player.y))
         cub->player.x = new_x;
     if (is_walkable(cub, (int)cub->player.x, (int)new_y))
+    {
+        printf("new_y is %f \n", new_y);
         cub->player.y = new_y;
+    }
 }
 
 void move_backward(t_cub *cub)
@@ -109,12 +113,13 @@ static void set_player_direction(t_cub *cub)
 
 int handle_key( int keycode, t_cub *cub)
 {
+    printf(" the x and the y of the player is : x =  %f y = %f\n", cub->player.x, cub->player.y);
     if (keycode == KEY_W)
         move_forward(cub);
     if (keycode == KEY_S)
         move_backward(cub);
     // Additional key handling (A, D, arrow keys) can be added here
-     mlx_clear_window(cub->game->mlx, cub->game->win);
+    mlx_clear_window(cub->game->mlx, cub->game->win);
     draw_map(cub);
     mlx_put_image_to_window(cub->game->mlx, cub->game->win, cub->game->img, 0, 0);
     return (0);
