@@ -180,7 +180,30 @@ int handle_key( int keycode, t_cub *cub)
 {
     printf("Player position: x=%.3f y=%.3f dir_x=%.3f dir_y=%.3f\n", 
            cub->player.x, cub->player.y, cub->player.dir_x, cub->player.dir_y);
-    
+     //
+
+
+
+
+
+
+
+
+                        // !      -----------------------read the nation pls--------------------------          !
+
+
+
+
+
+
+
+
+
+
+
+
+
+     //
     if (keycode == KEY_W)
         move_forward(cub);
     else if (keycode == KEY_S)
