@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/27 15:01:17 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/27 20:42:47 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,5 @@ void draw_map(t_cub *cub)
         }
         y++;
     }
-    draw_player(cub->game, cub->player.y, cub->player.x, 0x00FF00);
+    draw_player(cub->game, cub->player.x, cub->player.y, 0x00FF00);
 }

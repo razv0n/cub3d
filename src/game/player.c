@@ -8,10 +8,10 @@ static int is_walkable(t_cub *cub, int x, int y)
 {
     if (y < 0 || x < 0)
         return (0);
-    if (!cub->map[x] || !cub->map[x][y])
+    if (!cub->map[y] || !cub->map[y][x])
         return (0);
     // printf("the map [x][y] is %c   the x %d and y %d is \n",cub->map[x][y], x, y);
-    return (cub->map[x][y] != '1');
+    return (cub->map[y][x] != '1');
 }
 
 static void find_player_position(t_cub *cub)
@@ -27,8 +27,8 @@ static void find_player_position(t_cub *cub)
         {
             if (cub->map[x][y] == cub->config.position_player)
             {
-                cub->player.x = x + 0.5;
-                cub->player.y = y + 0.5;
+                cub->player.y = x + 0.5;
+                cub->player.x = y + 0.5;
                 return ;
             }
             y++;
@@ -59,6 +59,8 @@ void move_forward(t_cub *cub)
     double next_x;
     double next_y;
 
+
+    printf("cub->player.dir_x : %.3f  cub->player.dir_y : %.3f \n", cub->player.dir_x, cub->player.dir_y);
     next_x = cub->player.x + (cub->player.dir_x * cub->player.move_speed);
     next_y = cub->player.y + (cub->player.dir_y * cub->player.move_speed);
     
@@ -99,21 +101,15 @@ void move_left(t_cub *cub)
 {
     double next_x;
     double next_y;
-    
-    next_x = cub->player.x + cub->player.dir_x * cub->player.move_speed;
-    next_y = cub->player.y + cub->player.dir_y  * cub->player.move_speed;
-    
+
+    // Strafe left (perpendicular to direction)
+    next_x = cub->player.x - cub->player.dir_y * cub->player.move_speed;
+    next_y = cub->player.y + cub->player.dir_x * cub->player.move_speed;
     if (is_walkable(cub, (int)next_x, (int)next_y))
     {
         cub->player.x = next_x;
         cub->player.y = next_y;
-        return;
     }
-    
-    // if (is_walkable(cub, (int)next_x, (int)cub->player.y))
-    //     cub->player.x = next_x;
-    // if (is_walkable(cub, (int)cub->player.x, (int)next_y))
-    //     cub->player.y = next_y;
 }
 
 void move_right(t_cub *cub)
@@ -121,8 +117,9 @@ void move_right(t_cub *cub)
     double next_x;
     double next_y;
     
-    next_x = cub->player.x + cub->player.dir_x * cub->player.move_speed;
-    next_y = cub->player.y + cub->player.dir_y * cub->player.move_speed;
+    // Strafe right (perpendicular to direction)
+    next_x = cub->player.x + cub->player.dir_y * cub->player.move_speed;
+    next_y = cub->player.y - cub->player.dir_x * cub->player.move_speed;
     
     if (is_walkable(cub, (int)next_x, (int)next_y))
     {
@@ -176,41 +173,23 @@ void rotate_right(t_cub *cub)
     cub->player.dir_y = old_dir_x * sin(-cub->player.rot_speed) + cub->player.dir_y * cos(-cub->player.rot_speed);
 }
 
+
+// void    move_l
 int handle_key( int keycode, t_cub *cub)
 {
     printf("Player position: x=%.3f y=%.3f dir_x=%.3f dir_y=%.3f\n", 
-           cub->player.x, cub->player.y, cub->player.dir_x, cub->player.dir_y);
-     //
-
-
-
-
-
-
-
-
-                        // !      -----------------------read the nation pls--------------------------          !
-
-
-
-
-
-
-
-
-
-
-
-
-
-     //
+           cub->player.y, cub->player.x, cub->player.dir_x, cub->player.dir_y);
     if (keycode == KEY_W)
         move_forward(cub);
     else if (keycode == KEY_S)
         move_backward(cub);
     else if (keycode == KEY_A)
-        rotate_left(cub);
+        move_left(cub);
     else if (keycode == KEY_D)
+        move_right(cub);
+    else if (keycode == KEY_LEFT)
+        rotate_left(cub);
+    else if (keycode == KEY_RIGHT)
         rotate_right(cub);
     else if (keycode == KEY_ESC)
         ft_free_all();
@@ -230,3 +209,7 @@ void init_player(t_cub *cub)
     cub->player.rot_speed = 3 * (M_PI / 180);
     return;
 }
+    // cub->player.move_speed = 0.1;
+    // cub->player.rot_speed = 3 * (M_PI / 180);
+    // return;
+// ?}
