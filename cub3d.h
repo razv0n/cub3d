@@ -12,6 +12,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <fcntl.h>
+#include <math.h>
 # define SQUARE 32
 #define KEY_ESC 65307
 #define KEY_W 119

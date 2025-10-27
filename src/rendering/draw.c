@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/26 20:35:27 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/27 15:01:17 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void put_pixel(t_game *game, int x, int y, int color)
     *(unsigned int *)ptr_img = color;
 }
 
-void    draw_player(t_game *game, int x, int y, int color)
+void    draw_player(t_game *game, double x, double y, int color)
 {
     int i;
     int j;
@@ -31,7 +31,7 @@ void    draw_player(t_game *game, int x, int y, int color)
         j = 0;
         while(j < 11)
         {
-            put_pixel(game, x * SQUARE + i, y * SQUARE + j, color);
+            put_pixel(game, (int)(x * SQUARE) + i, (int)(y * SQUARE) + j, color);
             j++;
         }
         i++;
@@ -68,12 +68,12 @@ void draw_map(t_cub *cub)
         {
             if ((x >= (int)ft_strlen(cub->map[y]) && x < cub->game->width) || cub->map[y][x] == '1')
                 draw_sq(cub->game, x, y, 0x00FFF0);
-            else if (cub->map[y][x] == '0')
-                draw_sq(cub->game, x, y, 0x000F00);
-            else
-                draw_player(cub->game, x, y, 0x00FF00);
+            else if (cub->map[y][x] == '0' || cub->map[y][x] == cub->config.position_player)
+                draw_sq(cub->game, x, y , 0x000F00);
+            // else
             x++;
         }
         y++;
     }
+    draw_player(cub->game, cub->player.y, cub->player.x, 0x00FF00);
 }

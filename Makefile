@@ -13,7 +13,7 @@ GET_NEXT_LINE_DIR = get_next_line.o
 
 MLX_DIR = /home/$(shell echo $$USER)/Downloads/minilibx-linux
 
-MLX_LIB = -lmlx -L$(MLX_DIR) -lXext -lX11
+MLX_LIB = -lmlx -L$(MLX_DIR) -lXext -lX11  -lm 
 
 SRCS =	parsing/parse_cub_file.c\
 		parsing/read_lines.c\
