@@ -10,7 +10,7 @@ static int is_walkable(t_cub *cub, int x, int y)
         return (0);
     if (!cub->map[x] || !cub->map[x][y])
         return (0);
-    printf("the map [x][y] is %c   the x %d and y %d is \n",cub->map[x][y], x, y);
+    // printf("the map [x][y] is %c   the x %d and y %d is \n",cub->map[x][y], x, y);
     return (cub->map[x][y] != '1');
 }
 
@@ -54,6 +54,22 @@ static void find_player_position(t_cub *cub)
 //new position = current position + direction × speed
 
 
+void    swap_value(t_cub *cub, double new_x, double new_y)
+{
+    char tmp;
+
+    // tmp = cub->map[(int)cub->player.x];
+    // cub->map[(int)cub->player.x] = cub->map[(int)new_x];
+    // cub->map[(int)new_x] = tmp;
+    // tmp = cub->map[(int)cub->player.y];
+    // cub->map[(int)cub->player.y] = cub->map[(int)new_y];
+    // cub->map[(int)new_y] = tmp;
+    tmp = cub->map[(int)cub->player.x][(int)cub->player.y];
+    cub->map[(int)cub->player.x][(int)cub->player.y] = cub->map[(int)new_x][(int)new_y];
+    cub->map[(int)new_x][(int)new_y] = tmp;
+    cub->player.x = new_x;
+    cub->player.y = new_y;
+}
 
 void move_forward(t_cub *cub)
 {
@@ -62,13 +78,9 @@ void move_forward(t_cub *cub)
 
     new_x = cub->player.x + (cub->player.dir_x * cub->player.move_speed);
     new_y = cub->player.y + (cub->player.dir_y * cub->player.move_speed);
-    if (is_walkable(cub, (int)new_x, (int)cub->player.y))
-        cub->player.x = new_x;
+    // printf("x player: %d  y player  %d", );
     if (is_walkable(cub, (int)cub->player.x, (int)new_y))
-    {
-        printf("new_y is %f \n", new_y);
-        cub->player.y = new_y;
-    }
+        swap_value(cub, new_x, new_y);
 }
 
 void move_backward(t_cub *cub)
@@ -78,10 +90,9 @@ void move_backward(t_cub *cub)
 
     new_x = cub->player.x - cub->player.dir_x * cub->player.move_speed;
     new_y = cub->player.y - cub->player.dir_y * cub->player.move_speed;
-    if (is_walkable(cub, (int)new_x, (int)cub->player.y))
-        cub->player.x = new_x;
     if (is_walkable(cub, (int)cub->player.x, (int)new_y))
-        cub->player.y = new_y;
+        swap_value(cub, new_x, new_y);
+
 }
 
 static void set_player_direction(t_cub *cub)
@@ -113,7 +124,7 @@ static void set_player_direction(t_cub *cub)
 
 int handle_key( int keycode, t_cub *cub)
 {
-    printf(" the x and the y of the player is : x =  %f y = %f\n", cub->player.x, cub->player.y);
+    // printf(" the x and the y of the player is : x =  %f y = %f\n", cub->player.x, cub->player.y);
     if (keycode == KEY_W)
         move_forward(cub);
     if (keycode == KEY_S)
@@ -132,7 +143,7 @@ void init_player(t_cub *cub)
 {
     find_player_position(cub);
     set_player_direction(cub);
-    cub->player.move_speed = 0.5;
+    cub->player.move_speed = 0.05;
     cub->player.rot_speed = 0.05;
     return;
 }
