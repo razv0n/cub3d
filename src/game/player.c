@@ -78,7 +78,7 @@ void move_forward(t_cub *cub)
 
     new_x = cub->player.x + (cub->player.dir_x * cub->player.move_speed);
     new_y = cub->player.y + (cub->player.dir_y * cub->player.move_speed);
-    // printf("x player: %d  y player  %d", );
+    printf("new x player: %f  new y player  %f    x player  : %f  y player  : %f\n", new_x, new_y , cub->player.x, cub->player.y);
     if (is_walkable(cub, (int)cub->player.x, (int)new_y))
         swap_value(cub, new_x, new_y);
 }
