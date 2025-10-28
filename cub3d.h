@@ -14,6 +14,7 @@
 #include <fcntl.h>
 #include <math.h>
 # define SQUARE 32
+# define FOV 60 * (M_PI / 180)
 #define KEY_ESC 65307
 #define KEY_W 119
 #define KEY_A 97
@@ -96,8 +97,6 @@ void    draw_map(t_cub *cub);
 void    init_player(t_cub *cub);
 int     handle_key(int keycode, t_cub *cub);
 void    move_forward(t_cub *cub);
+ int is_walkable(t_cub *cub, int x, int y);
 void    move_backward(t_cub *cub);
-
-
-
 #endif

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 16:45:40 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/24 10:00:33 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/28 09:32:01 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void    ft_free_all()
     t_cub *cub;
 
     head = return_ptr();
-    //the list itself may be empty
     if (!head || !*head)
         return;
     cub = (t_cub*)(*head)->content;
