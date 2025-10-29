@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/28 17:09:38 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/29 21:48:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,61 +50,105 @@ void    draw_player(t_cub *cub, double x, double y, int color)
 
 void draw_sq(t_cub *cub, int x, int y,int color)
 {
-    int i;
-    int j;
+	int i;
+	int j;
 
-    i = 0;
-    while (i < SQUARE)
-    {
-        j = 0;
-        while(j < SQUARE)
-        {
-            put_pixel(cub, x * SQUARE + i, y * SQUARE + j, color);
-            j++;
-        }
-        i++;
-    }
+	i = 0;
+	while (i < SQUARE)
+	{
+		j = 0;
+		while(j < SQUARE)
+		{
+			put_pixel(cub, x * SQUARE + i, y * SQUARE + j, color);
+			j++;
+		}
+		i++;
+	}
 }
 
-
-void    ray_casting(t_cub *cub)
+void draw_ray(t_cub *cub, double inter_x, double inter_y, int color)
 {
-    int     i;
-    double  player_angle;
-    double  ray_angle;
-    double  angle_step;
-    double ray_dir_x;
-    double ray_dir_y;
-    // const float step;
-    double x;
-    double y;
+	int x0 = (int)(cub->player.x * SQUARE);
+	int y0 = (int)(cub->player.y * SQUARE);
+	int x1;
+	int y1;
 
-    
-    // step
-    player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
-    ray_angle = player_angle - (FOV / 2);
-    angle_step = FOV / cub->game->width;
-    // x = cub->player.x;
-    // y = cub->player.y;
-    i = 0;
-    while (i < cub->game->width)
-    {
-        ray_dir_x = cos(ray_angle);
-        ray_dir_y = sin(ray_angle);
-        x = cub->player.x;
-        y = cub->player.y;
-        while (is_walkable(cub, (int)x, (int)y))
-        {
-            // if (is_walkable(cub, (int)x, (int)y))
-            //     break;
-            x += ray_dir_x * 0.01;
-            y += ray_dir_y * 0.01;
-            put_pixel(cub, (int)(x * SQUARE) + 6, (int)(y * SQUARE) + 6, 0x0000FF);
-        }
-        ray_angle += angle_step;
-        i++;
-    }
+	// if intersection looks like tile coordinate, convert to pixels; otherwise assume already pixels
+	if (inter_x <= cub->game->width)
+		x1 = (int)(inter_x * SQUARE);
+	else
+		x1 = (int)inter_x;
+	if (inter_y <= cub->game->height)
+		y1 = (int)(inter_y * SQUARE);
+	else
+		y1 = (int)inter_y;
+
+	int dx = abs(x1 - x0);
+	int sx = x0 < x1 ? 1 : -1;
+	int dy = -abs(y1 - y0);
+	int sy = y0 < y1 ? 1 : -1;
+	int err = dx + dy;
+
+	while (1)
+	{
+		put_pixel(cub, x0, y0, color);
+		if (x0 == x1 && y0 == y1)
+			break;
+		int e2 = 2 * err;
+		if (e2 >= dy)
+		{
+			err += dy;
+			x0 += sx;
+		}
+		if (e2 <= dx)
+		{
+			err += dx;
+			y0 += sy;
+		}
+	}
 }
+
+void    horizontal(t_cub *cub)
+{
+    double  x_inter;
+    double  y_inter;
+    double  x_step;
+    double  y_step;
+    
+    y_inter = ((int)(cub->player.y / SQUARE)) * SQUARE;
+    x_inter =  cub->player.x + ((y_inter - cub->player.y) / tan(cub->player.ray_angle));
+    x_step = SQUARE / tan(cub->player.ray_angle);
+    y_step = SQUARE;
+    while (is_walkable(cub, x_inter, y_inter))
+    {
+        x_inter += x_step;
+        y_inter += y_step;
+    }
+    cub->player.wall_hz_inter_x = x_inter;
+    cub->player.wall_hz_inter_y = y_inter;
+}
+
+void    vertical(t_cub *cub)
+{
+    double  x_inter;
+    double  y_inter;
+    double  x_step;
+    double  y_step;
+    
+    x_inter = ((int)(cub->player.x / SQUARE)) * SQUARE;
+    y_inter = cub->player.y + (tan(cub->player.ray_angle) * (x_inter - cub->player.x));
+    x_step = SQUARE;
+    y_step = tan(cub->player.ray_angle) * SQUARE;
+    while (is_walkable(cub, x_inter, y_inter))
+    {
+        x_inter += x_step;
+        y_inter += y_step;
+    }
+    cub->player.wall_vr_inter_y = y_inter;
+    cub->player.wall_vr_inter_x = x_inter;
+}
+
+void    ray_casting(t_cub *cub);
 void draw_map(t_cub *cub)
 {
     int y = 0;
@@ -125,4 +169,39 @@ void draw_map(t_cub *cub)
     }
     ray_casting(cub);
     draw_player(cub, cub->player.x, cub->player.y, 0x00FF00);
+}
+
+void    ray_casting(t_cub *cub)
+{
+	int     i;
+	// double x;
+	// double y;
+
+	cub->player.player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
+	cub->player.ray_angle = cub->player.player_angle - (FOV / 2);
+	cub->player.angle_step = FOV / cub->game->width;
+
+	i = 0;
+	while (i < cub->game->width)
+	{
+		// x = cub->player.x;
+		// y = cub->player.y;
+		horizontal(cub);
+		vertical(cub);
+		if (cub->player.wall_hz_inter_x + cub->player.wall_hz_inter_y > cub->player.wall_vr_inter_x + cub->player.wall_vr_inter_y)
+		{
+			cub->player.wall_hz_inter_x =  cub->player.wall_vr_inter_x;
+			cub->player.wall_hz_inter_y = cub->player.wall_vr_inter_y;
+		}
+		// if (fabs(cub->player.wall_hz_inter_x - cub->player.x) < fabs(cub->player.wall_vr_inter_x - cub->player.x))
+		// {
+		//     put_pixel(cub, i, 0, 0xFFFF00); // just to test horizontal intersection
+		// }
+		// else
+		// {
+		//     put_pixel(cub, i, 0, 0xFF00FF); // just to test vertical intersection
+		// }
+		cub->player.ray_angle += cub->player.angle_step; // add the ray angle with how many angles that we want
+		i++;
+	}
 }

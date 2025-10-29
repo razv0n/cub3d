@@ -38,8 +38,15 @@ typedef struct s_config {
 typedef struct s_player {
     double  x;
     double  y;
+    double  player_angle;
+    double  ray_angle;
+    double  angle_step;
     char    direction;
     double  dir_x;
+    double  wall_hz_inter_x;
+    double  wall_hz_inter_y;
+    double  wall_vr_inter_x;
+    double  wall_vr_inter_y;
     double  dir_y;
     double  plane_x;
     double  plane_y;
