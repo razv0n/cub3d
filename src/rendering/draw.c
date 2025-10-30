@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/29 21:48:07 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/10/30 12:38:23 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,18 @@ void    horizontal(t_cub *cub)
     double  x_step;
     double  y_step;
     
+	// cub->player.x *= SQUARE;
+	// cub->player.y *= SQUARE;
     y_inter = ((int)(cub->player.y / SQUARE)) * SQUARE;
+	if(ray->facing_down)
+		y_inter += SQUARE;
     x_inter =  cub->player.x + ((y_inter - cub->player.y) / tan(cub->player.ray_angle));
     x_step = SQUARE / tan(cub->player.ray_angle);
     y_step = SQUARE;
     while (is_walkable(cub, x_inter, y_inter))
     {
+		if(!isfinite(y_inter) || !isfinite(x_inter))
+			break;
         x_inter += x_step;
         y_inter += y_step;
     }
@@ -135,12 +141,20 @@ void    vertical(t_cub *cub)
     double  x_step;
     double  y_step;
     
+	// cub->player.x *= SQUARE;
+	// cub->player.y *= SQUARE;
+	
     x_inter = ((int)(cub->player.x / SQUARE)) * SQUARE;
+	if(ray->facing_right)
+		x_inter += SQUARE;
     y_inter = cub->player.y + (tan(cub->player.ray_angle) * (x_inter - cub->player.x));
     x_step = SQUARE;
     y_step = tan(cub->player.ray_angle) * SQUARE;
+	
     while (is_walkable(cub, x_inter, y_inter))
     {
+		if(!isfinite(y_inter) || !isfinite(x_inter))
+			break;
         x_inter += x_step;
         y_inter += y_step;
     }
@@ -148,6 +162,10 @@ void    vertical(t_cub *cub)
     cub->player.wall_vr_inter_x = x_inter;
 }
 
+float calc_dist(float x1, float y1, float x2, float y2)
+{
+	return (sqrtf((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
+}
 void    ray_casting(t_cub *cub);
 void draw_map(t_cub *cub)
 {
@@ -184,6 +202,7 @@ void    ray_casting(t_cub *cub)
 	i = 0;
 	while (i < cub->game->width)
 	{
+		
 		// x = cub->player.x;
 		// y = cub->player.y;
 		horizontal(cub);

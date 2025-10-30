@@ -6,7 +6,7 @@
 
  int is_walkable(t_cub *cub, int x, int y)
 {
-    if (y < 0 || x < 0)
+    if (y < 0 || x < 0 || y >= cub->game->height || x >= cub->game->width)
         return (0);
     if (!cub->map[y] || !cub->map[y][x])
         return (0);
