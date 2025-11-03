@@ -23,6 +23,14 @@
 #define KEY_LEFT 65361
 #define KEY_RIGHT 65363
 
+
+typedef enum e_direction{
+    DOWN,
+    UP,
+    LEFT,
+    RIGHT
+} e_direction;
+
 typedef struct s_game t_game;
 
 typedef struct s_config {
@@ -47,6 +55,7 @@ typedef struct s_player {
     double  wall_hz_inter_y;
     double  wall_vr_inter_x;
     double  wall_vr_inter_y;
+    double  res_dist;
     double  dir_y;
     double  plane_x;
     double  plane_y;
@@ -73,6 +82,8 @@ typedef struct s_game{
     void    *img;
 	char     *img_data;
 	int     bpp;
+    e_direction   face_up_down;
+    e_direction   face_right_left;
     int     size_line;
     int     endian;
     int     keys[256];
@@ -95,7 +106,7 @@ int is_cub_file(char *filename);
 // void mlx_init_and_setup(t_cub *cub);
 // void    ft_free_all(t_list **head);
 void    init_player(t_cub *cub);
-// void    move_player(t_cub *cub, double move_x, double move_y);
+//v oid    move_player(t_cub *cub, double move_x, double move_y);
 void    ft_free_all();
 void	check_element(t_cub *cub);
 void	read_lines(int fd, t_cub *cub, char *filename);
@@ -104,6 +115,6 @@ void    draw_map(t_cub *cub);
 void    init_player(t_cub *cub);
 int     handle_key(int keycode, t_cub *cub);
 void    move_forward(t_cub *cub);
- int is_walkable(t_cub *cub, int x, int y);
+int     is_walkable(t_cub *cub, double x, double y);
 void    move_backward(t_cub *cub);
 #endif
