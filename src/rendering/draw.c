@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/30 12:38:23 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/01 16:07:22 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void    draw_player(t_cub *cub, double x, double y, int color)
         j = 0;
         while(j < 12)
         {
-            put_pixel(cub, (int)(x * SQUARE) + i, (int)(y * SQUARE) + j, color);
+            put_pixel(cub, x + i, y + j, color);
             j++;
         }
         i++;
@@ -43,7 +43,7 @@ void    draw_player(t_cub *cub, double x, double y, int color)
     step = 0;
     while (step < 20)
     {
-        put_pixel(cub, (int)(x * SQUARE) + 6 + (int)(cub->player.dir_x * step), (int)(y * SQUARE) + 6 + (int)(cub->player.dir_y * step), 0xFF0000);
+        put_pixel(cub, x + 6 + (int)(cub->player.dir_x * step), y + 6 + (int)(cub->player.dir_y * step), 0xFF0000);
         step++;
     }
 }
@@ -66,48 +66,6 @@ void draw_sq(t_cub *cub, int x, int y,int color)
 	}
 }
 
-void draw_ray(t_cub *cub, double inter_x, double inter_y, int color)
-{
-	int x0 = (int)(cub->player.x * SQUARE);
-	int y0 = (int)(cub->player.y * SQUARE);
-	int x1;
-	int y1;
-
-	// if intersection looks like tile coordinate, convert to pixels; otherwise assume already pixels
-	if (inter_x <= cub->game->width)
-		x1 = (int)(inter_x * SQUARE);
-	else
-		x1 = (int)inter_x;
-	if (inter_y <= cub->game->height)
-		y1 = (int)(inter_y * SQUARE);
-	else
-		y1 = (int)inter_y;
-
-	int dx = abs(x1 - x0);
-	int sx = x0 < x1 ? 1 : -1;
-	int dy = -abs(y1 - y0);
-	int sy = y0 < y1 ? 1 : -1;
-	int err = dx + dy;
-
-	while (1)
-	{
-		put_pixel(cub, x0, y0, color);
-		if (x0 == x1 && y0 == y1)
-			break;
-		int e2 = 2 * err;
-		if (e2 >= dy)
-		{
-			err += dy;
-			x0 += sx;
-		}
-		if (e2 <= dx)
-		{
-			err += dx;
-			y0 += sy;
-		}
-	}
-}
-
 void    horizontal(t_cub *cub)
 {
     double  x_inter;
@@ -118,20 +76,65 @@ void    horizontal(t_cub *cub)
 	// cub->player.x *= SQUARE;
 	// cub->player.y *= SQUARE;
     y_inter = ((int)(cub->player.y / SQUARE)) * SQUARE;
-	if(ray->facing_down)
+	if(cub->game->face_up_down == DOWN)
 		y_inter += SQUARE;
     x_inter =  cub->player.x + ((y_inter - cub->player.y) / tan(cub->player.ray_angle));
     x_step = SQUARE / tan(cub->player.ray_angle);
     y_step = SQUARE;
     while (is_walkable(cub, x_inter, y_inter))
     {
-		if(!isfinite(y_inter) || !isfinite(x_inter))
-			break;
-        x_inter += x_step;
-        y_inter += y_step;
+		// if(!isfinite(y_inter) || !isfinite(x_inter))
+		// 	break;
+        if (cub->game->face_right_left == RIGHT && cub->game->face_up_down == UP)
+        {
+            x_inter += x_step;
+            y_inter -= y_step;
+        }
+        else if (cub->game->face_right_left == RIGHT && cub->game->face_up_down == DOWN)
+        {
+            x_inter += x_step;
+            y_inter += y_step;
+        }
+        else if (cub->game->face_right_left == LEFT && cub->game->face_up_down == DOWN)
+        {
+            x_inter -= x_step;
+            y_inter += y_step;
+        }
+        else
+        {
+            x_inter -= x_step;
+            y_inter -= y_step;
+        }
     }
     cub->player.wall_hz_inter_x = x_inter;
     cub->player.wall_hz_inter_y = y_inter;
+}
+
+void draw_line(t_cub *cub, int x0, int y0, int x1, int y1, int color)
+{
+    int dx = abs(x1 - x0);
+    int sx = x0 < x1 ? 1 : -1;
+    int dy = -abs(y1 - y0);
+    int sy = y0 < y1 ? 1 : -1;
+    int err = dx + dy; // error value e_xy /
+
+    while (1)
+    {
+        put_pixel(cub, x0, y0, color);
+        if (x0 == x1 && y0 == y1)
+            break;
+        int e2 = 2 * err;
+        if (e2 >= dy)
+        {
+            err += dy;
+            x0 += sx;
+        }
+        if (e2 <= dx)
+        {
+            err += dx;
+            y0 += sy;
+        }
+    }
 }
 
 void    vertical(t_cub *cub)
@@ -145,7 +148,7 @@ void    vertical(t_cub *cub)
 	// cub->player.y *= SQUARE;
 	
     x_inter = ((int)(cub->player.x / SQUARE)) * SQUARE;
-	if(ray->facing_right)
+	if(cub->game->face_right_left == RIGHT)
 		x_inter += SQUARE;
     y_inter = cub->player.y + (tan(cub->player.ray_angle) * (x_inter - cub->player.x));
     x_step = SQUARE;
@@ -153,10 +156,28 @@ void    vertical(t_cub *cub)
 	
     while (is_walkable(cub, x_inter, y_inter))
     {
-		if(!isfinite(y_inter) || !isfinite(x_inter))
-			break;
-        x_inter += x_step;
-        y_inter += y_step;
+		// if(!isfinite(y_inter) || !isfinite(x_inter))
+		// 	break;
+        if (cub->game->face_right_left == RIGHT && cub->game->face_up_down == UP)
+        {
+            x_inter += x_step;
+            y_inter -= y_step;
+        }
+        else if (cub->game->face_right_left == RIGHT && cub->game->face_up_down == DOWN)
+        {
+            x_inter += x_step;
+            y_inter += y_step;
+        }
+        else if (cub->game->face_right_left == LEFT && cub->game->face_up_down == DOWN)
+        {
+            x_inter -= x_step;
+            y_inter += y_step;
+        }
+        else
+        {
+            x_inter -= x_step;
+            y_inter -= y_step;
+        }
     }
     cub->player.wall_vr_inter_y = y_inter;
     cub->player.wall_vr_inter_x = x_inter;
@@ -177,10 +198,9 @@ void draw_map(t_cub *cub)
         while (x < cub->game->width)
         {
             if ((x >= (int)ft_strlen(cub->map[y]) && x < cub->game->width) || cub->map[y][x] == '1')
-            draw_sq(cub, x, y, 0x00FFF0);
+            	draw_sq(cub, x, y, 0x00FFF0);
             else if (cub->map[y][x] == '0' || cub->map[y][x] == cub->config.position_player)
-            draw_sq(cub, x, y , 0x000F00);
-            // else
+            	draw_sq(cub, x, y , 0x000F00);
             x++;
         }
         y++;
@@ -189,38 +209,45 @@ void draw_map(t_cub *cub)
     draw_player(cub, cub->player.x, cub->player.y, 0x00FF00);
 }
 
+void   find_distance(t_cub *cub)
+{
+	double dist_h;
+	double dist_v;
+
+	dist_h = calc_dist(cub->player.x, cub->player.y, cub->player.wall_hz_inter_x, cub->player.wall_hz_inter_y);
+	dist_v = calc_dist(cub->player.x, cub->player.y, cub->player.wall_vr_inter_x, cub->player.wall_vr_inter_y);
+	if (dist_h < dist_v)
+		cub->player.res_dist = dist_h;
+	else
+    {
+        cub->player.wall_hz_inter_x = cub->player.wall_vr_inter_x;
+        cub->player.wall_hz_inter_y = cub->player.wall_vr_inter_y;
+		cub->player.res_dist = dist_v;
+    }
+}
 void    ray_casting(t_cub *cub)
 {
 	int     i;
-	// double x;
-	// double y;
 
-	cub->player.player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
+	// cub->player.player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
 	cub->player.ray_angle = cub->player.player_angle - (FOV / 2);
 	cub->player.angle_step = FOV / cub->game->width;
-
+	if (cub->player.ray_angle >= M_PI && cub->player.ray_angle <= 2 * M_PI)
+		cub->game->face_up_down = UP;
+	else
+		cub->game->face_up_down = DOWN;
+	if (cub->player.ray_angle >=  3 * M_PI / 2 && cub->player.ray_angle <=  M_PI / 2)
+		cub->game->face_right_left = LEFT;
+	else
+		cub->game->face_right_left = RIGHT;
 	i = 0;
 	while (i < cub->game->width)
 	{
-		
-		// x = cub->player.x;
-		// y = cub->player.y;
 		horizontal(cub);
 		vertical(cub);
-		if (cub->player.wall_hz_inter_x + cub->player.wall_hz_inter_y > cub->player.wall_vr_inter_x + cub->player.wall_vr_inter_y)
-		{
-			cub->player.wall_hz_inter_x =  cub->player.wall_vr_inter_x;
-			cub->player.wall_hz_inter_y = cub->player.wall_vr_inter_y;
-		}
-		// if (fabs(cub->player.wall_hz_inter_x - cub->player.x) < fabs(cub->player.wall_vr_inter_x - cub->player.x))
-		// {
-		//     put_pixel(cub, i, 0, 0xFFFF00); // just to test horizontal intersection
-		// }
-		// else
-		// {
-		//     put_pixel(cub, i, 0, 0xFF00FF); // just to test vertical intersection
-		// }
-		cub->player.ray_angle += cub->player.angle_step; // add the ray angle with how many angles that we want
+		find_distance(cub);
+        draw_line(cub, cub->player.x + 6 , cub->player.y + 6 , cub->player.wall_hz_inter_x, cub->player.wall_hz_inter_y, 0xFFFF00);
+		cub->player.ray_angle += cub->player.angle_step;
 		i++;
 	}
 }

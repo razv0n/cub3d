@@ -4,8 +4,13 @@
 
 
 
- int is_walkable(t_cub *cub, int x, int y)
+ int is_walkable(t_cub *cub, double x_p, double y_p)
 {
+    int x;
+    int y;
+
+    x =  x_p / SQUARE; 
+    y =  y_p / SQUARE;
     if (y < 0 || x < 0 || y >= cub->game->height || x >= cub->game->width)
         return (0);
     if (!cub->map[y] || !cub->map[y][x])
@@ -27,8 +32,8 @@ static void find_player_position(t_cub *cub)
         {
             if (cub->map[x][y] == cub->config.position_player)
             {
-                cub->player.y = x + 0.5;
-                cub->player.x = y + 0.5;
+                cub->player.y = (x + 0.5) * SQUARE;
+                cub->player.x = (y + 0.5) * SQUARE;
                 return ;
             }
             y++;
@@ -64,7 +69,7 @@ void move_forward(t_cub *cub)
     next_x = cub->player.x + (cub->player.dir_x * cub->player.move_speed);
     next_y = cub->player.y + (cub->player.dir_y * cub->player.move_speed);
     
-    if (is_walkable(cub, (int)next_x, (int)next_y))
+    if (is_walkable(cub, next_x, next_y))
     {
         cub->player.x = next_x;
         cub->player.y = next_y;
@@ -80,16 +85,16 @@ void move_backward(t_cub *cub)
     next_x = cub->player.x - (cub->player.dir_x * cub->player.move_speed);
     next_y = cub->player.y - (cub->player.dir_y * cub->player.move_speed);
     
-    if (is_walkable(cub, (int)next_x, (int)next_y))
+    if (is_walkable(cub, next_x, next_y))
     {
         cub->player.x = next_x;
         cub->player.y = next_y;
         return;
     }
     
-    if (is_walkable(cub, (int)next_x, (int)cub->player.y))
+    if (is_walkable(cub, next_x, cub->player.y))
         cub->player.x = next_x;
-    if (is_walkable(cub, (int)cub->player.x, (int)next_y))
+    if (is_walkable(cub, cub->player.x, next_y))
         cub->player.y = next_y;
 }
 
@@ -100,7 +105,7 @@ void move_left(t_cub *cub)
 
     next_x = cub->player.x - cub->player.dir_y * cub->player.move_speed;
     next_y = cub->player.y + cub->player.dir_x * cub->player.move_speed;
-    if (is_walkable(cub, (int)next_x, (int)next_y))
+    if (is_walkable(cub, next_x, next_y))
     {
         cub->player.x = next_x;
         cub->player.y = next_y;
@@ -115,7 +120,7 @@ void move_right(t_cub *cub)
     next_x = cub->player.x + cub->player.dir_y * cub->player.move_speed;
     next_y = cub->player.y - cub->player.dir_x * cub->player.move_speed;
     
-    if (is_walkable(cub, (int)next_x, (int)next_y))
+    if (is_walkable(cub, next_x, next_y))
     {
         cub->player.x = next_x;
         cub->player.y = next_y;
@@ -131,21 +136,25 @@ static void set_player_direction(t_cub *cub)
     {
         cub->player.dir_x = 0;
         cub->player.dir_y = -1;
+        cub->player.player_angle = 3 * (M_PI / 2);
     }
     else if (dir == 'S')
     {
         cub->player.dir_x = 0;
         cub->player.dir_y = 1;
+        cub->player.player_angle = M_PI / 2;
     }
     else if (dir == 'E')
     {
         cub->player.dir_x = 1;
         cub->player.dir_y = 0;
+        cub->player.player_angle = 0;
     }
     else if (dir == 'W')
     {
         cub->player.dir_y = 0;
         cub->player.dir_x = -1;
+        cub->player.player_angle = M_PI;
     }
 }
 
@@ -156,6 +165,7 @@ void rotate_left(t_cub *cub)
     old_dir_x = cub->player.dir_x;
     cub->player.dir_x = cub->player.dir_x * cos(cub->player.rot_speed) - cub->player.dir_y * sin(cub->player.rot_speed);
     cub->player.dir_y = old_dir_x * sin(cub->player.rot_speed) + cub->player.dir_y * cos(cub->player.rot_speed);
+    cub->player.player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
 }
 
 void rotate_right(t_cub *cub)
@@ -165,6 +175,8 @@ void rotate_right(t_cub *cub)
     old_dir_x = cub->player.dir_x;
     cub->player.dir_x = cub->player.dir_x * cos(-cub->player.rot_speed) - cub->player.dir_y * sin(-cub->player.rot_speed);
     cub->player.dir_y = old_dir_x * sin(-cub->player.rot_speed) + cub->player.dir_y * cos(-cub->player.rot_speed);
+    cub->player.player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
+
 }
 
 int handle_key( int keycode, t_cub *cub)
@@ -196,7 +208,7 @@ void init_player(t_cub *cub)
 {
     find_player_position(cub);
     set_player_direction(cub);
-    cub->player.move_speed = 0.1;
+    cub->player.move_speed = 0.1 * SQUARE;
     cub->player.rot_speed = 3 * (M_PI / 180);
     return;
 }
