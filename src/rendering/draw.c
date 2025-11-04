@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/01 16:07:22 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/03 20:34:00 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,32 +79,16 @@ void    horizontal(t_cub *cub)
 	if(cub->game->face_up_down == DOWN)
 		y_inter += SQUARE;
     x_inter =  cub->player.x + ((y_inter - cub->player.y) / tan(cub->player.ray_angle));
-    x_step = SQUARE / tan(cub->player.ray_angle);
     y_step = SQUARE;
-    while (is_walkable(cub, x_inter, y_inter))
+    if (cub->game->face_up_down == UP)
+        y_step = -SQUARE;
+    x_step = y_step / tan(cub->player.ray_angle);
+    if ((cub->game->face_right_left == RIGHT && x_step < 0) || (cub->game->face_right_left == LEFT && x_step > 0))
+        x_step = -x_step;
+    while (is_walkable(cub, x_inter, y_inter + (cub->game->face_up_down == UP ? -1 : 0)))
     {
-		// if(!isfinite(y_inter) || !isfinite(x_inter))
-		// 	break;
-        if (cub->game->face_right_left == RIGHT && cub->game->face_up_down == UP)
-        {
-            x_inter += x_step;
-            y_inter -= y_step;
-        }
-        else if (cub->game->face_right_left == RIGHT && cub->game->face_up_down == DOWN)
-        {
-            x_inter += x_step;
-            y_inter += y_step;
-        }
-        else if (cub->game->face_right_left == LEFT && cub->game->face_up_down == DOWN)
-        {
-            x_inter -= x_step;
-            y_inter += y_step;
-        }
-        else
-        {
-            x_inter -= x_step;
-            y_inter -= y_step;
-        }
+        x_inter += x_step;
+        y_inter += y_step;
     }
     cub->player.wall_hz_inter_x = x_inter;
     cub->player.wall_hz_inter_y = y_inter;
@@ -152,32 +136,16 @@ void    vertical(t_cub *cub)
 		x_inter += SQUARE;
     y_inter = cub->player.y + (tan(cub->player.ray_angle) * (x_inter - cub->player.x));
     x_step = SQUARE;
-    y_step = tan(cub->player.ray_angle) * SQUARE;
+    if (cub->game->face_right_left == LEFT)
+        x_step = -SQUARE;
+    y_step = tan(cub->player.ray_angle) * x_step;
+    if ((cub->game->face_up_down == DOWN && y_step < 0) || (cub->game->face_up_down == UP && y_step > 0))
+        y_step = -y_step;
 	
-    while (is_walkable(cub, x_inter, y_inter))
+    while (is_walkable(cub, x_inter + (cub->game->face_right_left == LEFT ? -1 : 1), y_inter)) // todo i sould remove the dir_x and dir_y from game struct and worl only with ray angle 
     {
-		// if(!isfinite(y_inter) || !isfinite(x_inter))
-		// 	break;
-        if (cub->game->face_right_left == RIGHT && cub->game->face_up_down == UP)
-        {
-            x_inter += x_step;
-            y_inter -= y_step;
-        }
-        else if (cub->game->face_right_left == RIGHT && cub->game->face_up_down == DOWN)
-        {
-            x_inter += x_step;
-            y_inter += y_step;
-        }
-        else if (cub->game->face_right_left == LEFT && cub->game->face_up_down == DOWN)
-        {
-            x_inter -= x_step;
-            y_inter += y_step;
-        }
-        else
-        {
-            x_inter -= x_step;
-            y_inter -= y_step;
-        }
+        x_inter += x_step;
+        y_inter += y_step;
     }
     cub->player.wall_vr_inter_y = y_inter;
     cub->player.wall_vr_inter_x = x_inter;
@@ -229,14 +197,13 @@ void    ray_casting(t_cub *cub)
 {
 	int     i;
 
-	// cub->player.player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
 	cub->player.ray_angle = cub->player.player_angle - (FOV / 2);
 	cub->player.angle_step = FOV / cub->game->width;
 	if (cub->player.ray_angle >= M_PI && cub->player.ray_angle <= 2 * M_PI)
 		cub->game->face_up_down = UP;
 	else
 		cub->game->face_up_down = DOWN;
-	if (cub->player.ray_angle >=  3 * M_PI / 2 && cub->player.ray_angle <=  M_PI / 2)
+	if (cub->player.ray_angle <=  3 * M_PI / 2 && cub->player.ray_angle >=  M_PI / 2)
 		cub->game->face_right_left = LEFT;
 	else
 		cub->game->face_right_left = RIGHT;
@@ -251,3 +218,4 @@ void    ray_casting(t_cub *cub)
 		i++;
 	}
 }
+

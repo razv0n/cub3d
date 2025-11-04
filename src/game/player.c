@@ -4,7 +4,7 @@
 
 
 
- int is_walkable(t_cub *cub, double x_p, double y_p)
+ bool is_walkable(t_cub *cub, double x_p, double y_p)
 {
     int x;
     int y;
@@ -13,9 +13,8 @@
     y =  y_p / SQUARE;
     if (y < 0 || x < 0 || y >= cub->game->height || x >= cub->game->width)
         return (0);
-    if (!cub->map[y] || !cub->map[y][x])
+    if (!cub->map[y] || !cub->map[y][x]) // why i do this check ?
         return (0);
-    // printf("the map [x][y] is %c   the x %d and y %d is \n",cub->map[x][y], x, y);
     return (cub->map[y][x] != '1');
 }
 
@@ -136,27 +135,29 @@ static void set_player_direction(t_cub *cub)
     {
         cub->player.dir_x = 0;
         cub->player.dir_y = -1;
-        cub->player.player_angle = 3 * (M_PI / 2);
     }
     else if (dir == 'S')
     {
         cub->player.dir_x = 0;
         cub->player.dir_y = 1;
-        cub->player.player_angle = M_PI / 2;
     }
     else if (dir == 'E')
     {
         cub->player.dir_x = 1;
         cub->player.dir_y = 0;
-        cub->player.player_angle = 0;
     }
     else if (dir == 'W')
     {
-        cub->player.dir_y = 0;
         cub->player.dir_x = -1;
-        cub->player.player_angle = M_PI;
+        cub->player.dir_y = 0;
     }
+    // compute player angle using -dir_y to match screen coordinates (y down)
+    cub->player.player_angle = atan2(-cub->player.dir_y, cub->player.dir_x);
+    if (cub->player.player_angle < 0)
+        cub->player.player_angle += 2 * M_PI;
 }
+
+// ...existing code...
 
 void rotate_left(t_cub *cub)
 {
@@ -165,18 +166,25 @@ void rotate_left(t_cub *cub)
     old_dir_x = cub->player.dir_x;
     cub->player.dir_x = cub->player.dir_x * cos(cub->player.rot_speed) - cub->player.dir_y * sin(cub->player.rot_speed);
     cub->player.dir_y = old_dir_x * sin(cub->player.rot_speed) + cub->player.dir_y * cos(cub->player.rot_speed);
-    cub->player.player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
+    cub->player.player_angle = atan2(-cub->player.dir_y, cub->player.dir_x);
+    if (cub->player.player_angle < 0)
+        cub->player.player_angle += 2 * M_PI;
+    else if (cub->player.player_angle > 2 * M_PI)
+        cub->player.player_angle -= 2 * M_PI;
 }
 
 void rotate_right(t_cub *cub)
 {
-     double old_dir_x;
-     
+    double old_dir_x;
+
     old_dir_x = cub->player.dir_x;
     cub->player.dir_x = cub->player.dir_x * cos(-cub->player.rot_speed) - cub->player.dir_y * sin(-cub->player.rot_speed);
     cub->player.dir_y = old_dir_x * sin(-cub->player.rot_speed) + cub->player.dir_y * cos(-cub->player.rot_speed);
-    cub->player.player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
-
+    cub->player.player_angle = atan2(-cub->player.dir_y, cub->player.dir_x);
+    if (cub->player.player_angle < 0)
+        cub->player.player_angle += 2 * M_PI;
+    else if (cub->player.player_angle > 2 * M_PI)
+        cub->player.player_angle -= 2 * M_PI;
 }
 
 int handle_key( int keycode, t_cub *cub)
