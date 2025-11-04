@@ -75,7 +75,7 @@ void    horizontal(t_cub *cub)
     
 	// cub->player.x *= SQUARE;
 	// cub->player.y *= SQUARE;
-    y_inter = ((int)(cub->player.y / SQUARE)) * SQUARE;
+    y_inter = floor(cub->player.y / SQUARE) * SQUARE;
 	if(cub->game->face_up_down == DOWN)
 		y_inter += SQUARE;
     x_inter =  cub->player.x + ((y_inter - cub->player.y) / tan(cub->player.ray_angle));
@@ -147,7 +147,7 @@ void    vertical(t_cub *cub)
 	// cub->player.x *= SQUARE;
 	// cub->player.y *= SQUARE;
 	
-    x_inter = ((int)(cub->player.x / SQUARE)) * SQUARE;
+    x_inter = floor(cub->player.x / SQUARE) * SQUARE;
 	if(cub->game->face_right_left == RIGHT)
 		x_inter += SQUARE;
     y_inter = cub->player.y + (tan(cub->player.ray_angle) * (x_inter - cub->player.x));
@@ -231,6 +231,7 @@ void    ray_casting(t_cub *cub)
 
 	// cub->player.player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
 	cub->player.ray_angle = cub->player.player_angle - (FOV / 2);
+	cub->player.ray_angle = normalize_angle(cub->player.ray_angle);
 	cub->player.angle_step = FOV / cub->game->width;
 	if (cub->player.ray_angle >= M_PI && cub->player.ray_angle <= 2 * M_PI)
 		cub->game->face_up_down = UP;
@@ -248,6 +249,7 @@ void    ray_casting(t_cub *cub)
 		find_distance(cub);
         draw_line(cub, cub->player.x + 6 , cub->player.y + 6 , cub->player.wall_hz_inter_x, cub->player.wall_hz_inter_y, 0xFFFF00);
 		cub->player.ray_angle += cub->player.angle_step;
+		cub->player.ray_angle = normalize_angle(cub->player.ray_angle);
 		i++;
 	}
 }
