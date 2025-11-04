@@ -115,6 +115,7 @@ void    draw_map(t_cub *cub);
 void    init_player(t_cub *cub);
 int     handle_key(int keycode, t_cub *cub);
 void    move_forward(t_cub *cub);
-int     is_walkable(t_cub *cub, double x, double y);
+// int     is_walkable(t_cub *cub, double x, double y)
+ bool is_walkable(t_cub *cub, double x_p, double y_p);
 void    move_backward(t_cub *cub);
 #endif
