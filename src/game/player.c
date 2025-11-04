@@ -160,22 +160,28 @@ static void set_player_direction(t_cub *cub)
 
 void rotate_left(t_cub *cub)
 {
-    double old_dir_x;
+//    double old_dir_x;
+    double step = 1 * M_PI / 180;
 
-    old_dir_x = cub->player.dir_x;
-    cub->player.dir_x = cub->player.dir_x * cos(cub->player.rot_speed) - cub->player.dir_y * sin(cub->player.rot_speed);
-    cub->player.dir_y = old_dir_x * sin(cub->player.rot_speed) + cub->player.dir_y * cos(cub->player.rot_speed);
-    cub->player.player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
+    cub->player.player_angle -= step;
+    cub->player.player_angle = normalize_angle(cub->player.player_angle);
+//    old_dir_x = cub->player.dir_x;
+//    cub->player.dir_x = cub->player.dir_x * cos(cub->player.rot_speed) - cub->player.dir_y * sin(cub->player.rot_speed);
+//    cub->player.dir_y = old_dir_x * sin(cub->player.rot_speed) + cub->player.dir_y * cos(cub->player.rot_speed);
+//    cub->player.player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
 }
 
 void rotate_right(t_cub *cub)
 {
-     double old_dir_x;
-     
-    old_dir_x = cub->player.dir_x;
-    cub->player.dir_x = cub->player.dir_x * cos(-cub->player.rot_speed) - cub->player.dir_y * sin(-cub->player.rot_speed);
-    cub->player.dir_y = old_dir_x * sin(-cub->player.rot_speed) + cub->player.dir_y * cos(-cub->player.rot_speed);
-    cub->player.player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
+ //   double old_dir_x;
+    double step = 1 * M_PI / 180;
+
+    cub->player.player_angle += step;
+    cub->player.player_angle = normalize_angle(cub->player.player_angle);
+//    old_dir_x = cub->player.dir_x;
+//    cub->player.dir_x = cub->player.dir_x * cos(-cub->player.rot_speed) - cub->player.dir_y * sin(-cub->player.rot_speed);
+//    cub->player.dir_y = old_dir_x * sin(-cub->player.rot_speed) + cub->player.dir_y * cos(-cub->player.rot_speed);
+//    cub->player.player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
 
 }
 
@@ -202,6 +208,14 @@ int handle_key( int keycode, t_cub *cub)
     draw_map(cub);
     mlx_put_image_to_window(cub->game->mlx, cub->game->win, cub->game->img, 0, 0);
     return (0);
+}
+
+double normalize_angle(double angle)
+{
+    angle = fmod(angle, 2 * M_PI);
+    if (angle < 0)
+        angle += 2 * M_PI;
+    return (angle);
 }
 
 void init_player(t_cub *cub)
