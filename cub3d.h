@@ -3,8 +3,8 @@
 
 # include "./libft/libft.h"
 # include "./get_next_line/get_next_line.h"
+//#include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
 #include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
-// #include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
 // #include "/Users/macbook/Downloads/minilibx/mlx.h"
 #include <unistd.h>
 #include <stdlib.h>
@@ -13,7 +13,7 @@
 #include <stdbool.h>
 #include <fcntl.h>
 #include <math.h>
-# define SQUARE 32
+# define TILE 32
 # define FOV 60 * (M_PI / 180)
 #define KEY_ESC 65307
 #define KEY_W 119
@@ -118,4 +118,5 @@ void    move_forward(t_cub *cub);
 // int     is_walkable(t_cub *cub, double x, double y)
  bool is_walkable(t_cub *cub, double x_p, double y_p);
 void    move_backward(t_cub *cub);
+double  normalize_angle(double angle);
 #endif

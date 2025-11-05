@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:06:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/27 10:56:54 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/04 14:57:30 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ void mlx_init_and_setup(t_cub *cub)
     game = cub->game;
     // game->width = 50;
     // game->height = 50;
-    game->win = mlx_new_window(game->mlx, game->width * SQUARE, game->height * SQUARE, "ghorayr");
+    game->win = mlx_new_window(game->mlx, game->width * TILE, game->height * TILE, "ghorayr");
     if(!game->win)
         ft_free_all();
     // exit(1);
     printf("the gmae height : %d  the game width : %d \n", game->height, game->width);
-    game->img = mlx_new_image(game->mlx, game->width * SQUARE, game->height * SQUARE);
+    game->img = mlx_new_image(game->mlx, game->width * TILE, game->height * TILE);
     if(!game->img)
         ft_free_all();
     game->img_data = mlx_get_data_addr(game->img, &game->bpp, &game->size_line, &game->endian);
