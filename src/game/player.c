@@ -9,8 +9,8 @@
     int x;
     int y;
 
-    x =  x_p / SQUARE; 
-    y =  y_p / SQUARE;
+    x =  x_p / TILE; 
+    y =  y_p / TILE;
     if (y < 0 || x < 0 || y >= cub->game->height || x >= cub->game->width)
         return (0);
     if (!cub->map[y] || !cub->map[y][x]) // why i do this check ?
@@ -31,8 +31,8 @@ static void find_player_position(t_cub *cub)
         {
             if (cub->map[x][y] == cub->config.position_player)
             {
-                cub->player.y = (x + 0.5) * SQUARE;
-                cub->player.x = (y + 0.5) * SQUARE;
+                cub->player.y = (x + 0.5) * TILE;
+                cub->player.x = (y + 0.5) * TILE;
                 return ;
             }
             y++;
@@ -151,40 +151,36 @@ static void set_player_direction(t_cub *cub)
         cub->player.dir_x = -1;
         cub->player.dir_y = 0;
     }
-    // compute player angle using -dir_y to match screen coordinates (y down)
     cub->player.player_angle = atan2(-cub->player.dir_y, cub->player.dir_x);
-    if (cub->player.player_angle < 0)
-        cub->player.player_angle += 2 * M_PI;
 }
 
-// ...existing code...
 
 void rotate_left(t_cub *cub)
 {
-    double old_dir_x;
+//    double old_dir_x;
+    double step = 1 * M_PI / 180;
 
-    old_dir_x = cub->player.dir_x;
-    cub->player.dir_x = cub->player.dir_x * cos(cub->player.rot_speed) - cub->player.dir_y * sin(cub->player.rot_speed);
-    cub->player.dir_y = old_dir_x * sin(cub->player.rot_speed) + cub->player.dir_y * cos(cub->player.rot_speed);
-    cub->player.player_angle = atan2(-cub->player.dir_y, cub->player.dir_x);
-    if (cub->player.player_angle < 0)
-        cub->player.player_angle += 2 * M_PI;
-    else if (cub->player.player_angle > 2 * M_PI)
-        cub->player.player_angle -= 2 * M_PI;
+    cub->player.player_angle -= step;
+    cub->player.player_angle = normalize_angle(cub->player.player_angle);
+//    old_dir_x = cub->player.dir_x;
+//    cub->player.dir_x = cub->player.dir_x * cos(cub->player.rot_speed) - cub->player.dir_y * sin(cub->player.rot_speed);
+//    cub->player.dir_y = old_dir_x * sin(cub->player.rot_speed) + cub->player.dir_y * cos(cub->player.rot_speed);
+//    cub->player.player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
 }
 
 void rotate_right(t_cub *cub)
 {
-    double old_dir_x;
+ //   double old_dir_x;
+    double step;
 
-    old_dir_x = cub->player.dir_x;
-    cub->player.dir_x = cub->player.dir_x * cos(-cub->player.rot_speed) - cub->player.dir_y * sin(-cub->player.rot_speed);
-    cub->player.dir_y = old_dir_x * sin(-cub->player.rot_speed) + cub->player.dir_y * cos(-cub->player.rot_speed);
-    cub->player.player_angle = atan2(-cub->player.dir_y, cub->player.dir_x);
-    if (cub->player.player_angle < 0)
-        cub->player.player_angle += 2 * M_PI;
-    else if (cub->player.player_angle > 2 * M_PI)
-        cub->player.player_angle -= 2 * M_PI;
+    step = 1 * M_PI / 180;
+    cub->player.player_angle += step;
+    cub->player.player_angle = normalize_angle(cub->player.player_angle);
+//    old_dir_x = cub->player.dir_x;
+//    cub->player.dir_x = cub->player.dir_x * cos(-cub->player.rot_speed) - cub->player.dir_y * sin(-cub->player.rot_speed);
+//    cub->player.dir_y = old_dir_x * sin(-cub->player.rot_speed) + cub->player.dir_y * cos(-cub->player.rot_speed);
+//    cub->player.player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
+
 }
 
 int handle_key( int keycode, t_cub *cub)
@@ -212,11 +208,19 @@ int handle_key( int keycode, t_cub *cub)
     return (0);
 }
 
+double normalize_angle(double angle)
+{
+    angle = fmod(angle, 2 * M_PI);
+    if (angle < 0)
+        angle += 2 * M_PI;
+    return (angle);
+}
+
 void init_player(t_cub *cub)
 {
     find_player_position(cub);
     set_player_direction(cub);
-    cub->player.move_speed = 0.1 * SQUARE;
+    cub->player.move_speed = 0.1 * TILE;
     cub->player.rot_speed = 3 * (M_PI / 180);
     return;
 }
