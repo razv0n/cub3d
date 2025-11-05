@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/04 14:57:30 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/05 16:30:17 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void    draw_player(t_cub *cub, double x, double y, int color)
     step = 0;
     while (step < 20)
     {
-        put_pixel(cub, x + 6 + (int)(cub->player.dir_x * step), y + 6 + (int)(cub->player.dir_y * step), 0xFF0000);
+        put_pixel(cub, x + 6 + (cos(cub->player.player_angle) * step), y + 6 + (sin(cub->player.player_angle)  * step), 0xFF0000);
         step++;
     }
 }
@@ -195,7 +195,7 @@ void   find_distance(t_cub *cub)
 }
 void    ray_casting(t_cub *cub)
 {
-	int     i;
+	// int     i;
 
 	cub->player.ray_angle = cub->player.player_angle - (FOV / 2);
 	cub->player.ray_angle = normalize_angle(cub->player.ray_angle);
@@ -208,8 +208,8 @@ void    ray_casting(t_cub *cub)
 		cub->game->face_right_left = LEFT;
 	else
 		cub->game->face_right_left = RIGHT;
-	i = 0;
-	while (i < cub->game->width)
+	// i = 0;
+	while (cub->player.ray_angle <= cub->player.player_angle + (FOV / 2))
 	{
 		horizontal(cub);
 		vertical(cub);
@@ -217,7 +217,7 @@ void    ray_casting(t_cub *cub)
         draw_line(cub, cub->player.x + 6 , cub->player.y + 6 , cub->player.wall_hz_inter_x, cub->player.wall_hz_inter_y, 0xFFFF00);
 		cub->player.ray_angle += cub->player.angle_step;
 		cub->player.ray_angle = normalize_angle(cub->player.ray_angle);
-		i++;
+		// i++;
 	}
 }
 

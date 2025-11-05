@@ -135,52 +135,47 @@ static void set_player_direction(t_cub *cub)
     {
         cub->player.dir_x = 0;
         cub->player.dir_y = -1;
+        cub->player.player_angle = 3 * (M_PI / 2);
     }
     else if (dir == 'S')
     {
         cub->player.dir_x = 0;
         cub->player.dir_y = 1;
+        cub->player.player_angle = M_PI / 2;
+
     }
     else if (dir == 'E')
     {
         cub->player.dir_x = 1;
         cub->player.dir_y = 0;
+        cub->player.player_angle = 0;
+
     }
     else if (dir == 'W')
     {
         cub->player.dir_x = -1;
         cub->player.dir_y = 0;
-    }
-    cub->player.player_angle = atan2(-cub->player.dir_y, cub->player.dir_x);
-}
+        cub->player.player_angle = M_PI;
 
+    }
+}
 
 void rotate_left(t_cub *cub)
 {
-//    double old_dir_x;
-    double step = 1 * M_PI / 180;
+    double step;
 
+    step  = 1 * (M_PI / 180);
     cub->player.player_angle -= step;
     cub->player.player_angle = normalize_angle(cub->player.player_angle);
-//    old_dir_x = cub->player.dir_x;
-//    cub->player.dir_x = cub->player.dir_x * cos(cub->player.rot_speed) - cub->player.dir_y * sin(cub->player.rot_speed);
-//    cub->player.dir_y = old_dir_x * sin(cub->player.rot_speed) + cub->player.dir_y * cos(cub->player.rot_speed);
-//    cub->player.player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
 }
 
 void rotate_right(t_cub *cub)
 {
- //   double old_dir_x;
     double step;
 
-    step = 1 * M_PI / 180;
+    step = 1 * (M_PI / 180);
     cub->player.player_angle += step;
     cub->player.player_angle = normalize_angle(cub->player.player_angle);
-//    old_dir_x = cub->player.dir_x;
-//    cub->player.dir_x = cub->player.dir_x * cos(-cub->player.rot_speed) - cub->player.dir_y * sin(-cub->player.rot_speed);
-//    cub->player.dir_y = old_dir_x * sin(-cub->player.rot_speed) + cub->player.dir_y * cos(-cub->player.rot_speed);
-//    cub->player.player_angle = atan2(cub->player.dir_y, cub->player.dir_x);
-
 }
 
 int handle_key( int keycode, t_cub *cub)
