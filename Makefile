@@ -1,4 +1,3 @@
-
 NAME = cub3d
 
 CC = cc
@@ -24,6 +23,7 @@ SRCS =	parsing/parse_cub_file.c\
 		rendering/draw.c\
 		game/player.c\
 		game/events.c\
+		rendering/debug.c\
 
 MSRCS = main.c 
 

@@ -100,6 +100,7 @@ int is_cub_file(char *filename);
 int parse_cub_file(char *filename, t_cub *cub);
 // void read_lines(int fd, t_cub *cub);
 bool   check_rules_map (char **line, t_cub *cub);
+
 void mlx_init_and_setup(t_cub *cub);
 void    init_mlx_fun(t_cub *cub);
 int is_cub_file(char *filename);
@@ -119,4 +120,25 @@ void    move_forward(t_cub *cub);
  bool is_walkable(t_cub *cub, double x_p, double y_p);
 void    move_backward(t_cub *cub);
 double  normalize_angle(double angle);
+// void draw_map(t_cub *cub);
+float calc_dist(float x1, float y1, float x2, float y2);
+
+
+
+
+
+
+
+
+void debug_player_info(t_cub *cub);
+void debug_ray_info(t_cub *cub);
+void debug_direction_info(t_cub *cub);
+void debug_map_info(t_cub *cub);
+// void debug_config_info(t_cub *cub);
+void debug_game_state(t_cub *cub);
+void debug_wall_check(t_cub *cub, double x, double y);
+void debug_distance_calculation(t_cub *cub);
+void debug_full_game(t_cub *cub);
+void debug_ray_step(t_cub *cub, int ray_number);
+
 #endif
