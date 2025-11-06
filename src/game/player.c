@@ -143,19 +143,13 @@ static void set_player_direction(t_cub *cub)
 
 void rotate_left(t_cub *cub)
 {
-    double step;
-
-    step = 1 * (M_PI / 180);
-    cub->player.player_angle -= step;
+    cub->player.player_angle -= cub->player.rot_speed;
     cub->player.player_angle = normalize_angle(cub->player.player_angle);
 }
 
 void rotate_right(t_cub *cub)
 {
-    double step;
-
-    step = 1 * (M_PI / 180);
-    cub->player.player_angle += step;
+    cub->player.player_angle += cub->player.rot_speed;
     cub->player.player_angle = normalize_angle(cub->player.player_angle);
 }
 
@@ -184,9 +178,14 @@ int handle_key(int keycode, t_cub *cub)
 
 double normalize_angle(double angle)
 {
-    angle = fmod(angle, 2 * M_PI);
+    // angle = fmod(angle, 2 * M_PI);
+    // if (angle < 0)
+    //     angle += 2 * M_PI;
+    // return (angle);
     if (angle < 0)
         angle += 2 * M_PI;
+    if (angle >= 2 * M_PI)
+        angle -= 2 * M_PI;
     return (angle);
 }
 

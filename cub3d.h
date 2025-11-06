@@ -124,6 +124,7 @@ double  normalize_angle(double angle);
 float calc_dist(float x1, float y1, float x2, float y2);
 
 
+// double calc_dist(double x1, double y1, double x2, double y2);
 
 
 
