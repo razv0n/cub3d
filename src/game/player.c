@@ -2,18 +2,22 @@
 
 #include "../../cub3d.h"
 
-
-
- bool is_walkable(t_cub *cub, double x_p, double y_p)
+bool is_walkable(t_cub *cub, double x_p, double y_p)
 {
     int x;
     int y;
-
-    x =  x_p / TILE; 
-    y =  y_p / TILE;
+    
+    x = x_p / TILE; 
+    y = y_p / TILE;
+    
+    // DEBUG: Show what we're checking
+    // printf("    is_walkable(%.2f, %.2f) -> grid(%d,%d) = '%c'\n", 
+    //        x_p, y_p, x, y, 
+    //        (y >= 0 && x >= 0 && y < cub->game->height && x < cub->game->width && cub->map[y] && cub->map[y][x]) ? cub->map[y][x] : '?');
+    
     if (y < 0 || x < 0 || y >= cub->game->height || x >= cub->game->width)
         return (0);
-    if (!cub->map[y] || !cub->map[y][x]) // why i do this check ?
+    if (!cub->map[y] || !cub->map[y][x])
         return (0);
     return (cub->map[y][x] != '1');
 }
@@ -31,8 +35,8 @@ static void find_player_position(t_cub *cub)
         {
             if (cub->map[x][y] == cub->config.position_player)
             {
-                cub->player.y = (x + 0.5) * TILE;
                 cub->player.x = (y + 0.5) * TILE;
+                cub->player.y = (x + 0.5) * TILE;
                 return ;
             }
             y++;
@@ -41,30 +45,11 @@ static void find_player_position(t_cub *cub)
     }
 }
 
-
-//        North (Up)
-//        dir_y = -1
-//             ↑
-//             |
-// West ←------+-----→ East
-// dir_x=-1    |    dir_x=1
-//             |
-//             ↓
-//         South (Down)
-//         dir_y = 1
-
-
-
-//new position = current position + direction × speed
-
-
 void move_forward(t_cub *cub)
 {
     double next_x;
     double next_y;
 
-
-    printf("cub->player.dir_x : %.3f  cub->player.dir_y : %.3f \n", cub->player.dir_x, cub->player.dir_y);
     next_x = cub->player.x + (cub->player.dir_x * cub->player.move_speed);
     next_y = cub->player.y + (cub->player.dir_y * cub->player.move_speed);
     
@@ -74,7 +59,6 @@ void move_forward(t_cub *cub)
         cub->player.y = next_y;
     }
 }
- 
 
 void move_backward(t_cub *cub)
 {
@@ -142,21 +126,18 @@ static void set_player_direction(t_cub *cub)
         cub->player.dir_x = 0;
         cub->player.dir_y = 1;
         cub->player.player_angle = M_PI / 2;
-
     }
     else if (dir == 'E')
     {
         cub->player.dir_x = 1;
         cub->player.dir_y = 0;
         cub->player.player_angle = 0;
-
     }
     else if (dir == 'W')
     {
         cub->player.dir_x = -1;
         cub->player.dir_y = 0;
         cub->player.player_angle = M_PI;
-
     }
 }
 
@@ -164,7 +145,7 @@ void rotate_left(t_cub *cub)
 {
     double step;
 
-    step  = 1 * (M_PI / 180);
+    step = 1 * (M_PI / 180);
     cub->player.player_angle -= step;
     cub->player.player_angle = normalize_angle(cub->player.player_angle);
 }
@@ -178,10 +159,8 @@ void rotate_right(t_cub *cub)
     cub->player.player_angle = normalize_angle(cub->player.player_angle);
 }
 
-int handle_key( int keycode, t_cub *cub)
+int handle_key(int keycode, t_cub *cub)
 {
-    printf("Player position: x=%.3f y=%.3f dir_x=%.3f dir_y=%.3f\n", 
-           cub->player.y, cub->player.x, cub->player.dir_x, cub->player.dir_y);
     if (keycode == KEY_W)
         move_forward(cub);
     else if (keycode == KEY_S)
@@ -217,5 +196,4 @@ void init_player(t_cub *cub)
     set_player_direction(cub);
     cub->player.move_speed = 0.1 * TILE;
     cub->player.rot_speed = 3 * (M_PI / 180);
-    return;
 }
