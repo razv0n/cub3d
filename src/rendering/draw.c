@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/06 11:51:10 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/06 16:54:40 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void    horizontal(t_cub *cub)
         y_inter += TILE;
         op = -1;
     }
-    op *= y_inter - cub->player.y;
+    op =  op * (y_inter - cub->player.y);
     x_inter =  cub->player.x + (op / tan(cub->player.ray_angle));
     y_step = TILE;
     if (cub->game->face_up_down == UP)
@@ -153,9 +153,10 @@ void    vertical(t_cub *cub)
 	if(cub->game->face_right_left == RIGHT)
     {
         x_inter += TILE;
-        ag *= -1;
+        ag = -1;
     }
-    ag = x_inter - cub->player.x;
+    printf("the player is at x=%.2f y=%.2f  %c \n", cub->player.x, cub->player.y, cub->map[(int)(cub->player.y / TILE)][(int)(cub->player.x / TILE)]);
+    ag = ag * (x_inter - cub->player.x);
     y_inter = cub->player.y + (tan(cub->player.ray_angle) * ag);
     x_step = TILE;
     if (cub->game->face_right_left == LEFT)
@@ -165,23 +166,23 @@ void    vertical(t_cub *cub)
         y_step = -y_step;
     
     // DEBUG: Initial intersection
-    printf("  V-RAY: start=(%.2f, %.2f) step=(%.2f, %.2f)\n", 
-           x_inter, y_inter, x_step, y_step);
+    // printf("  V-RAY: start=(%.2f, %.2f) step=(%.2f, %.2f)\n", 
+        //    x_inter, y_inter, x_step, y_step);
     
-    int steps = 0;
+    // int steps = 0;
     while (is_walkable(cub, x_inter + (cub->game->face_right_left == LEFT ? -0.1 : 0.1), y_inter))
     {
         x_inter += x_step;
         y_inter += y_step;
-        steps++;
+        // steps++;
         
         // DEBUG: Show every step
-        if (steps <= 3) // Only first 3 steps
-            printf("    V-step %d: (%.2f, %.2f) grid=(%d,%d)\n", 
-                   steps, x_inter, y_inter, 
-                   (int)(x_inter/TILE), (int)(y_inter/TILE));
+        // if (steps <= 3) // Only first 3 steps
+            // printf("    V-step %d: (%.2f, %.2f) grid=(%d,%d)\n", 
+                //    steps, x_inter, y_inter, 
+                //    (int)(x_inter/TILE), (int)(y_inter/TILE));
     }
-    printf("  V-HIT: (%.2f, %.2f) after %d steps\n", x_inter, y_inter, steps);
+    // printf("  V-HIT: (%.2f, %.2f) after %d steps\n", x_inter, y_inter, steps);
     
     cub->player.wall_vr_inter_y = y_inter;
     cub->player.wall_vr_inter_x = x_inter;
@@ -196,14 +197,12 @@ void draw_map(t_cub *cub)
 {
     int y = 0;
     
-    // Uncomment to debug once at startup:
     static int debug_once = 0;
     if (!debug_once)
     {
         debug_full_game(cub);
         debug_once = 1;
     }
-    
     while (cub->map[y])
     {
         int x = 0;
@@ -247,7 +246,7 @@ void    check_dir(t_cub *cub)
         cub->game->face_up_down = UP;
     else
         cub->game->face_up_down = DOWN;
-    if (angle > M_PI / 2 && angle < 3 * M_PI / 2)
+    if (angle > M_PI / 2 && angle < (3 * M_PI) / 2)
         cub->game->face_right_left = LEFT;
     else
         cub->game->face_right_left = RIGHT;
@@ -257,41 +256,35 @@ void    ray_casting(t_cub *cub)
 {
 	int ray_count = 0;
 	int window_width;
-	double end_angle;
 	
 	window_width = cub->game->width * TILE;
 	
-	printf("\n=== RAY CASTING START ===\n");
-	printf("Player Position: (%.2f, %.2f) Grid: (%d, %d)\n", 
-	       cub->player.x, cub->player.y,
-	       (int)(cub->player.x / TILE), (int)(cub->player.y / TILE));
-	printf("Player Angle: %.4f (%.2f°)\n", cub->player.player_angle, cub->player.player_angle * 180.0 / M_PI);
-	
+	// printf("\n=== RAY CASTING START ===\n");
+	// printf("Player Position: (%.2f, %.2f) Grid: (%d, %d)\n", 
+	//        cub->player.x, cub->player.y,
+	//        (int)(cub->player.x / TILE), (int)(cub->player.y / TILE));
+	// printf("Player Angle: %.4f (%.2f°)\n", cub->player.player_angle, cub->player.player_angle * 180.0 / M_PI);
 	cub->player.ray_angle = cub->player.player_angle - (FOV / 2);
 	cub->player.ray_angle = normalize_angle(cub->player.ray_angle);
 	cub->player.angle_step = FOV / window_width;
-	end_angle = cub->player.player_angle + (FOV / 2);
+	// end_angle = cub->player.player_angle + (FOV / 2);
 	
-	while (ray_count < window_width)
-    check_dir(cub);
+	while (ray_count <= window_width)
 	{
-        if (ray_count < 3)
-        {
-            printf("\n=== RAY #%d ===\n", ray_count);
-            printf("Angle: %.4f (%.2f°) | Dir: %s %s\n", 
-                   cub->player.ray_angle, cub->player.ray_angle * 180.0 / M_PI,
-                   cub->game->face_up_down == UP ? "UP" : "DOWN",
-                   cub->game->face_right_left == RIGHT ? "RIGHT" : "LEFT");
-        }
-        
+        check_dir(cub);
+        // if (ray_count < 3)
+        // {
+        //     printf("\n=== RAY #%d ===\n", ray_count);
+        //     printf("Angle: %.4f (%.2f°) | Dir: %s %s\n", 
+        //            cub->player.ray_angle, cub->player.ray_angle * 180.0 / M_PI,
+        //            cub->game->face_up_down == UP ? "UP" : "DOWN",
+        //            cub->game->face_right_left == RIGHT ? "RIGHT" : "LEFT");
+        // }
 		horizontal(cub);
 		vertical(cub);
 		find_distance(cub);
-        
         if (ray_count % 32 == 0)
-            draw_line(cub, cub->player.x + 6, cub->player.y + 6, 
-                     cub->player.wall_hz_inter_x, cub->player.wall_hz_inter_y, 0xFFFF00);
-		
+            draw_line(cub, cub->player.x + 6, cub->player.y + 6, cub->player.wall_hz_inter_x, cub->player.wall_hz_inter_y, 0xFFFF00);		
         if (ray_count < 3)
         {
             printf("  FINAL: Distance=%.2f to (%.2f, %.2f)\n", 
@@ -306,5 +299,5 @@ void    ray_casting(t_cub *cub)
 	}
 	
 	printf("\nTotal rays: %d\n", ray_count);
-	printf("=== RAY CASTING END ===\n\n");
+	printf("=== RAY CASTING END ===\n\n"); // normilase angle , x and y , the ax - px or reverse 
 }
