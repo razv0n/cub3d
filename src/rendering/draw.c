@@ -66,51 +66,61 @@ void draw_sq(t_cub *cub, int x, int y,int color)
 	}
 }
 
-void    horizontal(t_cub *cub)
+static double	safe_tan(double angle)
 {
-    double  x_inter;
-    double  y_inter;
-    double  x_step;
-    double  y_step;
-    double  op;
-    
-    y_inter = floor(cub->player.y / TILE) * TILE;
-    op = 1;
-	if(cub->game->face_up_down == DOWN)
-    {
-        y_inter += TILE;
-        op = -1;
-    }
-    op =  op * (y_inter - cub->player.y);
-    x_inter =  cub->player.x + (op / tan(cub->player.ray_angle));
-    y_step = TILE;
-    if (cub->game->face_up_down == UP)
-        y_step = -TILE;
-    x_step = y_step / tan(cub->player.ray_angle);
-    if ((cub->game->face_right_left == RIGHT && x_step < 0) || (cub->game->face_right_left == LEFT && x_step > 0))
-        x_step = -x_step;
-    
-    // DEBUG: Initial intersection
-    printf("  H-RAY: start=(%.2f, %.2f) step=(%.2f, %.2f)\n", 
-           x_inter, y_inter, x_step, y_step);
-    
-    int steps = 0;
-    while (is_walkable(cub, x_inter, y_inter + (cub->game->face_up_down == UP ? -0.1 : 0.1)))
-    {
-        x_inter += x_step;
-        y_inter += y_step;
-        steps++;
-        
-        // DEBUG: Show every step
-        if (steps <= 3) // Only first 3 steps to avoid spam
-            printf("    H-step %d: (%.2f, %.2f) grid=(%d,%d)\n", 
-                   steps, x_inter, y_inter, 
-                   (int)(x_inter/TILE), (int)(y_inter/TILE));
-    }
-    printf("  H-HIT: (%.2f, %.2f) after %d steps\n", x_inter, y_inter, steps);
-    
-    cub->player.wall_hz_inter_x = x_inter;
-    cub->player.wall_hz_inter_y = y_inter;
+	double	t;
+
+	t = tan(angle);
+	if (fabs(t) < 1e-6)
+	{
+		if (t < 0)
+			t = -1e-6;
+		else
+			t = 1e-6;
+	}
+	return (t);
+}
+
+void	horizontal(t_cub *cub)
+{
+	double	tan_a;
+	double	y_inter;
+	double	x_inter;
+	double	y_step;
+	double	x_step;
+	double	x;
+	double	y;
+	double	check_y;
+
+	tan_a = safe_tan(cub->player.ray_angle);
+	y_inter = floor(cub->player.y / TILE) * TILE;
+	if (cub->game->face_up_down == DOWN)
+		y_inter += TILE;
+	x_inter = cub->player.x + (y_inter - cub->player.y) / tan_a;
+	if (cub->game->face_up_down == DOWN)
+		y_step = TILE;
+	else
+		y_step = -TILE;
+	x_step = y_step / tan_a;
+	if (cub->game->face_right_left == LEFT && x_step > 0)
+		x_step *= -1;
+	if (cub->game->face_right_left == RIGHT && x_step < 0)
+		x_step *= -1;
+	x = x_inter;
+	y = y_inter;
+	while (1)
+	{
+		if (cub->game->face_up_down == UP)
+			check_y = y - 0.1;
+		else
+			check_y = y + 0.1;
+		if (!is_walkable(cub, x, check_y))
+			break ;
+		x += x_step;
+		y += y_step;
+	}
+	cub->player.wall_hz_inter_x = x;
+	cub->player.wall_hz_inter_y = y;
 }
 
 void draw_line(t_cub *cub, int x0, int y0, int x1, int y1, int color)
@@ -140,59 +150,56 @@ void draw_line(t_cub *cub, int x0, int y0, int x1, int y1, int color)
     }
 }
 
-void    vertical(t_cub *cub)
-{
-    double  x_inter;
-    double  y_inter;
-    double  x_step;
-    double  y_step;
-    double  ag;
 
-    ag = 1;
-    x_inter = floor(cub->player.x / TILE) * TILE;
-	if(cub->game->face_right_left == RIGHT)
-    {
-        x_inter += TILE;
-        ag = -1;
-    }
-    printf("the player is at x=%.2f y=%.2f  %c \n", cub->player.x, cub->player.y, cub->map[(int)(cub->player.y / TILE)][(int)(cub->player.x / TILE)]);
-    ag = ag * (x_inter - cub->player.x);
-    y_inter = cub->player.y + (tan(cub->player.ray_angle) * ag);
-    x_step = TILE;
-    if (cub->game->face_right_left == LEFT)
-        x_step = -TILE;
-    y_step = tan(cub->player.ray_angle) * x_step;
-    if ((cub->game->face_up_down == DOWN && y_step < 0) || (cub->game->face_up_down == UP && y_step > 0))
-        y_step = -y_step;
-    
-    // DEBUG: Initial intersection
-    // printf("  V-RAY: start=(%.2f, %.2f) step=(%.2f, %.2f)\n", 
-        //    x_inter, y_inter, x_step, y_step);
-    
-    // int steps = 0;
-    while (is_walkable(cub, x_inter + (cub->game->face_right_left == LEFT ? -0.1 : 0.1), y_inter))
-    {
-        x_inter += x_step;
-        y_inter += y_step;
-        // steps++;
-        
-        // DEBUG: Show every step
-        // if (steps <= 3) // Only first 3 steps
-            // printf("    V-step %d: (%.2f, %.2f) grid=(%d,%d)\n", 
-                //    steps, x_inter, y_inter, 
-                //    (int)(x_inter/TILE), (int)(y_inter/TILE));
-    }
-    // printf("  V-HIT: (%.2f, %.2f) after %d steps\n", x_inter, y_inter, steps);
-    
-    cub->player.wall_vr_inter_y = y_inter;
-    cub->player.wall_vr_inter_x = x_inter;
+void	vertical(t_cub *cub)
+{
+	double	tan_a;
+	double	x_inter;
+	double	y_inter;
+	double	x_step;
+	double	y_step;
+	double	x;
+	double	y;
+	double	check_x;
+
+	tan_a = safe_tan(cub->player.ray_angle);
+	x_inter = floor(cub->player.x / TILE) * TILE;
+	if (cub->game->face_right_left == RIGHT)
+		x_inter += TILE;
+	y_inter = cub->player.y + (x_inter - cub->player.x) * tan_a;
+	if (cub->game->face_right_left == RIGHT)
+		x_step = TILE;
+	else
+		x_step = -TILE;
+	y_step = x_step * tan_a;
+	if (cub->game->face_up_down == UP && y_step > 0)
+		y_step *= -1;
+	if (cub->game->face_up_down == DOWN && y_step < 0)
+		y_step *= -1;
+	x = x_inter;
+	y = y_inter;
+	while (1)
+	{
+		if (cub->game->face_right_left == LEFT)
+			check_x = x - 0.1;
+		else
+			check_x = x + 0.1;
+		if (!is_walkable(cub, check_x, y))
+			break ;
+		x += x_step;
+		y += y_step;
+	}
+	cub->player.wall_vr_inter_x = x;
+	cub->player.wall_vr_inter_y = y;
 }
 
 float calc_dist(float x1, float y1, float x2, float y2)
 {
 	return (sqrtf((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
 }
+
 void    ray_casting(t_cub *cub);
+
 void draw_map(t_cub *cub)
 {
     int y = 0;
@@ -284,7 +291,7 @@ void    ray_casting(t_cub *cub)
 		vertical(cub);
 		find_distance(cub);
         if (ray_count % 32 == 0)
-            draw_line(cub, cub->player.x + 6, cub->player.y + 6, cub->player.wall_hz_inter_x, cub->player.wall_hz_inter_y, 0xFFFF00);		
+            draw_line(cub, (int)(cub->player.x + 6), (int)(cub->player.y + 6), (int)cub->player.wall_hz_inter_x, (int)cub->player.wall_hz_inter_y, 0xFFFF00);	
         if (ray_count < 3)
         {
             printf("  FINAL: Distance=%.2f to (%.2f, %.2f)\n", 
