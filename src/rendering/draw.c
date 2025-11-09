@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/09 01:13:19 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/09 21:03:56 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,9 @@ void	horizontal(t_cub *cub)
 	while (1)
 	{
 		if (cub->game->face_up_down == UP)
-			check_y = y - 0.1;
+			check_y = y - 0.01;
 		else
-			check_y = y + 0.1;
+			check_y = y + 0.01;
 		if (!is_walkable(cub, x, check_y))
 			break ;
 		x += x_step;
@@ -148,7 +148,7 @@ void    vertical(t_cub *cub)
     y_step = tan(cub->player.ray_angle) * x_step;
     if ((cub->game->face_up_down == DOWN && y_step < 0) || (cub->game->face_up_down == UP && y_step > 0))
         y_step = -y_step;
-    while (is_walkable(cub, x_inter + (cub->game->face_right_left == LEFT ? -0.1 : 0.1), y_inter))
+    while (is_walkable(cub, x_inter + (cub->game->face_right_left == LEFT ? -0.01 : 0.01), y_inter))
     {
         x_inter += x_step;
         y_inter += y_step;
@@ -188,12 +188,16 @@ void   find_distance(t_cub *cub)
 	dist_h = calc_dist(cub->player.x, cub->player.y, cub->player.wall_hz_inter_x, cub->player.wall_hz_inter_y);
 	dist_v = calc_dist(cub->player.x, cub->player.y, cub->player.wall_vr_inter_x, cub->player.wall_vr_inter_y);
 	if (dist_h < dist_v)
+    {
 		cub->player.res_dist = dist_h;
+        cub->player.is_hr = true;
+    }
 	else
     {
         cub->player.wall_hz_inter_x = cub->player.wall_vr_inter_x;
         cub->player.wall_hz_inter_y = cub->player.wall_vr_inter_y;
 		cub->player.res_dist = dist_v;
+        cub->player.is_hr = false;
     }
 }
 
@@ -231,10 +235,12 @@ void draw_wall_line(t_cub *cub, int ray_id, int color)
     wall_top = (window_height / 2) - (wall_height / 2);
     wall_bottom = (window_height / 2) + (wall_height / 2);
     // i should put it in function 
-    double shade = 1.0 - (cub->player.res_dist / 1000.0);
-    unsigned char r = ((color >> 16) & 0xFF) * shade;
+    double shade = 1.0 - (cub->player.res_dist / 1500.0);
+    if (cub->player.is_hr)
+        shade *= 0.5;    
     unsigned char g = ((color >> 8) & 0xFF) * shade;
     unsigned char b = (color & 0xFF) * shade;
+    unsigned char r = ((color >> 16) & 0xFF) * shade;
 
 color = (r << 16) | (g << 8) | b;
 
