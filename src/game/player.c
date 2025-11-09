@@ -169,19 +169,18 @@ int handle_key(int keycode, t_cub *cub)
         rotate_right(cub);
     else if (keycode == KEY_ESC)
         ft_free_all();
-    
-    mlx_clear_window(cub->game->mlx, cub->game->win);
-    draw_map(cub);
-    mlx_put_image_to_window(cub->game->mlx, cub->game->win, cub->game->img, 0, 0);
+    // while(1); 
+    // mlx_clear_window(cub->game->mlx, cub->game->win);
+    // mlx_clear_window(cub->game->mlx, cub->game->win);
+    // mlx_destroy_image(cub->game->mlx, cub->game->img);
+    // ray_casting(cub);
+    // mlx_put_image_to_window(cub->game->mlx, cub->game->win, cub->game->img, 0, 0);
+    // mlx_destroy_window(cub->game->mlx, cub->game->win);
     return (0);
 }
 
 double normalize_angle(double angle)
 {
-    // angle = fmod(angle, 2 * M_PI);
-    // if (angle < 0)
-    //     angle += 2 * M_PI;
-    // return (angle);
     if (angle < 0)
         angle += 2 * M_PI;
     if (angle >= 2 * M_PI)

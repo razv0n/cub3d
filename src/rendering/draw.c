@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/06 16:54:40 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/09 01:13:19 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,24 +66,34 @@ void draw_sq(t_cub *cub, int x, int y,int color)
 	}
 }
 
-static double	safe_tan(double angle)
+void draw_line(t_cub *cub, int x0, int y0, int x1, int y1, int color)
 {
-	double	t;
+    int dx = abs(x1 - x0);
+    int sx = x0 < x1 ? 1 : -1;
+    int dy = -abs(y1 - y0);
+    int sy = y0 < y1 ? 1 : -1;
+    int err = dx + dy;
 
-	t = tan(angle);
-	if (fabs(t) < 1e-6)
-	{
-		if (t < 0)
-			t = -1e-6;
-		else
-			t = 1e-6;
-	}
-	return (t);
+    while (1)
+    {
+        put_pixel(cub, x0, y0, color);
+        if (x0 == x1 && y0 == y1)
+            break;
+        int e2 = 2 * err;
+        if (e2 >= dy)
+        {
+            err += dy;
+            x0 += sx;
+        }
+        if (e2 <= dx)
+        {
+            err += dx;
+            y0 += sy;
+        }
+    }
 }
-
 void	horizontal(t_cub *cub)
 {
-	double	tan_a;
 	double	y_inter;
 	double	x_inter;
 	double	y_step;
@@ -92,16 +102,15 @@ void	horizontal(t_cub *cub)
 	double	y;
 	double	check_y;
 
-	tan_a = safe_tan(cub->player.ray_angle);
 	y_inter = floor(cub->player.y / TILE) * TILE;
 	if (cub->game->face_up_down == DOWN)
 		y_inter += TILE;
-	x_inter = cub->player.x + (y_inter - cub->player.y) / tan_a;
+	x_inter = cub->player.x + (y_inter - cub->player.y) / tan(cub->player.ray_angle);
 	if (cub->game->face_up_down == DOWN)
 		y_step = TILE;
 	else
 		y_step = -TILE;
-	x_step = y_step / tan_a;
+	x_step = y_step /  tan(cub->player.ray_angle);
 	if (cub->game->face_right_left == LEFT && x_step > 0)
 		x_step *= -1;
 	if (cub->game->face_right_left == RIGHT && x_step < 0)
@@ -122,75 +131,30 @@ void	horizontal(t_cub *cub)
 	cub->player.wall_hz_inter_x = x;
 	cub->player.wall_hz_inter_y = y;
 }
-
-void draw_line(t_cub *cub, int x0, int y0, int x1, int y1, int color)
+void    vertical(t_cub *cub)
 {
-    int dx = abs(x1 - x0);
-    int sx = x0 < x1 ? 1 : -1;
-    int dy = -abs(y1 - y0);
-    int sy = y0 < y1 ? 1 : -1;
-    int err = dx + dy; // error value e_xy /
-
-    while (1)
+    double  x_inter;
+    double  y_inter;
+    double  x_step;
+    double  y_step;
+    
+    x_inter = floor(cub->player.x / TILE) * TILE;
+	if(cub->game->face_right_left == RIGHT)
+        x_inter += TILE;
+    y_inter = cub->player.y + (tan(cub->player.ray_angle) * (x_inter - cub->player.x));
+    x_step = TILE;
+    if (cub->game->face_right_left == LEFT)
+        x_step = -TILE;
+    y_step = tan(cub->player.ray_angle) * x_step;
+    if ((cub->game->face_up_down == DOWN && y_step < 0) || (cub->game->face_up_down == UP && y_step > 0))
+        y_step = -y_step;
+    while (is_walkable(cub, x_inter + (cub->game->face_right_left == LEFT ? -0.1 : 0.1), y_inter))
     {
-        put_pixel(cub, x0, y0, color);
-        if (x0 == x1 && y0 == y1)
-            break;
-        int e2 = 2 * err;
-        if (e2 >= dy)
-        {
-            err += dy;
-            x0 += sx;
-        }
-        if (e2 <= dx)
-        {
-            err += dx;
-            y0 += sy;
-        }
+        x_inter += x_step;
+        y_inter += y_step;
     }
-}
-
-
-void	vertical(t_cub *cub)
-{
-	double	tan_a;
-	double	x_inter;
-	double	y_inter;
-	double	x_step;
-	double	y_step;
-	double	x;
-	double	y;
-	double	check_x;
-
-	tan_a = safe_tan(cub->player.ray_angle);
-	x_inter = floor(cub->player.x / TILE) * TILE;
-	if (cub->game->face_right_left == RIGHT)
-		x_inter += TILE;
-	y_inter = cub->player.y + (x_inter - cub->player.x) * tan_a;
-	if (cub->game->face_right_left == RIGHT)
-		x_step = TILE;
-	else
-		x_step = -TILE;
-	y_step = x_step * tan_a;
-	if (cub->game->face_up_down == UP && y_step > 0)
-		y_step *= -1;
-	if (cub->game->face_up_down == DOWN && y_step < 0)
-		y_step *= -1;
-	x = x_inter;
-	y = y_inter;
-	while (1)
-	{
-		if (cub->game->face_right_left == LEFT)
-			check_x = x - 0.1;
-		else
-			check_x = x + 0.1;
-		if (!is_walkable(cub, check_x, y))
-			break ;
-		x += x_step;
-		y += y_step;
-	}
-	cub->player.wall_vr_inter_x = x;
-	cub->player.wall_vr_inter_y = y;
+    cub->player.wall_vr_inter_y = y_inter;
+    cub->player.wall_vr_inter_x = x_inter;
 }
 
 float calc_dist(float x1, float y1, float x2, float y2)
@@ -199,33 +163,22 @@ float calc_dist(float x1, float y1, float x2, float y2)
 }
 
 void    ray_casting(t_cub *cub);
-
-void draw_map(t_cub *cub)
-{
-    int y = 0;
+// void draw_map(t_cub *cub)
+// {
+//     int x;
+//     double d_prj_plane;
+//     double haight_wall;
     
-    static int debug_once = 0;
-    if (!debug_once)
-    {
-        debug_full_game(cub);
-        debug_once = 1;
-    }
-    while (cub->map[y])
-    {
-        int x = 0;
-        while (x < cub->game->width)
-        {
-            if ((x >= (int)ft_strlen(cub->map[y]) && x < cub->game->width) || cub->map[y][x] == '1')
-            	draw_sq(cub, x, y, 0x00FFF0);
-            else if (cub->map[y][x] == '0' || cub->map[y][x] == cub->config.position_player)
-            	draw_sq(cub, x, y , 0x000F00);
-            x++;
-        }
-        y++;
-    }
-    ray_casting(cub);
-    draw_player(cub, cub->player.x, cub->player.y, 0x00FF00);
-}
+//     while (x < (cub->game->width * TILE))
+//     {
+//         d_prj_plane = (cub->game->width / 2.0) / tan(FOV / 2.0);
+//         haight_wall = (TILE / cub->player.res_dist) * d_prj_plane;
+        
+//         x++;
+//     }
+//     // ray_casting(cub); 
+//     draw_player(cub, cub->player.x, cub->player.y, 0x00FF00);
+// }
 
 void   find_distance(t_cub *cub)
 {
@@ -259,52 +212,93 @@ void    check_dir(t_cub *cub)
         cub->game->face_right_left = RIGHT;
 }
 
+void draw_wall_line(t_cub *cub, int ray_id, int color)
+{
+    int wall_height;
+    int wall_top;
+    int wall_bottom;
+    double proj_plane_dist;
+    int window_height;
+    int window_width;
+    double dist_ray;
+    int y;
+
+    dist_ray = cos(cub->player.ray_angle - cub->player.player_angle) * cub->player.res_dist;
+    window_height = cub->game->height * TILE;
+    window_width = cub->game->width * TILE;
+    proj_plane_dist = (window_width / 2.0) / tan(FOV / 2.0);
+    wall_height = (int)((TILE / dist_ray) * proj_plane_dist);
+    wall_top = (window_height / 2) - (wall_height / 2);
+    wall_bottom = (window_height / 2) + (wall_height / 2);
+    // i should put it in function 
+    double shade = 1.0 - (cub->player.res_dist / 1000.0);
+    unsigned char r = ((color >> 16) & 0xFF) * shade;
+    unsigned char g = ((color >> 8) & 0xFF) * shade;
+    unsigned char b = (color & 0xFF) * shade;
+
+color = (r << 16) | (g << 8) | b;
+
+    y = 0;
+    if (wall_top < 0 || wall_bottom < 0)
+        wall_top = 0;
+    if (wall_bottom > window_height || wall_bottom < 0)
+        wall_bottom = window_height;
+    // printf("wall_top %d and wall_bottom: , %d\n", wall_top, wall_bottom);
+    while (y < wall_top && y < window_height)
+    {
+        put_pixel(cub, ray_id, y, cub->config.ceiling_color);
+        y++;
+    }
+    y = wall_top;
+    while (y < wall_bottom && y < window_height)
+    {
+        put_pixel(cub, ray_id, y, color);
+        y++;
+    }
+    
+    while (y < window_height)
+    {
+        put_pixel(cub, ray_id, y, cub->config.floor_color);
+        y++;
+    }
+}
+
+void clear_image(t_cub *cub)
+{
+    int i;
+    int total_pixels;
+    
+    total_pixels = (cub->game->width * TILE) * (cub->game->height * TILE);
+    i = 0;
+    while (i < total_pixels)
+    {
+        *((unsigned int *)cub->game->img_data + i) = 0x000000;
+        i++;
+    }
+}
+
 void    ray_casting(t_cub *cub)
 {
-	int ray_count = 0;
+    int ray_count;
 	int window_width;
-	
+
+    clear_image(cub);
+    ray_count = 0;
 	window_width = cub->game->width * TILE;
-	
-	// printf("\n=== RAY CASTING START ===\n");
-	// printf("Player Position: (%.2f, %.2f) Grid: (%d, %d)\n", 
-	//        cub->player.x, cub->player.y,
-	//        (int)(cub->player.x / TILE), (int)(cub->player.y / TILE));
-	// printf("Player Angle: %.4f (%.2f°)\n", cub->player.player_angle, cub->player.player_angle * 180.0 / M_PI);
 	cub->player.ray_angle = cub->player.player_angle - (FOV / 2);
 	cub->player.ray_angle = normalize_angle(cub->player.ray_angle);
 	cub->player.angle_step = FOV / window_width;
-	// end_angle = cub->player.player_angle + (FOV / 2);
 	
-	while (ray_count <= window_width)
+	while (ray_count < window_width)
 	{
         check_dir(cub);
-        // if (ray_count < 3)
-        // {
-        //     printf("\n=== RAY #%d ===\n", ray_count);
-        //     printf("Angle: %.4f (%.2f°) | Dir: %s %s\n", 
-        //            cub->player.ray_angle, cub->player.ray_angle * 180.0 / M_PI,
-        //            cub->game->face_up_down == UP ? "UP" : "DOWN",
-        //            cub->game->face_right_left == RIGHT ? "RIGHT" : "LEFT");
-        // }
 		horizontal(cub);
 		vertical(cub);
 		find_distance(cub);
-        if (ray_count % 32 == 0)
-            draw_line(cub, (int)(cub->player.x + 6), (int)(cub->player.y + 6), (int)cub->player.wall_hz_inter_x, (int)cub->player.wall_hz_inter_y, 0xFFFF00);	
-        if (ray_count < 3)
-        {
-            printf("  FINAL: Distance=%.2f to (%.2f, %.2f)\n", 
-                   cub->player.res_dist, 
-                   cub->player.wall_hz_inter_x, 
-                   cub->player.wall_hz_inter_y);
-        }
-        
+        draw_wall_line(cub, ray_count, 0xFFFF00);
 		cub->player.ray_angle += cub->player.angle_step;
 		cub->player.ray_angle = normalize_angle(cub->player.ray_angle);
 		ray_count++;
 	}
-	
-	printf("\nTotal rays: %d\n", ray_count);
-	printf("=== RAY CASTING END ===\n\n"); // normilase angle , x and y , the ax - px or reverse 
+    mlx_put_image_to_window(cub->game->mlx, cub->game->win, cub->game->img, 0, 0);
 }
