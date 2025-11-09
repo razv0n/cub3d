@@ -3,8 +3,8 @@
 
 # include "./libft/libft.h"
 # include "./get_next_line/get_next_line.h"
-//#include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
- #include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
+#include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
+//  #include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
 // #include "/Users/macbook/Downloads/minilibx/mlx.h"
 #include <unistd.h>
 #include <stdlib.h>
@@ -126,21 +126,5 @@ float calc_dist(float x1, float y1, float x2, float y2);
 void    ray_casting(t_cub *cub);
 
 // double calc_dist(double x1, double y1, double x2, double y2);
-
-
-
-
-
-
-void debug_player_info(t_cub *cub);
-void debug_ray_info(t_cub *cub);
-void debug_direction_info(t_cub *cub);
-void debug_map_info(t_cub *cub);
-// void debug_config_info(t_cub *cub);
-void debug_game_state(t_cub *cub);
-void debug_wall_check(t_cub *cub, double x, double y);
-void debug_distance_calculation(t_cub *cub);
-void debug_full_game(t_cub *cub);
-void debug_ray_step(t_cub *cub, int ray_number);
 
 #endif

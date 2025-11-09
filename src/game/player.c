@@ -182,7 +182,7 @@ int handle_key(int keycode, t_cub *cub)
     // mlx_clear_window(cub->game->mlx, cub->game->win);
     // mlx_clear_window(cub->game->mlx, cub->game->win);
     // mlx_destroy_image(cub->game->mlx, cub->game->img);
-    // ray_casting(cub);
+    ray_casting(cub);
     // mlx_put_image_to_window(cub->game->mlx, cub->game->win, cub->game->img, 0, 0);
     // mlx_destroy_window(cub->game->mlx, cub->game->win);
     return (0);
