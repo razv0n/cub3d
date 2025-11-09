@@ -51,13 +51,11 @@ void	check_element(t_cub *cub)
 {
 	int i;
 	int j;
-	// int length_row;
 
 	i = 0;
 	while(cub->map[i])
 	{
 		j = 0;
-		// length_row = ft_strlen(cub->map[i]);
 		while(cub->map[i][j])
 		{
 			if (cub->game->width <= j)

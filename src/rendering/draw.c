@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/09 21:03:56 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/09 21:37:53 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,6 @@ color = (r << 16) | (g << 8) | b;
         wall_top = 0;
     if (wall_bottom > window_height || wall_bottom < 0)
         wall_bottom = window_height;
-    // printf("wall_top %d and wall_bottom: , %d\n", wall_top, wall_bottom);
     while (y < wall_top && y < window_height)
     {
         put_pixel(cub, ray_id, y, cub->config.ceiling_color);
