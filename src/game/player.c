@@ -141,16 +141,25 @@ static void set_player_direction(t_cub *cub)
     }
 }
 
+
+static void update_player_dir(t_cub *cub)
+{
+    cub->player.dir_x = cos(cub->player.player_angle);
+    cub->player.dir_y = sin(cub->player.player_angle);
+}
+
 void rotate_left(t_cub *cub)
 {
     cub->player.player_angle -= cub->player.rot_speed;
     cub->player.player_angle = normalize_angle(cub->player.player_angle);
+    update_player_dir(cub);
 }
 
 void rotate_right(t_cub *cub)
 {
     cub->player.player_angle += cub->player.rot_speed;
     cub->player.player_angle = normalize_angle(cub->player.player_angle);
+    update_player_dir(cub);
 }
 
 int handle_key(int keycode, t_cub *cub)

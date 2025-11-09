@@ -3,8 +3,8 @@
 
 # include "./libft/libft.h"
 # include "./get_next_line/get_next_line.h"
-#include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
-// #include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
+//#include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
+ #include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
 // #include "/Users/macbook/Downloads/minilibx/mlx.h"
 #include <unistd.h>
 #include <stdlib.h>
@@ -17,9 +17,9 @@
 # define FOV 60 * (M_PI / 180)
 #define KEY_ESC 65307
 #define KEY_W 119
-#define KEY_A 97
+#define KEY_A 100
 #define KEY_S 115
-#define KEY_D 100
+#define KEY_D  97
 #define KEY_LEFT 65361
 #define KEY_RIGHT 65363
 
