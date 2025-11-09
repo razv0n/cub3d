@@ -58,6 +58,7 @@ typedef struct s_player {
     double  res_dist;
     double  dir_y;
     double  plane_x;
+    bool    is_hr;
     double  plane_y;
     double  move_speed;
     double  rot_speed;
