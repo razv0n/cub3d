@@ -43,6 +43,17 @@ typedef struct s_config {
     char position_player;
 } t_config;
 
+
+typedef struct s_texture {
+    void    *img;
+    char    *img_add;
+    int     bpp;
+    int     size_line;
+    int     endian;
+    double  width;
+    double  height;
+} t_texture;
+
 typedef struct s_player {
     double  x;
     double  y;
@@ -73,6 +84,7 @@ typedef struct s_cub {
     int         first_index_map;
     t_player        player;
     t_game      *game;
+    t_texture      texture[4];
 } t_cub;
 
 typedef struct s_game{
