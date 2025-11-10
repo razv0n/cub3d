@@ -9,12 +9,6 @@ bool is_walkable(t_cub *cub, double x_p, double y_p)
     
     x = x_p / TILE; 
     y = y_p / TILE;
-    
-    // DEBUG: Show what we're checking
-    // printf("    is_walkable(%.2f, %.2f) -> grid(%d,%d) = '%c'\n", 
-    //        x_p, y_p, x, y, 
-    //        (y >= 0 && x >= 0 && y < cub->game->height && x < cub->game->width && cub->map[y] && cub->map[y][x]) ? cub->map[y][x] : '?');
-    
     if (y < 0 || x < 0 || y >= cub->game->height || x >= cub->game->width)
         return (0);
     if (!cub->map[y] || !cub->map[y][x])
@@ -59,7 +53,14 @@ void move_forward(t_cub *cub)
         cub->player.y = next_y;
     }
 }
-
+void rotate_right(t_cub *cub)
+{
+    cub->player.player_angle += cub->player.rot_speed;
+    cub->player.player_angle = normalize_angle(cub->player.player_angle);
+    update_player_dir(cub);
+}
+// void move_forward(t_cub *cub)
+// void move_forward(t_cub *cub)
 void move_backward(t_cub *cub)
 {
     double next_x;
@@ -81,19 +82,19 @@ void move_backward(t_cub *cub)
         cub->player.y = next_y;
 }
 
-void move_left(t_cub *cub)
-{
-    double next_x;
-    double next_y;
+// void move_forward(t_cub *cub)
+// {
+//     double next_x;
+//     double next_y;
 
-    next_x = cub->player.x - cub->player.dir_y * cub->player.move_speed;
-    next_y = cub->player.y + cub->player.dir_x * cub->player.move_speed;
-    if (is_walkable(cub, next_x, next_y))
-    {
-        cub->player.x = next_x;
-        cub->player.y = next_y;
-    }
-}
+//     next_x = cub->player.x - cub->player.dir_y * cub->player.move_speed;
+//     next_y = cub->player.y + cub->player.dir_x * cub->player.move_speed;
+//     if (is_walkable(cub, next_x, next_y))
+//     {
+//         cub->player.x = next_x;
+//         cub->player.y = next_y;
+//     }
+// }
 
 void move_right(t_cub *cub)
 {
@@ -107,6 +108,21 @@ void move_right(t_cub *cub)
     {
         cub->player.x = next_x;
         cub->player.y = next_y;
+    }
+}
+static void c_set_player_direction(t_cub *cub, char dir)
+{
+    if (dir == 'E')
+    {
+        cub->player.dir_x = 1;
+        cub->player.dir_y = 0;
+        cub->player.player_angle = 0;
+    }
+    else if (dir == 'W')
+    {
+        cub->player.dir_x = -1;
+        cub->player.dir_y = 0;
+        cub->player.player_angle = M_PI;
     }
 }
 
@@ -127,22 +143,11 @@ static void set_player_direction(t_cub *cub)
         cub->player.dir_y = 1;
         cub->player.player_angle = M_PI / 2;
     }
-    else if (dir == 'E')
-    {
-        cub->player.dir_x = 1;
-        cub->player.dir_y = 0;
-        cub->player.player_angle = 0;
-    }
-    else if (dir == 'W')
-    {
-        cub->player.dir_x = -1;
-        cub->player.dir_y = 0;
-        cub->player.player_angle = M_PI;
-    }
+   c_set_player_direction(cub, dir);
 }
 
 
-static void update_player_dir(t_cub *cub)
+ void update_player_dir(t_cub *cub)
 {
     cub->player.dir_x = cos(cub->player.player_angle);
     cub->player.dir_y = sin(cub->player.player_angle);
@@ -155,39 +160,20 @@ void rotate_left(t_cub *cub)
     update_player_dir(cub);
 }
 
-void rotate_right(t_cub *cub)
+void move_left(t_cub *cub)
 {
-    cub->player.player_angle += cub->player.rot_speed;
-    cub->player.player_angle = normalize_angle(cub->player.player_angle);
-    update_player_dir(cub);
-}
+    double next_x;
+    double next_y;
 
-int handle_key(int keycode, t_cub *cub)
-{
-    if (keycode == KEY_W)
-        move_forward(cub);
-    else if (keycode == KEY_S)
-        move_backward(cub);
-    else if (keycode == KEY_A)
-        move_left(cub);
-    else if (keycode == KEY_D)
-        move_right(cub);
-    else if (keycode == KEY_LEFT)
-        rotate_left(cub);
-    else if (keycode == KEY_RIGHT)
-        rotate_right(cub);
-    else if (keycode == KEY_ESC)
-        ft_free_all();
-    // while(1); 
-    // mlx_clear_window(cub->game->mlx, cub->game->win);
-    // mlx_clear_window(cub->game->mlx, cub->game->win);
-    // mlx_destroy_image(cub->game->mlx, cub->game->img);
-    ray_casting(cub);
-    // mlx_put_image_to_window(cub->game->mlx, cub->game->win, cub->game->img, 0, 0);
-    // mlx_destroy_window(cub->game->mlx, cub->game->win);
-    return (0);
+    next_x = cub->player.x - cub->player.dir_y * cub->player.move_speed;
+    next_y = cub->player.y + cub->player.dir_x * cub->player.move_speed;
+    if (is_walkable(cub, next_x, next_y))
+    {
+        cub->player.x = next_x;
+        cub->player.y = next_y;
+    }
 }
-
+ // dont put it in this file
 double normalize_angle(double angle)
 {
     if (angle < 0)

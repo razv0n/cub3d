@@ -124,7 +124,13 @@ double  normalize_angle(double angle);
 // void draw_map(t_cub *cub);
 float calc_dist(float x1, float y1, float x2, float y2);
 void    ray_casting(t_cub *cub);
-
+void move_backward(t_cub *cub);
+void move_forward(t_cub *cub);
+void move_left(t_cub *cub);
+ void update_player_dir(t_cub *cub);
+void move_right(t_cub *cub);
+void rotate_left(t_cub *cub);
+void rotate_right(t_cub *cub);
 // double calc_dist(double x1, double y1, double x2, double y2);
 
 #endif
