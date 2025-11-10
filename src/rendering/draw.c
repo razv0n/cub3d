@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/10 19:55:48 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/10 22:57:17 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,9 +218,9 @@ void    check_dir(t_cub *cub)
 }
 void draw_texture(t_cub *cub, int ray_id, int wall_top, int wall_bottom)
 {
-    double tex_x;
+    int tex_x;
     int  y;
-    double tex_y;
+    int tex_y;
     int window_height;
     float wallx;
     t_texture texture;
@@ -236,21 +236,35 @@ void draw_texture(t_cub *cub, int ray_id, int wall_top, int wall_bottom)
         texture = cub->texture[2];
     else if (!cub->player.is_hr && cub->game->face_right_left == RIGHT)
         texture = cub->texture[3];
-    if (cub->player.is_hr)
-        wallx = cub->player.wall_hz_inter_x - floor(cub->player.wall_hz_inter_x);
+    if (!cub->player.is_hr)
+        wallx = cub->player.wall_vr_inter_y / TILE;
     else
-        wallx = cub->player.wall_hz_inter_y - floor(cub->player.wall_hz_inter_y);
-    tex_x = floor(wallx * texture.width);
+        wallx = cub->player.wall_hz_inter_x / TILE;
+    wallx -= floor(wallx);
+    tex_x = (int)(wallx * texture.width);
+    if (cub->player.is_hr && cub->game->face_right_left == RIGHT)
+        tex_x = texture.width - tex_x - 1;
+    if (!cub->player.is_hr && cub->game->face_up_down == UP)
+        tex_x = texture.width - tex_x - 1;
+    // for(int  i = 0 ; i < texture.height; i++)
+    // {
+        // for(int j =0 ; j < texture.width; j++)
+        // {
+            // printf("Pixel at (%d, %d) = 0x%x: ", j, i, texture.img_add[i * texture.width + j]);
+            // Get the color of the current pixel from the texture
+            // color = texture.img_add[i * texture.width + j];
+            // put_pixel(cub, ray_id, y + i, color);
+        // }
+    // }
+    // exit(1); 
     while (y < wall_bottom && y < window_height)
     {
-        tex_y = (int)((y - wall_top) * texture.height / cub->game->wall_height);
-        // printf("t_y = %f\n", tex_y);
-        if (tex_y < 0) tex_y = 0;
-        if (tex_y >= texture.height) tex_y = texture.height - 1;
-      color = *(int *)(texture.img_add + (int)((tex_y * texture.size_line + tex_x * (texture.bpp / 8))));
+        tex_y = (int)((y - wall_top) * ((double)texture.height / cub->game->wall_height));
+        color = texture.img_add[(tex_y * texture.width) + tex_x];
         put_pixel(cub, ray_id, y, color);
         y++;
     }
+    // exit(1);
 }
 void draw_wall_line(t_cub *cub, int ray_id, int color)
 {
@@ -281,10 +295,10 @@ void draw_wall_line(t_cub *cub, int ray_id, int color)
 color = (r << 16) | (g << 8) | b;
 
     y = 0;
-    if (wall_top < 0 || wall_bottom < 0)
-        wall_top = 0;
-    if (wall_bottom > window_height || wall_bottom < 0)
-        wall_bottom = window_height;
+    // if (wall_top < 0 || wall_bottom < 0)
+    //     wall_top = 0;
+    // if (wall_bottom > window_height || wall_bottom < 0)
+    //     wall_bottom = window_height;
     while (y < wall_top && y < window_height)
     {
         put_pixel(cub, ray_id, y, cub->config.ceiling_color);
@@ -297,7 +311,7 @@ color = (r << 16) | (g << 8) | b;
     //     put_pixel(cub, ray_id, y, color);
     //     y++;
     // }
-    
+    y = wall_bottom;
     while (y < window_height)
     {
         put_pixel(cub, ray_id, y, cub->config.floor_color);
