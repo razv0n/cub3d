@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/10 18:53:17 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/10 19:55:48 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,24 +216,18 @@ void    check_dir(t_cub *cub)
     else
         cub->game->face_right_left = RIGHT;
 }
-void draw_texture(t_cub *cub, int ray_id, int wall_top, int wall_bottom, int color)
+void draw_texture(t_cub *cub, int ray_id, int wall_top, int wall_bottom)
 {
     double tex_x;
+    int  y;
     double tex_y;
     int window_height;
     float wallx;
     t_texture texture;
+    int color;
 
+    y = wall_top;
     window_height = cub->game->height * TILE;
-    // if ()
-    cub->texture[0].img = mlx_xpm_file_to_image(cub->game->mlx, cub->config.no_texture, &cub->texture[0].width, &cub->texture[0].height);
-    cub->texture[1].img = mlx_xpm_file_to_image(cub->game->mlx, cub->config.so_texture, &cub->texture[1].width, &cub->texture[1].height);
-    cub->texture[2].img = mlx_xpm_file_to_image(cub->game->mlx, cub->config.we_texture, &cub->texture[2].width, &cub->texture[2].height);
-    cub->texture[3].img = mlx_xpm_file_to_image(cub->game->mlx, cub->config.ea_texture, &cub->texture[3].width, &cub->texture[3].height);
-    cub->texture[0].img_add = mlx_get_data_addr(cub->texture[0].img, &cub->texture[0].bpp, &cub->texture[0].line_length, &cub->texture[0].endian);
-    cub->texture[1].img_add = mlx_get_data_addr(cub->texture[1].img, &cub->texture[1].bpp, &cub->texture[1].line_length, &cub->texture[1].endian);
-    cub->texture[2].img_add = mlx_get_data_addr(cub->texture[2].img, &cub->texture[2].bpp, &cub->texture[2].line_length, &cub->texture[2].endian);
-    cub->texture[3].img_add = mlx_get_data_addr(cub->texture[3].img, &cub->texture[3].bpp, &cub->texture[3].line_length, &cub->texture[3].endian);
     if (cub->player.is_hr && cub->game->face_up_down == UP)
         texture = cub->texture[0];
     else if (cub->player.is_hr && cub->game->face_up_down == DOWN)
@@ -243,35 +237,39 @@ void draw_texture(t_cub *cub, int ray_id, int wall_top, int wall_bottom, int col
     else if (!cub->player.is_hr && cub->game->face_right_left == RIGHT)
         texture = cub->texture[3];
     if (cub->player.is_hr)
-        wallx = cub->player.wall_hz_inter_x * ;
+        wallx = cub->player.wall_hz_inter_x - floor(cub->player.wall_hz_inter_x);
     else
-        wallx = fmod(texture.width, TILE) / TILE;
-    tex_x = (int)(wallx * texture.width);
-    tex_y = (int)((wall_top - wall_bottom) * texture.height);
-    while (wall_top < wall_bottom && wall_top < window_height)
+        wallx = cub->player.wall_hz_inter_y - floor(cub->player.wall_hz_inter_y);
+    tex_x = floor(wallx * texture.width);
+    while (y < wall_bottom && y < window_height)
     {
-        // put_pixel(cub, ray_id, wall_top, color);
-        wall_top++;
+        tex_y = (int)((y - wall_top) * texture.height / cub->game->wall_height);
+        // printf("t_y = %f\n", tex_y);
+        if (tex_y < 0) tex_y = 0;
+        if (tex_y >= texture.height) tex_y = texture.height - 1;
+      color = *(int *)(texture.img_add + (int)((tex_y * texture.size_line + tex_x * (texture.bpp / 8))));
+        put_pixel(cub, ray_id, y, color);
+        y++;
     }
 }
 void draw_wall_line(t_cub *cub, int ray_id, int color)
 {
-    int wall_height;
+    // int wall_height;
     int wall_top;
     int wall_bottom;
     double proj_plane_dist;
     int window_height;
     int window_width;
-    double dist_ray;
+    // double dist_ray;
     int y;
 
-    dist_ray = cos(cub->player.ray_angle - cub->player.player_angle) * cub->player.res_dist;
+    cub->player.res_dist = cos(cub->player.ray_angle - cub->player.player_angle) * cub->player.res_dist;
     window_height = cub->game->height * TILE;
     window_width = cub->game->width * TILE;
     proj_plane_dist = (window_width / 2.0) / tan(FOV / 2.0);
-    wall_height = (int)((TILE / dist_ray) * proj_plane_dist);
-    wall_top = (window_height / 2) - (wall_height / 2);
-    wall_bottom = (window_height / 2) + (wall_height / 2);
+    cub->game->wall_height = (int)((TILE / cub->player.res_dist) * proj_plane_dist);
+    wall_top = (window_height / 2) - (cub->game->wall_height / 2);
+    wall_bottom = (window_height / 2) + (cub->game->wall_height / 2);
     // i should put it in function 
     double shade = 1.0 - (cub->player.res_dist / 1500.0);
     if (cub->player.is_hr)
@@ -292,7 +290,7 @@ color = (r << 16) | (g << 8) | b;
         put_pixel(cub, ray_id, y, cub->config.ceiling_color);
         y++;
     }
-    draw_texture(cub, ray_id, wall_top, wall_bottom, color);
+    draw_texture(cub, ray_id, wall_top, wall_bottom);
     // y = wall_top;
     // while (y < wall_bottom && y < window_height)
     // {
