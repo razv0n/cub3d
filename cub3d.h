@@ -50,8 +50,8 @@ typedef struct s_texture {
     int     bpp;
     int     size_line;
     int     endian;
-    double  width;
-    double  height;
+    int  width;
+    int  height;
 } t_texture;
 
 typedef struct s_player {
@@ -98,6 +98,7 @@ typedef struct s_game{
     e_direction   face_up_down;
     e_direction   face_right_left;
     int     size_line;
+    int wall_height;
     int     endian;
     int     keys[256];
 } t_game;

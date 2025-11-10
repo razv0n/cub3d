@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:06:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/09 21:41:41 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/10 19:47:05 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,18 @@ void count_map(t_cub *cub)
     cub->game->width = 1000;
     cub->game->height = 1000;
 }
+void texture_init(t_cub *cub)
+{
+    cub->texture[0].img = mlx_xpm_file_to_image(cub->game->mlx, cub->config.no_texture, &cub->texture[0].width, &cub->texture[0].height);
+    cub->texture[1].img = mlx_xpm_file_to_image(cub->game->mlx, cub->config.so_texture, &cub->texture[1].width, &cub->texture[1].height);
+    cub->texture[2].img = mlx_xpm_file_to_image(cub->game->mlx, cub->config.we_texture, &cub->texture[2].width, &cub->texture[2].height);
+    cub->texture[3].img = mlx_xpm_file_to_image(cub->game->mlx, cub->config.ea_texture, &cub->texture[3].width, &cub->texture[3].height);
+    cub->texture[0].img_add = mlx_get_data_addr(cub->texture[0].img, &cub->texture[0].bpp, &cub->texture[0].size_line, &cub->texture[0].endian);
+    cub->texture[1].img_add = mlx_get_data_addr(cub->texture[1].img, &cub->texture[1].bpp, &cub->texture[1].size_line, &cub->texture[1].endian);
+    cub->texture[2].img_add = mlx_get_data_addr(cub->texture[2].img, &cub->texture[2].bpp, &cub->texture[2].size_line, &cub->texture[2].endian);
+    cub->texture[3].img_add = mlx_get_data_addr(cub->texture[3].img, &cub->texture[3].bpp, &cub->texture[3].size_line, &cub->texture[3].endian);
+}   
+
 
 void mlx_init_and_setup(t_cub *cub)
 {
@@ -50,6 +62,7 @@ void mlx_init_and_setup(t_cub *cub)
         ft_free_all();
     game->img_data = mlx_get_data_addr(game->img, &game->bpp, &game->size_line, &game->endian);
     init_player(cub);
+    texture_init(cub);
     ray_casting(cub);
     mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 }
