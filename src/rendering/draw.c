@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/09 21:37:53 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/10 09:29:12 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,7 @@ void    ray_casting(t_cub *cub)
     int ray_count;
 	int window_width;
 
-    clear_image(cub);
+    // clear_image(cub);
     ray_count = 0;
 	window_width = cub->game->width * TILE;
 	cub->player.ray_angle = cub->player.player_angle - (FOV / 2);
