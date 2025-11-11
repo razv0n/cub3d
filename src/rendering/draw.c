@@ -257,7 +257,7 @@ color = (r << 16) | (g << 8) | b;
     y = wall_top;
     while (y < wall_bottom && y < window_height)
     {
-        put_pixel(cub, ray_id, y, color);
+        put_pixel(cub, ray_id, y, color); // i should do a function that gets the colors from textures buffer && pass it to put_pixel
         y++;
     }
     
