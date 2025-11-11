@@ -187,6 +187,6 @@ void init_player(t_cub *cub)
 {
     find_player_position(cub);
     set_player_direction(cub);
-    cub->player.move_speed = 0.1 * TILE;
+    cub->player.move_speed = 0.5 * TILE;
     cub->player.rot_speed = 3 * (M_PI / 180);
 }

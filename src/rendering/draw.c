@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/10 22:57:17 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/11 18:09:04 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@ void put_pixel(t_cub *cub, int x, int y, int color)
         return;
     char *ptr_img = game->img_data + ((y * game->size_line) + (x * (game->bpp / 8)));
     *(unsigned int *)ptr_img = color;
+}
+
+unsigned int get_pixel(t_texture texture, int x, int y)
+{
+    if (x < 0 || y < 0 || x >= texture.width || y >= texture.height)
+        return (0);
+    char *ptr_img = texture.img_add + ((y * texture.size_line) + (x * (texture.bpp / 8)));
+    return (*(unsigned int *)ptr_img);
 }
 
 void    draw_player(t_cub *cub, double x, double y, int color)
@@ -216,6 +224,7 @@ void    check_dir(t_cub *cub)
     else
         cub->game->face_right_left = RIGHT;
 }
+
 void draw_texture(t_cub *cub, int ray_id, int wall_top, int wall_bottom)
 {
     int tex_x;
@@ -237,68 +246,49 @@ void draw_texture(t_cub *cub, int ray_id, int wall_top, int wall_bottom)
     else if (!cub->player.is_hr && cub->game->face_right_left == RIGHT)
         texture = cub->texture[3];
     if (!cub->player.is_hr)
-        wallx = cub->player.wall_vr_inter_y / TILE;
+        wallx = cub->player.wall_hz_inter_y / TILE;
     else
         wallx = cub->player.wall_hz_inter_x / TILE;
+
     wallx -= floor(wallx);
     tex_x = (int)(wallx * texture.width);
-    if (cub->player.is_hr && cub->game->face_right_left == RIGHT)
-        tex_x = texture.width - tex_x - 1;
-    if (!cub->player.is_hr && cub->game->face_up_down == UP)
-        tex_x = texture.width - tex_x - 1;
-    // for(int  i = 0 ; i < texture.height; i++)
-    // {
-        // for(int j =0 ; j < texture.width; j++)
-        // {
-            // printf("Pixel at (%d, %d) = 0x%x: ", j, i, texture.img_add[i * texture.width + j]);
-            // Get the color of the current pixel from the texture
-            // color = texture.img_add[i * texture.width + j];
-            // put_pixel(cub, ray_id, y + i, color);
-        // }
-    // }
-    // exit(1); 
-    while (y < wall_bottom && y < window_height)
+    if ((!cub->player.is_hr && cub->game->face_right_left == RIGHT) ||
+        (cub->player.is_hr && cub->game->face_up_down == UP))
+    tex_x = texture.width - tex_x - 1;
+
+    while (y < wall_bottom)
     {
-        tex_y = (int)((y - wall_top) * ((double)texture.height / cub->game->wall_height));
-        color = texture.img_add[(tex_y * texture.width) + tex_x];
-        put_pixel(cub, ray_id, y, color);
+        if (y >= 0 && y < window_height)
+        {
+            tex_y = (int)(((y - wall_top) * texture.height) / cub->game->wall_height);
+
+            color = get_pixel(texture, tex_x, tex_y);
+            // color = *(texture.img_add + ((tex_y * texture.size_line) + (tex_x * (texture.bpp / 8))));
+            // printf("color: %d and the tex_y: %d\n", color, tex_y);
+            put_pixel(cub, ray_id, y, color);
+        }
         y++;
     }
-    // exit(1);
 }
-void draw_wall_line(t_cub *cub, int ray_id, int color)
+
+void draw_wall_line(t_cub *cub, int ray_id)
 {
-    // int wall_height;
-    int wall_top;
-    int wall_bottom;
-    double proj_plane_dist;
-    int window_height;
-    int window_width;
-    // double dist_ray;
-    int y;
+    int     wall_top;
+    int     wall_bottom;
+    double  proj_plane_dist;
+    int     window_height;
+    int     window_width;
+    int     y;
 
     cub->player.res_dist = cos(cub->player.ray_angle - cub->player.player_angle) * cub->player.res_dist;
     window_height = cub->game->height * TILE;
     window_width = cub->game->width * TILE;
-    proj_plane_dist = (window_width / 2.0) / tan(FOV / 2.0);
+    proj_plane_dist = (window_width / 2.0) / tan(FOV / 2.0); // so the cos here
     cub->game->wall_height = (int)((TILE / cub->player.res_dist) * proj_plane_dist);
     wall_top = (window_height / 2) - (cub->game->wall_height / 2);
-    wall_bottom = (window_height / 2) + (cub->game->wall_height / 2);
-    // i should put it in function 
-    double shade = 1.0 - (cub->player.res_dist / 1500.0);
-    if (cub->player.is_hr)
-        shade *= 0.5;    
-    unsigned char g = ((color >> 8) & 0xFF) * shade;
-    unsigned char b = (color & 0xFF) * shade;
-    unsigned char r = ((color >> 16) & 0xFF) * shade;
-
-color = (r << 16) | (g << 8) | b;
+    wall_bottom = wall_top + cub->game->wall_height;
 
     y = 0;
-    // if (wall_top < 0 || wall_bottom < 0)
-    //     wall_top = 0;
-    // if (wall_bottom > window_height || wall_bottom < 0)
-    //     wall_bottom = window_height;
     while (y < wall_top && y < window_height)
     {
         put_pixel(cub, ray_id, y, cub->config.ceiling_color);
@@ -319,19 +309,19 @@ color = (r << 16) | (g << 8) | b;
     }
 }
 
-void clear_image(t_cub *cub)
-{
-    int i;
-    int total_pixels;
+// void clear_image(t_cub *cub)
+// {
+//     int i;
+//     int total_pixels;
     
-    total_pixels = (cub->game->width * TILE) * (cub->game->height * TILE);
-    i = 0;
-    while (i < total_pixels)
-    {
-        *((unsigned int *)cub->game->img_data + i) = 0x000000;
-        i++;
-    }
-}
+//     total_pixels = (cub->game->width * TILE) * (cub->game->height * TILE);
+//     i = 0;
+//     while (i < total_pixels)
+//     {
+//         *((unsigned int *)cub->game->img_data + i) = 0x000000;
+//         i++;
+//     }
+// }
 
 void    ray_casting(t_cub *cub)
 {
@@ -351,7 +341,7 @@ void    ray_casting(t_cub *cub)
 		horizontal(cub);
 		vertical(cub);
 		find_distance(cub);
-        draw_wall_line(cub, ray_count, 0xFFFF00);
+        draw_wall_line(cub, ray_count);
 		cub->player.ray_angle += cub->player.angle_step;
 		cub->player.ray_angle = normalize_angle(cub->player.ray_angle);
 		ray_count++;
