@@ -3,8 +3,8 @@
 
 # include "./libft/libft.h"
 # include "./get_next_line/get_next_line.h"
-#include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
-//  #include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
+// #include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
+ #include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
 // #include "/Users/macbook/Downloads/minilibx/mlx.h"
 #include <unistd.h>
 #include <stdlib.h>
@@ -87,6 +87,7 @@ typedef struct s_game{
     e_direction   face_right_left;
     int     size_line;
     int     endian;
+    const char  *textures[4];
     int     keys[256];
 } t_game;
 
