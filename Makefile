@@ -32,7 +32,7 @@ OBJS = $(ALLSRCS:.c=.o)
 
 all : $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT_DIR) $(GET_NEXT_LINE_DIR)
+$(NAME): $(OBJS) $(LIBFT_DIR) $(GET_NEXT_LINE_DIR) libft/libft.h cub3d.h 
 	$(CC) $(CFLAGS) get_next_line/get_next_line.c $(OBJS) $(LIBFT_DIR) $(MLX_LIB) -o $(NAME)
 
 $(LIBFT_DIR):

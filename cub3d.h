@@ -73,6 +73,7 @@ typedef struct s_player {
     double  plane_y;
     double  move_speed;
     double  rot_speed;
+    double  dist;
 } t_player;
 
 typedef struct s_cub {

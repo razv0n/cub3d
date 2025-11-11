@@ -1,10 +1,10 @@
-NO simonkraft/images.xpm
-SO simonkraft/images.xpm
-WE simonkraft/images.xpm
-EA simonkraft/images.xpm
+NO ghorayr/respawn_anchor_side0.xpm
+SO ghorayr/respawn_anchor_side1.xpm
+WE ghorayr/respawn_anchor_side2.xpm
+EA ghorayr/respawn_anchor_side3.xpm
 
 F 0,0,0
-C 250,150,0
+C 10,255,150
 
 
 111     
