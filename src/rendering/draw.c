@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/11 18:09:04 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/11 18:18:42 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,7 +294,6 @@ void draw_wall_line(t_cub *cub, int ray_id)
         put_pixel(cub, ray_id, y, cub->config.ceiling_color);
         y++;
     }
-<<<<<<< HEAD
     draw_texture(cub, ray_id, wall_top, wall_bottom);
     // y = wall_top;
     // while (y < wall_bottom && y < window_height)
@@ -303,15 +302,6 @@ void draw_wall_line(t_cub *cub, int ray_id)
     //     y++;
     // }
     y = wall_bottom;
-=======
-    y = wall_top;
-    while (y < wall_bottom && y < window_height)
-    {
-        put_pixel(cub, ray_id, y, color); // i should do a function that gets the colors from textures buffer && pass it to put_pixel
-        y++;
-    }
-    
->>>>>>> d992e0f5c2722255e87bb5729f896fde40ee95ed
     while (y < window_height)
     {
         put_pixel(cub, ray_id, y, cub->config.floor_color);
