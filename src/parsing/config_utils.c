@@ -1,5 +1,3 @@
-//# Helpers for parsing config lines
-
 #include "../../cub3d.h"
 
 static int ft_atoi_byte(const char **str)
@@ -104,28 +102,28 @@ bool    check_the_texture_wall(char *line, short nm_line, t_cub *cub)
         cub->config.no_texture = ft_strtrim(line + 2, " \t\n");
         if (*cub->config.no_texture)
             no = true;
-        cub->t_config.no_texture = ft_strdup("./../../textures/wall_1.xpm");
+        // cub->t_config.no_texture = ft_strdup("./../../textures/wall_1.xpm");
     }
     else if (!ft_strncmp(line, "SO", 2) && !so)
     {
         cub->config.so_texture = ft_strtrim(line + 2, " \t\n");
         if (*cub->config.so_texture)
             so = true;
-        cub->t_config.so_texture = ft_strdup("./../../textures/wall_2.xpm");
+        // cub->t_config.so_texture = ft_strdup("./../../textures/wall_2.xpm");
     }
     else if (!ft_strncmp(line, "EA", 2) && !ea)
     {
         cub->config.ea_texture = ft_strtrim(line + 2, " \t\n");
         if (*cub->config.ea_texture)
             ea = true;
-        cub->t_config.ea_texture = ft_strdup("./../../textures/wall_3.xpm");
+        // cub->t_config.ea_texture = ft_strdup("./../../textures/wall_3.xpm");
     }
     else if (!ft_strncmp(line, "WE", 2) && !we)
     {
         cub->config.we_texture = ft_strtrim(line + 2, " \t\n");
         if (*cub->config.we_texture)
             we = true;
-        cub->t_config.we_texture = ft_strdup("./../../textures/wall_4.xpm");
+        // cub->t_config.we_texture = ft_strdup("./../../textures/wall_4.xpm");
     }
     if (nm_line == 4)
         return (no & so & ea & we);
