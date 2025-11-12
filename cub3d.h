@@ -31,7 +31,7 @@ typedef enum e_direction{
     RIGHT
 } e_direction;
 
-typedef struct s_game t_game;
+// typedef struct s_game t_game;
 
 typedef struct s_config {
     char *no_texture; //  TODO fill this and check if it is NULL or not
@@ -50,8 +50,8 @@ typedef struct s_texture {
     int     bpp;
     int     size_line;
     int     endian;
-    int  width;
-    int  height;
+    int     width;
+    int     height;
 } t_texture;
 
 typedef struct s_player {
@@ -76,6 +76,22 @@ typedef struct s_player {
     double  dist;
 } t_player;
 
+
+typedef struct s_game{
+    void            *mlx;
+    void            *win;
+    int             width;
+    int             height;
+    void            *img;
+	char            *img_data;
+    int             bpp;
+    e_direction     face_up_down;
+    e_direction     face_right_left;
+    int             size_line;
+    int             wall_height;
+    int             endian;
+} t_game;
+
 typedef struct s_cub {
     t_config    config;
     int         nm_line;
@@ -83,27 +99,10 @@ typedef struct s_cub {
     char        **map;
     int         index_a_map;
     int         first_index_map;
-    t_player        player;
-    t_game      *game;
-    t_texture      texture[4];
+    t_player    player;
+    t_game      game;
+    t_texture   texture[4];
 } t_cub;
-
-typedef struct s_game{
-    void    *mlx;
-    void    *win;
-    int     width;
-    int     height;
-    void    *img;
-	char     *img_data;
-	int     bpp;
-    e_direction   face_up_down;
-    e_direction   face_right_left;
-    int     size_line;
-    int wall_height;
-    int     endian;
-    const char  *textures[4];
-    int     keys[256];
-} t_game;
 
 // typedef struct s_lines {
 //     char *content;
@@ -128,7 +127,7 @@ void    ft_free_all();
 void	check_element(t_cub *cub);
 void	read_lines(int fd, t_cub *cub, char *filename);
 void    free_mlx_data(t_cub *cub);
-void    draw_map(t_cub *cub);
+// void    draw_map(t_cub *cub);
 void    init_player(t_cub *cub);
 int     handle_key(int keycode, t_cub *cub);
 void    move_forward(t_cub *cub);
