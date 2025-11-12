@@ -9,7 +9,7 @@ bool is_walkable(t_cub *cub, double x_p, double y_p)
     
     x = x_p / TILE; 
     y = y_p / TILE;
-    if (y < 0 || x < 0 || y >= cub->game->height || x >= cub->game->width)
+    if (y < 0 || x < 0 || y >= cub->game.height || x >= cub->game.width)
         return (0);
     if (!cub->map[y] || !cub->map[y][x])
         return (0);
@@ -185,7 +185,7 @@ double normalize_angle(double angle)
 
 void init_player(t_cub *cub)
 {
-    find_player_position(cub);
+    find_player_position(cub); // remove this later
     set_player_direction(cub);
     cub->player.move_speed = 0.5 * TILE;
     cub->player.rot_speed = 3 * (M_PI / 180);

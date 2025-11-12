@@ -12,7 +12,7 @@
 // {
 //     if(keycode == KEY_ESC)
 //         return (handle_close());
-//     cub->game->keys[keycode] = 1;
+//     cub->game.keys[keycode] = 1;
 //     return (0);
 // }
 

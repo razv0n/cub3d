@@ -26,7 +26,7 @@ int     ft_strlen_remove(char *line)
         return (0);
     while(line[i])
     {
-        if (line[i] != ' ' && line[i] != '\t')
+        if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n') // todo  i add the newline check if there is an error 
             length++;
         i++;
     }
@@ -69,8 +69,8 @@ bool    check_rbg(char *line, t_cub *cub, char RBG)
 
     i = 0;
     if (!line)
-        return (false);
-    line = remove_char(line);
+        return (false); // todo check for the athores functions
+    line = remove_char(line); // ramove all the withespaces 
     while(ft_isdigit(*line))
     {
         rgb_arr[i] = (short)ft_atoi_byte((const char **)&line);
@@ -102,28 +102,24 @@ bool    check_the_texture_wall(char *line, short nm_line, t_cub *cub)
         cub->config.no_texture = ft_strtrim(line + 2, " \t\n");
         if (*cub->config.no_texture)
             no = true;
-        // cub->t_config.no_texture = ft_strdup("./../../textures/wall_1.xpm");
     }
     else if (!ft_strncmp(line, "SO", 2) && !so)
     {
         cub->config.so_texture = ft_strtrim(line + 2, " \t\n");
         if (*cub->config.so_texture)
             so = true;
-        // cub->t_config.so_texture = ft_strdup("./../../textures/wall_2.xpm");
     }
     else if (!ft_strncmp(line, "EA", 2) && !ea)
     {
         cub->config.ea_texture = ft_strtrim(line + 2, " \t\n");
         if (*cub->config.ea_texture)
             ea = true;
-        // cub->t_config.ea_texture = ft_strdup("./../../textures/wall_3.xpm");
     }
     else if (!ft_strncmp(line, "WE", 2) && !we)
     {
         cub->config.we_texture = ft_strtrim(line + 2, " \t\n");
         if (*cub->config.we_texture)
             we = true;
-        // cub->t_config.we_texture = ft_strdup("./../../textures/wall_4.xpm");
     }
     if (nm_line == 4)
         return (no & so & ea & we);
@@ -149,7 +145,7 @@ bool    check_the_colors(char *line,int nm_line ,t_cub *cub)
     }
     if (nm_line == 6)
         return (c & f);
-    return (true);
+    return (true);  
 }
 
 void   pars_map(char *line, t_cub *cub)
@@ -171,17 +167,17 @@ bool    check_rules_map(char **line, t_cub *cub)
     if (cub->nm_line <= 4)
     {
         if (!check_the_texture_wall(*line, cub->nm_line, cub))
-            perror("exit the programme and free !\n");
+            ft_free_all(); // todo free all();
     }
     else if(cub->nm_line >= 5 && cub->nm_line <= 6)
     {
         if (!check_the_colors(*line, cub->nm_line ,cub))
-            perror("exit the programme and free !\n");
+           ft_free_all();// todo free all();
     }
     else
     {
         if (cub->nm_line == 7)
-            cub->first_index_map = cub->index_a_map;
+            cub->first_index_map = cub->index_a_map; // we  have the start index here and u should allocate here
         pars_map(*line, cub);
     }
     return true;
