@@ -6,7 +6,7 @@
 /*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:37:58 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/13 15:33:30 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/13 16:05:58 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	check_error_wall(int i, int j, t_cub *cub)
 {
 	if (cub->map[i][j] != '1')
 	{
-		ft_free_all(cub);
+		ft_free_all();
 		exit(printf("Error\nState Of Wall\n"));
 	}
 }
@@ -50,7 +50,7 @@ void	check_the_state_of_wall(t_cub *cub, int length_map)
 					break ;
 				else
 				{
-					ft_free_all(cub);
+					ft_free_all();
 					exit(printf("Error\nState Of Wall\n"));
 				}
 			}

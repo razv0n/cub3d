@@ -6,7 +6,7 @@
 /*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:06:54 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/13 15:29:24 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/13 16:10:42 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ void	texture_init(t_cub *cub)
 	cub->texture[3].img = mlx_xpm_file_to_image(cub->game.mlx,
 			cub->config.ea_texture, &cub->texture[3].width,
 			&cub->texture[3].height);
+	if(!cub->texture[0].img || !cub->texture[1].img
+		|| !cub->texture[2].img || !cub->texture[3].img)
+		ft_free_all();
 	cub->texture[0].img_add = mlx_get_data_addr(cub->texture[0].img,
 			&cub->texture[0].bpp, &cub->texture[0].size_line,
 			&cub->texture[0].endian);
@@ -59,6 +62,9 @@ void	texture_init(t_cub *cub)
 	cub->texture[3].img_add = mlx_get_data_addr(cub->texture[3].img,
 			&cub->texture[3].bpp, &cub->texture[3].size_line,
 			&cub->texture[3].endian);
+	if(!cub->texture[0].img_add || !cub->texture[1].img_add
+		|| !cub->texture[2].img_add || !cub->texture[3].img_add)
+		ft_free_all();
 }
 
 void	mlx_init_and_setup(t_cub *cub)
