@@ -6,7 +6,7 @@
 /*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 15:23:10 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/13 15:27:39 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/13 16:03:41 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,4 +158,6 @@ void			rotate_left(t_cub *cub);
 void			rotate_right(t_cub *cub);
 // double calc_dist(double x1, double y1, double x2, double y2);
 int				handle_close(void);
+void free_mlx_data(t_cub *cub);
+
 #endif
