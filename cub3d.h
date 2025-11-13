@@ -92,6 +92,7 @@ typedef struct s_game{
 
 typedef struct s_cub {
     t_config    config;
+    t_texture   texture[4];
     int         nm_line;
     char        **all_map;
     char        **map;
@@ -99,7 +100,6 @@ typedef struct s_cub {
     int         first_index_map;
     t_player    player;
     t_game      game;
-    t_texture   texture[4];
 } t_cub;
 
 // typedef struct s_lines {
@@ -144,5 +144,5 @@ void move_right(t_cub *cub);
 void rotate_left(t_cub *cub);
 void rotate_right(t_cub *cub);
 // double calc_dist(double x1, double y1, double x2, double y2);
-
+int handle_close();
 #endif
