@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_and_setup.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mowardan <mowardan@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:06:54 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/12 11:22:48 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/13 13:22:02 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,6 @@ void    init_mlx_fun(t_cub *cub)
 		ft_free_all();
 	mlx_init_and_setup(cub);
     mlx_hook(cub->game.win, 2, 1L<<0, handle_key, cub);
-    mlx_hook(cub->game.win, 17, 0, (void *)ft_free_all, cub);
+    mlx_hook(cub->game.win, 17, 0, handle_close, cub);
     mlx_loop(cub->game.mlx);
 }

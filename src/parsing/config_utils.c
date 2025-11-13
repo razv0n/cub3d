@@ -6,7 +6,7 @@
 /*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:36:48 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/13 10:36:51 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/13 14:43:37 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ bool    check_rbg(char *line, t_cub *cub, char RBG)
 
     i = 0;
     if (!line)
-        return (false); // todo check for the athores functions
+        return (false); // todo check for the functions
     line = remove_char(line); // ramove all the withespaces 
     while(ft_isdigit(*line))
     {

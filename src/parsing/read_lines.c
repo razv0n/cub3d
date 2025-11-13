@@ -6,7 +6,7 @@
 /*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:38:56 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/13 10:38:58 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/13 14:10:20 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	lenght_map(int fd)
 	while (line)
 	{
 		length++;
-		free(line); //  remove this 
+		// free(line); //  remove this 
 		line = get_next_line(fd);
 	}
 	close(fd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 22:15:07 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/10/22 18:29:03 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/13 14:09:37 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*read_line(int fd, char *str)
 		buffer[read_bytes] = '\0';
 		str = ft_strjoin(str, buffer);
 	}
-	return (free(buffer), str);
+	return (str);
 }
 
 char	*extract_line(char **str)
