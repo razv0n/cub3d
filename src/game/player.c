@@ -12,178 +12,174 @@
 
 #include "../../cub3d.h"
 
-bool is_walkable(t_cub *cub, double x_p, double y_p)
+bool	is_walkable(t_cub *cub, double x_p, double y_p)
 {
-    int x;
-    int y;
-    
-    x = x_p / TILE; 
-    y = y_p / TILE;
-    if (y < 0 || x < 0 || y >= cub->game.height || x >= cub->game.width)
-        return (0);
-    if (!cub->map[y] || !cub->map[y][x])
-        return (0);
-    return (cub->map[y][x] != '1');
+	int	x;
+	int	y;
+
+	x = x_p / TILE;
+	y = y_p / TILE;
+	if (y < 0 || x < 0 || y >= cub->game.height || x >= cub->game.width)
+		return (0);
+	if (!cub->map[y] || !cub->map[y][x])
+		return (0);
+	return (cub->map[y][x] != '1');
 }
 
-static void find_player_position(t_cub *cub)
+static void	find_player_position(t_cub *cub)
 {
-    int x;
-    int y;
+	int	x;
+	int	y;
 
-    x = 0;
-    while (cub->map[x])
-    {
-        y = 0;
-        while(cub->map[x][y])
-        {
-            if (cub->map[x][y] == cub->config.position_player)
-            {
-                cub->player.x = (y + 0.5) * TILE;
-                cub->player.y = (x + 0.5) * TILE;
-                return ;
-            }
-            y++;
-        }
-        x++;
-    }
+	x = 0;
+	while (cub->map[x])
+	{
+		y = 0;
+		while (cub->map[x][y])
+		{
+			if (cub->map[x][y] == cub->config.position_player)
+			{
+				cub->player.x = (y + 0.5) * TILE;
+				cub->player.y = (x + 0.5) * TILE;
+				return ;
+			}
+			y++;
+		}
+		x++;
+	}
 }
 
-void move_forward(t_cub *cub)
+void	move_forward(t_cub *cub)
 {
-    double next_x;
-    double next_y;
+	double	next_x;
+	double	next_y;
 
-    next_x = cub->player.x + (cub->player.dir_x * cub->player.move_speed);
-    next_y = cub->player.y + (cub->player.dir_y * cub->player.move_speed);
-    
-    if (is_walkable(cub, next_x, next_y))
-    {
-        cub->player.x = next_x;
-        cub->player.y = next_y;
-    }
+	next_x = cub->player.x + (cub->player.dir_x * cub->player.move_speed);
+	next_y = cub->player.y + (cub->player.dir_y * cub->player.move_speed);
+	if (is_walkable(cub, next_x, next_y))
+	{
+		cub->player.x = next_x;
+		cub->player.y = next_y;
+	}
 }
 
-void rotate_right(t_cub *cub)
+void	rotate_right(t_cub *cub)
 {
-    cub->player.player_angle += cub->player.rot_speed;
-    cub->player.player_angle = normalize_angle(cub->player.player_angle);
-    update_player_dir(cub);
+	cub->player.player_angle += cub->player.rot_speed;
+	cub->player.player_angle = normalize_angle(cub->player.player_angle);
+	update_player_dir(cub);
 }
 
-void move_backward(t_cub *cub)
+void	move_backward(t_cub *cub)
 {
-    double next_x;
-    double next_y;
+	double	next_x;
+	double	next_y;
 
-    next_x = cub->player.x - (cub->player.dir_x * cub->player.move_speed);
-    next_y = cub->player.y - (cub->player.dir_y * cub->player.move_speed);
-    
-    if (is_walkable(cub, next_x, next_y))
-    {
-        cub->player.x = next_x;
-        cub->player.y = next_y;
-        return;
-    }
-    
-    if (is_walkable(cub, next_x, cub->player.y))
-        cub->player.x = next_x;
-    if (is_walkable(cub, cub->player.x, next_y))
-        cub->player.y = next_y;
+	next_x = cub->player.x - (cub->player.dir_x * cub->player.move_speed);
+	next_y = cub->player.y - (cub->player.dir_y * cub->player.move_speed);
+	if (is_walkable(cub, next_x, next_y))
+	{
+		cub->player.x = next_x;
+		cub->player.y = next_y;
+		return ;
+	}
+	if (is_walkable(cub, next_x, cub->player.y))
+		cub->player.x = next_x;
+	if (is_walkable(cub, cub->player.x, next_y))
+		cub->player.y = next_y;
 }
 
-void move_right(t_cub *cub)
+void	move_right(t_cub *cub)
 {
-    double next_x;
-    double next_y;
-    
-    next_x = cub->player.x + cub->player.dir_y * cub->player.move_speed;
-    next_y = cub->player.y - cub->player.dir_x * cub->player.move_speed;
-    
-    if (is_walkable(cub, next_x, next_y))
-    {
-        cub->player.x = next_x;
-        cub->player.y = next_y;
-    }
+	double	next_x;
+	double	next_y;
+
+	next_x = cub->player.x + cub->player.dir_y * cub->player.move_speed;
+	next_y = cub->player.y - cub->player.dir_x * cub->player.move_speed;
+	if (is_walkable(cub, next_x, next_y))
+	{
+		cub->player.x = next_x;
+		cub->player.y = next_y;
+	}
 }
 
-static void c_set_player_direction(t_cub *cub, char dir)
+static void	c_set_player_direction(t_cub *cub, char dir)
 {
-    if (dir == 'E')
-    {
-        cub->player.dir_x = 1;
-        cub->player.dir_y = 0;
-        cub->player.player_angle = 0;
-    }
-    else if (dir == 'W')
-    {
-        cub->player.dir_x = -1;
-        cub->player.dir_y = 0;
-        cub->player.player_angle = M_PI;
-    }
+	if (dir == 'E')
+	{
+		cub->player.dir_x = 1;
+		cub->player.dir_y = 0;
+		cub->player.player_angle = 0;
+	}
+	else if (dir == 'W')
+	{
+		cub->player.dir_x = -1;
+		cub->player.dir_y = 0;
+		cub->player.player_angle = M_PI;
+	}
 }
 
-static void set_player_direction(t_cub *cub)
+static void	set_player_direction(t_cub *cub)
 {
-    char dir;
+	char	dir;
 
-    dir = cub->config.position_player;
-    if (dir == 'N')
-    {
-        cub->player.dir_x = 0;
-        cub->player.dir_y = -1;
-        cub->player.player_angle = 3 * (M_PI / 2);
-    }
-    else if (dir == 'S')
-    {
-        cub->player.dir_x = 0;
-        cub->player.dir_y = 1;
-        cub->player.player_angle = M_PI / 2;
-    }
-   c_set_player_direction(cub, dir);
+	dir = cub->config.position_player;
+	if (dir == 'N')
+	{
+		cub->player.dir_x = 0;
+		cub->player.dir_y = -1;
+		cub->player.player_angle = 3 * (M_PI / 2);
+	}
+	else if (dir == 'S')
+	{
+		cub->player.dir_x = 0;
+		cub->player.dir_y = 1;
+		cub->player.player_angle = M_PI / 2;
+	}
+	c_set_player_direction(cub, dir);
 }
 
-void update_player_dir(t_cub *cub)
+void	update_player_dir(t_cub *cub)
 {
-    cub->player.dir_x = cos(cub->player.player_angle);
-    cub->player.dir_y = sin(cub->player.player_angle);
+	cub->player.dir_x = cos(cub->player.player_angle);
+	cub->player.dir_y = sin(cub->player.player_angle);
 }
 
-void rotate_left(t_cub *cub)
+void	rotate_left(t_cub *cub)
 {
-    cub->player.player_angle -= cub->player.rot_speed;
-    cub->player.player_angle = normalize_angle(cub->player.player_angle);
-    update_player_dir(cub);
+	cub->player.player_angle -= cub->player.rot_speed;
+	cub->player.player_angle = normalize_angle(cub->player.player_angle);
+	update_player_dir(cub);
 }
 
-void move_left(t_cub *cub)
+void	move_left(t_cub *cub)
 {
-    double next_x;
-    double next_y;
+	double	next_x;
+	double	next_y;
 
-    next_x = cub->player.x - cub->player.dir_y * cub->player.move_speed;
-    next_y = cub->player.y + cub->player.dir_x * cub->player.move_speed;
-    if (is_walkable(cub, next_x, next_y))
-    {
-        cub->player.x = next_x;
-        cub->player.y = next_y;
-    }
+	next_x = cub->player.x - cub->player.dir_y * cub->player.move_speed;
+	next_y = cub->player.y + cub->player.dir_x * cub->player.move_speed;
+	if (is_walkable(cub, next_x, next_y))
+	{
+		cub->player.x = next_x;
+		cub->player.y = next_y;
+	}
 }
 
 // dont put it in this file
-double normalize_angle(double angle)
+double	normalize_angle(double angle)
 {
-    if (angle < 0)
-        angle += 2 * M_PI;
-    if (angle >= 2 * M_PI)
-        angle -= 2 * M_PI;
-    return (angle);
+	if (angle < 0)
+		angle += 2 * M_PI;
+	if (angle >= 2 * M_PI)
+		angle -= 2 * M_PI;
+	return (angle);
 }
 
-void init_player(t_cub *cub)
+void	init_player(t_cub *cub)
 {
-    find_player_position(cub); // remove this later
-    set_player_direction(cub);
-    cub->player.move_speed = 0.5 * TILE;
-    cub->player.rot_speed = 3 * (M_PI / 180);
+	find_player_position(cub); // remove this later
+	set_player_direction(cub);
+	cub->player.move_speed = 0.5 * TILE;
+	cub->player.rot_speed = 3 * (M_PI / 180);
 }

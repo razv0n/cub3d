@@ -12,10 +12,10 @@
 
 #include "../../cub3d.h"
 
-int handle_close()
+int	handle_close(void)
 {
-    ft_free_all();
-    return (0);
+	ft_free_all();
+	return (0);
 }
 
 // int key_press(t_cub *cub, int keycode)
@@ -36,22 +36,22 @@ int handle_close()
 //                 ↓
 //          Redraws screen
 
-int handle_key(int keycode, t_cub *cub)
+int	handle_key(int keycode, t_cub *cub)
 {
-    if (keycode == KEY_W)
-        move_forward(cub);
-    else if (keycode == KEY_S)
-        move_backward(cub);
-    else if (keycode == KEY_A)
-        move_left(cub);
-    else if (keycode == KEY_D)
-        move_right(cub);
-    else if (keycode == KEY_LEFT)
-        rotate_left(cub);
-    else if (keycode == KEY_RIGHT)
-        rotate_right(cub);
-    else if (keycode == KEY_ESC)
-        ft_free_all();
-    ray_casting(cub);
-    return (0);
+	if (keycode == KEY_W)
+		move_forward(cub);
+	else if (keycode == KEY_S)
+		move_backward(cub);
+	else if (keycode == KEY_A)
+		move_left(cub);
+	else if (keycode == KEY_D)
+		move_right(cub);
+	else if (keycode == KEY_LEFT)
+		rotate_left(cub);
+	else if (keycode == KEY_RIGHT)
+		rotate_right(cub);
+	else if (keycode == KEY_ESC)
+		ft_free_all();
+	ray_casting(cub);
+	return (0);
 }

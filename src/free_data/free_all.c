@@ -10,22 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../../cub3d.h"
+#include "../../cub3d.h"
 
-
-void    ft_free_all()
+void	ft_free_all(void)
 {
-    t_list **head;
-    // t_cub *cub;
+	t_list	**head;
 
-    head = return_ptr();
-    if (!head || !*head)
-        return;
-    // cub = (t_cub*)(*head)->content;
-    // if (cub)
-    //     free_mlx_data(cub);
-    ft_lstclear(head, free);
-    exit(0);
+	// t_cub *cub;
+	head = return_ptr();
+	if (!head || !*head)
+		return ;
+	// cub = (t_cub*)(*head)->content;
+	// if (cub)
+	//     free_mlx_data(cub);
+	ft_lstclear(head, free);
+	exit(0);
 }
 
 // void    free_mlx_data(t_cub *cub)
@@ -33,9 +32,9 @@ void    ft_free_all()
 //     // int i;
 
 //     if (!cub || !cub->game.mlx)
-//         return;
+//         return ;
 //     if(!cub->texture)
-//         return;
+//         return ;
 //     if (cub->game.img)
 //     {
 //         mlx_destroy_image(cub->game.mlx, cub->game.img);
