@@ -1,4 +1,14 @@
-// # Player logic and movement
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/13 10:34:53 by mowardan          #+#    #+#             */
+/*   Updated: 2025/11/13 10:36:07 by mowardan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../cub3d.h"
 
@@ -53,14 +63,14 @@ void move_forward(t_cub *cub)
         cub->player.y = next_y;
     }
 }
+
 void rotate_right(t_cub *cub)
 {
     cub->player.player_angle += cub->player.rot_speed;
     cub->player.player_angle = normalize_angle(cub->player.player_angle);
     update_player_dir(cub);
 }
-// void move_forward(t_cub *cub)
-// void move_forward(t_cub *cub)
+
 void move_backward(t_cub *cub)
 {
     double next_x;
@@ -82,20 +92,6 @@ void move_backward(t_cub *cub)
         cub->player.y = next_y;
 }
 
-// void move_forward(t_cub *cub)
-// {
-//     double next_x;
-//     double next_y;
-
-//     next_x = cub->player.x - cub->player.dir_y * cub->player.move_speed;
-//     next_y = cub->player.y + cub->player.dir_x * cub->player.move_speed;
-//     if (is_walkable(cub, next_x, next_y))
-//     {
-//         cub->player.x = next_x;
-//         cub->player.y = next_y;
-//     }
-// }
-
 void move_right(t_cub *cub)
 {
     double next_x;
@@ -110,6 +106,7 @@ void move_right(t_cub *cub)
         cub->player.y = next_y;
     }
 }
+
 static void c_set_player_direction(t_cub *cub, char dir)
 {
     if (dir == 'E')
@@ -146,8 +143,7 @@ static void set_player_direction(t_cub *cub)
    c_set_player_direction(cub, dir);
 }
 
-
- void update_player_dir(t_cub *cub)
+void update_player_dir(t_cub *cub)
 {
     cub->player.dir_x = cos(cub->player.player_angle);
     cub->player.dir_y = sin(cub->player.player_angle);
@@ -173,7 +169,8 @@ void move_left(t_cub *cub)
         cub->player.y = next_y;
     }
 }
- // dont put it in this file
+
+// dont put it in this file
 double normalize_angle(double angle)
 {
     if (angle < 0)

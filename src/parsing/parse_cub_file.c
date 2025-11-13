@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_cub_file.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/13 10:37:58 by mowardan          #+#    #+#             */
+/*   Updated: 2025/11/13 10:38:31 by mowardan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../cub3d.h"
 
 int is_cub_file(char *filename)
@@ -9,6 +21,7 @@ int is_cub_file(char *filename)
 		return(0);
 	return(1);
 }
+
 void	check_error_wall(int i, int j, t_cub *cub)
 {
 	if (cub->map[i][j] != '1')
@@ -17,11 +30,11 @@ void	check_error_wall(int i, int j, t_cub *cub)
 		exit(printf("Error\nState Of Wall\n"));
 	}
 }
+
 void	check_the_state_of_wall(t_cub *cub, int length_map)
 { // todo change the state of the wall
 	int (i), (j), (row_length);
 	i = 0;
-
 	while (cub->map[i])
 	{
 		j = 0;
@@ -46,7 +59,6 @@ void	check_the_state_of_wall(t_cub *cub, int length_map)
 	}
 }
 
-
 void	check_element(t_cub *cub)
 {
 	int i;
@@ -69,6 +81,7 @@ void	check_element(t_cub *cub)
 		i++;
 	}
 }
+
 void	made_map(t_cub *cub)
 {
 	int		length;

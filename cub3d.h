@@ -3,9 +3,9 @@
 
 # include "./libft/libft.h"
 # include "./get_next_line/get_next_line.h"
-#include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
-//  #include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
-// #include "/Users/macbook/Downloads/minilibx/mlx.h"
+// #include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
+ #include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -30,8 +30,6 @@ typedef enum e_direction{
     LEFT,
     RIGHT
 } e_direction;
-
-// typedef struct s_game t_game;
 
 typedef struct s_config {
     char *no_texture; //  TODO fill this and check if it is NULL or not
