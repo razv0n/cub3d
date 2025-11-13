@@ -43,18 +43,18 @@ void	ft_lstadd_back_ptr(t_list **start, t_list *new)
 
 void	*add_ptr(void *ptr, t_list **head)
 {
-	 t_list *new_node;
+	t_list	*new_node;
 
 	new_node = ft_lstnew_ptr(ptr);
 	if (!new_node)
 		return (free(ptr), NULL);
 	ft_lstadd_back_ptr(head, new_node);
-    return (new_node);
+	return (new_node);
 }
 
 t_list	**return_ptr(void)
 {
-	static t_list   *head;
+	static t_list	*head;
 
 	return (&head);
 }
@@ -62,13 +62,13 @@ t_list	**return_ptr(void)
 void	*ft_malloc(size_t size)
 {
 	void	*ptr;
-	t_list  **head;
+	t_list	**head;
 
 	head = return_ptr();
 	ptr = malloc(size);
 	if (!ptr)
 		ft_free_all();
 	if (!add_ptr(ptr, head))
-        ft_free_all();
+		ft_free_all();
 	return (ptr);
 }

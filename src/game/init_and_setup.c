@@ -6,65 +6,88 @@
 /*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:06:54 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/13 13:22:02 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/13 15:29:24 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
-void count_map(t_cub *cub)
+void	count_map(t_cub *cub)
 {
-    int rows = 0;
-    int cols = 0;
-    int len = 0;
+	int	rows;
+	int	cols;
+	int	len;
 
-    while(cub->map && cub->map[rows])
-    {
-        len = ft_strlen(cub->map[rows]);
-        if(len > cols)
-            cols = len;
-        rows++;
-    }
-    cub->game.width = 1000;
-    cub->game.height = 1000;
-}
-void texture_init(t_cub *cub)
-{
-    // todo protect against invalid texture paths
-    cub->texture[0].img = mlx_xpm_file_to_image(cub->game.mlx, cub->config.no_texture, &cub->texture[0].width, &cub->texture[0].height);
-    cub->texture[1].img = mlx_xpm_file_to_image(cub->game.mlx, cub->config.so_texture, &cub->texture[1].width, &cub->texture[1].height);
-    cub->texture[2].img = mlx_xpm_file_to_image(cub->game.mlx, cub->config.we_texture, &cub->texture[2].width, &cub->texture[2].height);
-    cub->texture[3].img = mlx_xpm_file_to_image(cub->game.mlx, cub->config.ea_texture, &cub->texture[3].width, &cub->texture[3].height);
-    cub->texture[0].img_add = mlx_get_data_addr(cub->texture[0].img, &cub->texture[0].bpp, &cub->texture[0].size_line, &cub->texture[0].endian);
-    cub->texture[1].img_add = mlx_get_data_addr(cub->texture[1].img, &cub->texture[1].bpp, &cub->texture[1].size_line, &cub->texture[1].endian);
-    cub->texture[2].img_add = mlx_get_data_addr(cub->texture[2].img, &cub->texture[2].bpp, &cub->texture[2].size_line, &cub->texture[2].endian);
-    cub->texture[3].img_add = mlx_get_data_addr(cub->texture[3].img, &cub->texture[3].bpp, &cub->texture[3].size_line, &cub->texture[3].endian);
+	rows = 0;
+	cols = 0;
+	len = 0;
+	while (cub->map && cub->map[rows])
+	{
+		len = ft_strlen(cub->map[rows]);
+		if (len > cols)
+			cols = len;
+		rows++;
+	}
+	cub->game.width = 1000;
+	cub->game.height = 1000;
 }
 
-
-void mlx_init_and_setup(t_cub *cub)
+void	texture_init(t_cub *cub)
 {
-    cub->game.win = mlx_new_window(cub->game.mlx, cub->game.width * TILE, cub->game.height * TILE, "ghorayr");
-    if(!cub->game.win)
-        ft_free_all();
-    printf("the gmae height : %d  the game width : %d \n", cub->game.height, cub->game.width);
-    cub->game.img = mlx_new_image(cub->game.mlx, cub->game.width * TILE, cub->game.height * TILE);
-    if(!cub->game.img)
-        ft_free_all();
-    cub->game.img_data = mlx_get_data_addr(cub->game.img, &cub->game.bpp, &cub->game.size_line, &cub->game.endian);
-    init_player(cub); ///todo : change the name of it 
-    texture_init(cub);
-    ray_casting(cub);
-    mlx_put_image_to_window(cub->game.mlx, cub->game.win, cub->game.img, 0, 0);
+	// todo protect against invalid texture paths
+	cub->texture[0].img = mlx_xpm_file_to_image(cub->game.mlx,
+			cub->config.no_texture, &cub->texture[0].width,
+			&cub->texture[0].height);
+	cub->texture[1].img = mlx_xpm_file_to_image(cub->game.mlx,
+			cub->config.so_texture, &cub->texture[1].width,
+			&cub->texture[1].height);
+	cub->texture[2].img = mlx_xpm_file_to_image(cub->game.mlx,
+			cub->config.we_texture, &cub->texture[2].width,
+			&cub->texture[2].height);
+	cub->texture[3].img = mlx_xpm_file_to_image(cub->game.mlx,
+			cub->config.ea_texture, &cub->texture[3].width,
+			&cub->texture[3].height);
+	cub->texture[0].img_add = mlx_get_data_addr(cub->texture[0].img,
+			&cub->texture[0].bpp, &cub->texture[0].size_line,
+			&cub->texture[0].endian);
+	cub->texture[1].img_add = mlx_get_data_addr(cub->texture[1].img,
+			&cub->texture[1].bpp, &cub->texture[1].size_line,
+			&cub->texture[1].endian);
+	cub->texture[2].img_add = mlx_get_data_addr(cub->texture[2].img,
+			&cub->texture[2].bpp, &cub->texture[2].size_line,
+			&cub->texture[2].endian);
+	cub->texture[3].img_add = mlx_get_data_addr(cub->texture[3].img,
+			&cub->texture[3].bpp, &cub->texture[3].size_line,
+			&cub->texture[3].endian);
 }
 
-void    init_mlx_fun(t_cub *cub)
+void	mlx_init_and_setup(t_cub *cub)
+{
+	cub->game.win = mlx_new_window(cub->game.mlx, cub->game.width * TILE,
+			cub->game.height * TILE, "ghorayr");
+	if (!cub->game.win)
+		ft_free_all();
+	printf("the gmae height : %d  the game width : %d \n", cub->game.height,
+		cub->game.width);
+	cub->game.img = mlx_new_image(cub->game.mlx, cub->game.width * TILE,
+			cub->game.height * TILE);
+	if (!cub->game.img)
+		ft_free_all();
+	cub->game.img_data = mlx_get_data_addr(cub->game.img, &cub->game.bpp,
+			&cub->game.size_line, &cub->game.endian);
+	init_player(cub); /// todo : change the name of it
+	texture_init(cub);
+	ray_casting(cub);
+	mlx_put_image_to_window(cub->game.mlx, cub->game.win, cub->game.img, 0, 0);
+}
+
+void	init_mlx_fun(t_cub *cub)
 {
 	cub->game.mlx = mlx_init();
-	if(!cub->game.mlx) // todo checkk all the mlx return values
+	if (!cub->game.mlx) // todo checkk all the mlx return values
 		ft_free_all();
 	mlx_init_and_setup(cub);
-    mlx_hook(cub->game.win, 2, 1L<<0, handle_key, cub);
-    mlx_hook(cub->game.win, 17, 0, handle_close, cub);
-    mlx_loop(cub->game.mlx);
+	mlx_hook(cub->game.win, 2, 1L << 0, handle_key, cub);
+	mlx_hook(cub->game.win, 17, 0, handle_close, cub);
+	mlx_loop(cub->game.mlx);
 }
