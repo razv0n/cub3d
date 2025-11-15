@@ -6,7 +6,7 @@
 /*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:37:58 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/13 16:05:58 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/15 10:53:24 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	check_error_wall(int i, int j, t_cub *cub)
 
 void	check_the_state_of_wall(t_cub *cub, int length_map)
 {
-	int (i), (j), (row_length);// todo change the state of the wall
+	int (i), (j), (row_length); // todo change the state of the wall 
 	i = 0;
 	while (cub->map[i])
 	{
