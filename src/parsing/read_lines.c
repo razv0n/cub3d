@@ -3,26 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   read_lines.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:38:56 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/13 14:10:20 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/15 23:12:24 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
-int	lenght_map(int fd)
+int	length_map(char *filename)
 {
+	int		fd;
 	char	*line;
 	int		length;
 
+	fd = open(filename, O_RDONLY);
 	length = 0;
 	line = get_next_line(fd);
 	while (line)
 	{
 		length++;
-		// free(line); //  remove this
 		line = get_next_line(fd);
 	}
 	close(fd);
@@ -32,22 +33,21 @@ int	lenght_map(int fd)
 void	read_lines(int fd, t_cub *cub, char *filename)
 {
 	char	*line;
-	bool	check;
 
-	check = true;
-	// printf("%d\n", cub->index_a_map);
-	cub->index_a_map = 0;
-	cub->all_map = ft_malloc(sizeof(char *) * (lenght_map(fd) + 1));
+	cub->index_map = 0;
+	cub->length_map = length_map(filename);
 	fd = open(filename, O_RDONLY);
 	line = get_next_line(fd);
 	while (line)
 	{
-		check = check_rules_map(&line, cub);
-		if (cub->nm_line < 7 || !check)
-			cub->all_map[cub->index_a_map] = line; // ?why i store the line here
-		cub->index_a_map++;
+		check_rules_map(&line, cub);
+		cub->index_map++;
 		line = get_next_line(fd);
 	}
+	if (!cub->map)
+	ft_free_all();
+	cub->map[cub->index_map] = NULL;
+	cub->map_prsv[cub->index_map] = NULL;
+	cub->game.height = cub->index_map;
 	close(fd);
-	cub->all_map[cub->index_a_map] = NULL;
 }

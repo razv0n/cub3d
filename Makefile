@@ -17,15 +17,17 @@ SRC_FILES		= main.c \
 			core/init_and_setup.c \
 			game/events.c \
 			game/player.c \
+			parsing/parse_color.c \
 			memory/free_all.c \
 			memory/ft_malloc.c \
 			parsing/config_utils.c \
 			parsing/parse_config_and_map.c \
 			parsing/parse_cub_file.c \
 			parsing/read_lines.c \
-			rendering/debug.c \
 			rendering/draw.c \
-			rendering/raycasting.c
+			rendering/raycasting.c \
+			rendering/help_rendering.c \
+			game/move_rotation_player.c \
 
 SRCS		= $(addprefix $(SRC_DIR)/,$(SRC_FILES))
 OBJS		= $(SRCS:.c=.o)
