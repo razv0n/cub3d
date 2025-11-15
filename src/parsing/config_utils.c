@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   config_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:36:48 by mowardan          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/11/15 23:34:15 by mfahmi           ###   ########.fr       */
+=======
+/*   Updated: 2025/11/15 23:41:20 by mowardan         ###   ########.fr       */
+>>>>>>> e45dce1e136e13d10cb929468757e90e4db70954
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +80,12 @@ void	check_rules_map(char **line, t_cub *cub)
 	if (cub->nm_line <= 4)
 	{
 		if (!check_the_texture_wall(*line, cub->nm_line, cub))
-			ft_free_all(); // todo free all();
+			ft_free_all(wall); // todo free all();
 	}
 	else if (cub->nm_line >= 5 && cub->nm_line <= 6)
 	{
 		if (!check_the_colors(*line, cub->nm_line, cub))
-			ft_free_all(); // todo free all();
+			ft_free_all(color); // todo free all();
 	}
 	else
 	{
