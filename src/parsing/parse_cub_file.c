@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cub_file.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:37:58 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/15 10:53:24 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/15 23:14:51 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,46 +18,48 @@ int	is_cub_file(char *filename)
 
 	lenght = ft_strlen(filename);
 	if (lenght > 4 && (ft_strcmp(filename + lenght - 4, ".cub") == 0))
-		// map/map.cub
 		return (0);
 	return (1);
 }
 
-void	check_error_wall(int i, int j, t_cub *cub)
+void	flood_fill(t_cub *cub, int i, int j, bool is_zero)
 {
-	if (cub->map[i][j] != '1')
-	{
+	int	len_row;
+
+	if (i > 0 && i < cub->game.height && cub->map_prsv[i])
+		len_row = cub->rows[i];
+	if (is_zero && (j < 0 || j >= len_row || i < 0 || i >= cub->game.height
+			|| !cub->map_prsv[i] || cub->map_prsv[i][j] == ' ' || !cub->map_prsv[i][j]
+			|| cub->map_prsv[i][j] == '\t'))
 		ft_free_all();
-		exit(printf("Error\nState Of Wall\n"));
+	if (j < 0 || j >= len_row || i < 0 || i >= cub->game.height || !cub->map_prsv[i]
+		|| !cub->map_prsv[i][j] || cub->map_prsv[i][j] == '1' || cub->map_prsv[i][j] == 'F')
+	{
+		is_zero = false;
+		return ;
 	}
+	is_zero = true;
+	cub->map_prsv[i][j] = 'F';
+	flood_fill(cub, i + 1, j, is_zero);
+	flood_fill(cub, i - 1, j, is_zero);
+	flood_fill(cub, i, j + 1, is_zero);
+	flood_fill(cub, i, j - 1, is_zero);
 }
 
-void	check_the_state_of_wall(t_cub *cub, int length_map)
+void	c_check_element(t_cub *cub, int i, int j)
 {
-	int (i), (j), (row_length); // todo change the state of the wall 
-	i = 0;
-	while (cub->map[i])
+	if (cub->game.width <= j)
+		cub->game.width = j + 1;
+	if ((cub->map[i][j] == 'W' || cub->map[i][j] == 'N' || cub->map[i][j] == 'S'
+			|| cub->map[i][j] == 'E') && !cub->config.position_player)
 	{
-		j = 0;
-		row_length = ft_strlen(cub->map[i]) - 1;
-		while (cub->map[i][j])
-		{
-			if (!i || i == length_map - 1)
-				check_error_wall(i, j, cub);
-			else
-			{
-				if (cub->map[i][0] == '1' && cub->map[i][row_length] == '1')
-					break ;
-				else
-				{
-					ft_free_all();
-					exit(printf("Error\nState Of Wall\n"));
-				}
-			}
-			j++;
-		}
-		i++;
+		cub->config.position_player = cub->map[i][j];
+		cub->player.x = j * TILE;
+		cub->player.y = i * TILE;
+		flood_fill(cub, i, j, false);
 	}
+	else if (cub->map[i][j] != '0' && cub->map[i][j] != '1')
+		ft_free_all();
 }
 
 void	check_element(t_cub *cub)
@@ -71,51 +73,16 @@ void	check_element(t_cub *cub)
 		j = 0;
 		while (cub->map[i][j])
 		{
-			if (cub->game.width <= j)
-				cub->game.width = j + 1;
-			if ((cub->map[i][j] == 'W' || cub->map[i][j] == 'N'
-					|| cub->map[i][j] == 'S' || cub->map[i][j] == 'E')
-				&& !cub->config.position_player)
-				cub->config.position_player = cub->map[i][j];
-			else if (cub->map[i][j] != '0' && cub->map[i][j] != '1')
-				// todo add atleast  one 0
-				exit(printf("free all"));
+			c_check_element(cub, i, j);
 			j++;
 		}
 		i++;
 	}
+	if (!cub->config.position_player)
+		ft_free_all();
 }
 
-void	made_map(t_cub *cub)
-{
-	int	length;
-	int	length_map;
-
-	length_map = 0;
-	length = cub->first_index_map;
-	while (cub->all_map[length])
-	{
-		if (cub->all_map[length][0])
-			length_map++;
-		length++;
-	}
-	cub->map = ft_malloc(sizeof(char *) * (length_map + 1));
-	length = cub->first_index_map;
-	length_map = 0;
-	while (cub->all_map[length])
-	{
-		if (cub->all_map[length][0])
-			cub->map[length_map++] = cub->all_map[length];
-		length++;
-	}
-	cub->map[length_map] = NULL;
-	cub->game.height = length_map;
-	//! remove this shit later
-	check_the_state_of_wall(cub, length_map);
-	check_element(cub);
-}
-
-int	parse_cub_file(char *filename, t_cub *cub)
+bool	parse_cub_file(char *filename, t_cub *cub)
 {
 	int	fd;
 
@@ -123,6 +90,6 @@ int	parse_cub_file(char *filename, t_cub *cub)
 	if (fd < 0)
 		ft_free_all();
 	read_lines(fd, cub, filename);
-	made_map(cub);
+	check_element(cub);
 	return (0);
 }

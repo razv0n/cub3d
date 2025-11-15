@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:34:53 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/13 10:36:07 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/15 19:26:19 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,83 +24,6 @@ bool	is_walkable(t_cub *cub, double x_p, double y_p)
 	if (!cub->map[y] || !cub->map[y][x])
 		return (0);
 	return (cub->map[y][x] != '1');
-}
-
-static void	find_player_position(t_cub *cub)
-{
-	int	x;
-	int	y;
-
-	x = 0;
-	while (cub->map[x])
-	{
-		y = 0;
-		while (cub->map[x][y])
-		{
-			if (cub->map[x][y] == cub->config.position_player)
-			{
-				cub->player.x = (y + 0.5) * TILE;
-				cub->player.y = (x + 0.5) * TILE;
-				return ;
-			}
-			y++;
-		}
-		x++;
-	}
-}
-
-void	move_forward(t_cub *cub)
-{
-	double	next_x;
-	double	next_y;
-
-	next_x = cub->player.x + (cub->player.dir_x * cub->player.move_speed);
-	next_y = cub->player.y + (cub->player.dir_y * cub->player.move_speed);
-	if (is_walkable(cub, next_x, next_y))
-	{
-		cub->player.x = next_x;
-		cub->player.y = next_y;
-	}
-}
-
-void	rotate_right(t_cub *cub)
-{
-	cub->player.player_angle += cub->player.rot_speed;
-	cub->player.player_angle = normalize_angle(cub->player.player_angle);
-	update_player_dir(cub);
-}
-
-void	move_backward(t_cub *cub)
-{
-	double	next_x;
-	double	next_y;
-
-	next_x = cub->player.x - (cub->player.dir_x * cub->player.move_speed);
-	next_y = cub->player.y - (cub->player.dir_y * cub->player.move_speed);
-	if (is_walkable(cub, next_x, next_y))
-	{
-		cub->player.x = next_x;
-		cub->player.y = next_y;
-		return ;
-	}
-	if (is_walkable(cub, next_x, cub->player.y))
-		cub->player.x = next_x;
-	if (is_walkable(cub, cub->player.x, next_y))
-		cub->player.y = next_y;
-}
-
-void	move_right(t_cub *cub)
-{
-	double	next_x;
-	double	next_y;
-
-	next_x = cub->player.x + cub->player.dir_y * cub->player.move_speed;
-	next_y = cub->player.y - cub->player.dir_x * cub->player.move_speed;
-	if (is_walkable(cub, next_x, next_y))
-	{
-		cub->player.x = next_x;
-		cub->player.y = next_y;
-	}
 }
 
 static void	c_set_player_direction(t_cub *cub, char dir)
@@ -145,28 +68,6 @@ void	update_player_dir(t_cub *cub)
 	cub->player.dir_y = sin(cub->player.player_angle);
 }
 
-void	rotate_left(t_cub *cub)
-{
-	cub->player.player_angle -= cub->player.rot_speed;
-	cub->player.player_angle = normalize_angle(cub->player.player_angle);
-	update_player_dir(cub);
-}
-
-void	move_left(t_cub *cub)
-{
-	double	next_x;
-	double	next_y;
-
-	next_x = cub->player.x - cub->player.dir_y * cub->player.move_speed;
-	next_y = cub->player.y + cub->player.dir_x * cub->player.move_speed;
-	if (is_walkable(cub, next_x, next_y))
-	{
-		cub->player.x = next_x;
-		cub->player.y = next_y;
-	}
-}
-
-// dont put it in this file
 double	normalize_angle(double angle)
 {
 	if (angle < 0)
@@ -178,8 +79,11 @@ double	normalize_angle(double angle)
 
 void	init_player(t_cub *cub)
 {
-	find_player_position(cub); // remove this later
+	cub->game.fov = 60 * (M_PI / 180);
 	set_player_direction(cub);
-	cub->player.move_speed = 0.5 * TILE;
+	cub->player.move_speed = 0.4 * TILE;
 	cub->player.rot_speed = 3 * (M_PI / 180);
+	cub->game.width_t = cub->game.width * TILE;
+	cub->game.height_t = cub->game.height * TILE;
+	cub->game.proj_plane_dist = (cub->game.width_t / 2.0) / tan(cub->game.fov / 2.0);
 }
