@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:36:48 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/15 22:46:29 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/15 23:34:15 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	ft_strlen_remove(char *line)
 		// todo  i add the newline check if there is an error
 		i++;
 	}
+	printf("the line is: %s and length is: %d\n", line, length); // todo remove this
 	return (length);
 }
 
@@ -51,6 +52,7 @@ char	*remove_char(char *line)
 		}
 		i++;
 	}
+	printf("the ir is: %d\n", ir); // todo remove this
 	res[ir] = '\0';
 	return (res);
 }
