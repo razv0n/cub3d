@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_and_setup.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:06:54 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/15 18:47:35 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/15 23:39:01 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	texture_init(t_cub *cub)
 			&cub->texture[3].height);
 	if (!cub->texture[0].img || !cub->texture[1].img || !cub->texture[2].img
 		|| !cub->texture[3].img)
-		ft_free_all();
+		ft_free_all(mlx);
 	cub->texture[0].img_add = mlx_get_data_addr(cub->texture[0].img,
 			&cub->texture[0].bpp, &cub->texture[0].size_line,
 			&cub->texture[0].endian);
@@ -44,7 +44,7 @@ void	texture_init(t_cub *cub)
 			&cub->texture[3].endian);
 	if (!cub->texture[0].img_add || !cub->texture[1].img_add
 		|| !cub->texture[2].img_add || !cub->texture[3].img_add)
-		ft_free_all();
+		ft_free_all(mlx);
 }
 
 void	mlx_init_and_setup(t_cub *cub)
@@ -52,11 +52,11 @@ void	mlx_init_and_setup(t_cub *cub)
 	cub->game.win = mlx_new_window(cub->game.mlx, cub->game.width_t,
 			cub->game.height_t, "ghorayr");
 	if (!cub->game.win)
-		ft_free_all();
+		ft_free_all(mlx);
 	cub->game.img = mlx_new_image(cub->game.mlx, cub->game.width_t,
 			cub->game.height_t);
 	if (!cub->game.img)
-		ft_free_all();
+		ft_free_all(mlx);
 	cub->game.img_data = mlx_get_data_addr(cub->game.img, &cub->game.bpp,
 			&cub->game.size_line, &cub->game.endian);
 	texture_init(cub);
@@ -69,7 +69,7 @@ void	init_mlx_fun(t_cub *cub)
 	init_player(cub);
 	cub->game.mlx = mlx_init();
 	if (!cub->game.mlx) // todo checkk all the mlx return values
-		ft_free_all();
+		ft_free_all(mlx);
 	mlx_init_and_setup(cub);
 	mlx_hook(cub->game.win, 2, 1L << 0, handle_key, cub);
 	mlx_hook(cub->game.win, 17, 0, handle_close, NULL);
