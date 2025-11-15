@@ -1,55 +1,61 @@
-NAME = cub3d
+NAME		= cub3d
+CC		= cc
+CFLAGS		= -Wall -Wextra -Werror -g3
 
-CC = cc
+SRC_DIR	= src
+LIB_DIR	= libs
+LIBFT_DIR	= $(LIB_DIR)/libft
+LIBFT		= $(LIBFT_DIR)/libft.a
+GNL_DIR	= $(LIB_DIR)/get_next_line
+GNL_SRC	= $(GNL_DIR)/get_next_line.c
+GNL_OBJ	= $(GNL_DIR)/get_next_line.o
 
-CFLAGS = -Wall -Wextra -Werror -g3
+MLX_DIR	= /home/$(shell echo $$USER)/Downloads/minilibx-linux
+MLX_LIB	= -lmlx -L$(MLX_DIR) -lXext -lX11 -lm
 
-CSRCS = ./src/
+SRC_FILES		= main.c \
+			core/init_and_setup.c \
+			game/events.c \
+			game/player.c \
+			memory/free_all.c \
+			memory/ft_malloc.c \
+			parsing/config_utils.c \
+			parsing/parse_config_and_map.c \
+			parsing/parse_cub_file.c \
+			parsing/read_lines.c \
+			rendering/debug.c \
+			rendering/draw.c \
+			rendering/raycasting.c
 
-LIBFT_DIR = libft/libft.a
+SRCS		= $(addprefix $(SRC_DIR)/,$(SRC_FILES))
+OBJS		= $(SRCS:.c=.o)
+INCLUDES	= -I include -I $(LIBFT_DIR) -I $(GNL_DIR)
 
-GET_NEXT_LINE_DIR = get_next_line.o
+all: $(NAME)
 
-MLX_DIR = /home/$(shell echo $$USER)/Downloads/minilibx-linux
+$(NAME): $(OBJS) $(LIBFT) $(GNL_OBJ)
+	$(CC) $(CFLAGS) $(OBJS) $(GNL_OBJ) $(LIBFT) $(MLX_LIB) -o $@
 
-MLX_LIB = -lmlx -L$(MLX_DIR) -lXext -lX11  -lm 
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR)
+	$(MAKE) -C $(LIBFT_DIR) bonus
 
-SRCS =	parsing/parse_cub_file.c\
-		parsing/read_lines.c\
-		parsing/config_utils.c\
-		game/init_and_setup.c\
- 		free_data/free_all.c\
- 		free_data/ft_malloc.c\
-		rendering/draw.c\
-		game/player.c\
-		game/events.c\
-
-MSRCS = main.c 
-
-ALLSRCS = $(MSRCS) $(addprefix $(CSRCS), $(SRCS))
-
-OBJS = $(ALLSRCS:.c=.o)
-
-all : $(NAME)
-
-$(NAME): $(OBJS) $(LIBFT_DIR) $(GET_NEXT_LINE_DIR) libft/libft.h cub3d.h 
-	$(CC) $(CFLAGS) get_next_line/get_next_line.c $(OBJS) $(LIBFT_DIR) $(MLX_LIB) -o $(NAME)
-
-$(LIBFT_DIR):
-	make -C libft bonus
-
-$(GET_NEXT_LINE_DIR):
-	$(CC) $(CFLAGS) get_next_line/get_next_line.c -c
+$(GNL_OBJ): $(GNL_SRC)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(GNL_OBJ)
+	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+bonus: all
+
+.PHONY: all clean fclean re bonus
