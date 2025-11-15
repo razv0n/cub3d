@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 16:16:49 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/15 16:20:01 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/15 23:59:16 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ static int	ft_atoi_byte(const char **str)
 	}
 	return (r);
 }
+void	put_ciling_floor_color(t_cub *cub, char RBG, int color)
+{
+	if (RBG == 'F')
+		cub->config.floor_color = color;
+	else if (RBG == 'C')
+		cub->config.ceiling_color = color;
+}
 
 bool	check_rbg(char *line, t_cub *cub, char RBG)
 {
@@ -61,11 +68,13 @@ bool	check_rbg(char *line, t_cub *cub, char RBG)
 
 	i = 0;
 	if (!line)
-		return (false);       // todo check for the functions
-	line = remove_char(line); // ramove all the withespaces
+		return (false);
+	line = remove_char(line);
 	while (ft_isdigit(*line))
 	{
 		rgb_arr[i] = (short)ft_atoi_byte((const char **)&line);
+		if (!*line)
+			break ;
 		if (rgb_arr[i] == -1)
 			return (false);
 		i++;
@@ -75,10 +84,6 @@ bool	check_rbg(char *line, t_cub *cub, char RBG)
 	}
 	if (*line)
 		return (false);
-	if (RBG == 'F')
-		cub->config.floor_color = rbg_shift(rgb_arr[0], rgb_arr[1], rgb_arr[2]);
-	else if (RBG == 'C')
-		cub->config.ceiling_color = rbg_shift(rgb_arr[0], rgb_arr[1],
-				rgb_arr[2]);
+	put_ciling_floor_color(cub, RBG, rbg_shift(rgb_arr[0], rgb_arr[2], rgb_arr[1]));
 	return (true);
 }

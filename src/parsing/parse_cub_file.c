@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:37:58 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/15 23:14:51 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/15 23:21:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,12 @@ void	flood_fill(t_cub *cub, int i, int j, bool is_zero)
 {
 	int	len_row;
 
+	len_row = 0;
 	if (i > 0 && i < cub->game.height && cub->map_prsv[i])
+	{
 		len_row = cub->rows[i];
+		return;
+	}
 	if (is_zero && (j < 0 || j >= len_row || i < 0 || i >= cub->game.height
 			|| !cub->map_prsv[i] || cub->map_prsv[i][j] == ' ' || !cub->map_prsv[i][j]
 			|| cub->map_prsv[i][j] == '\t'))
