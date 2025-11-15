@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:34:24 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/15 17:58:23 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/15 23:41:56 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	handle_close(void *param)
 {
 	(void)param;
-	ft_free_all();
+	ft_free_all(nothing);
 	return (0);
 }
 int	handle_key(int keycode, t_cub *cub)
@@ -33,7 +33,7 @@ int	handle_key(int keycode, t_cub *cub)
 	else if (keycode == KEY_RIGHT)
 		rotate(cub, RIGHT);
 	else if (keycode == KEY_ESC)
-		ft_free_all();
+		ft_free_all(nothing);
 	ray_casting(cub);
 	return (0);
 }

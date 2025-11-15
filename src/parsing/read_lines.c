@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_lines.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:38:56 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/15 23:12:24 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/15 23:35:24 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	read_lines(int fd, t_cub *cub, char *filename)
 		line = get_next_line(fd);
 	}
 	if (!cub->map)
-	ft_free_all();
+		ft_free_all(nothing);
 	cub->map[cub->index_map] = NULL;
 	cub->map_prsv[cub->index_map] = NULL;
 	cub->game.height = cub->index_map;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 15:23:10 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/15 22:49:38 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/15 23:45:47 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include "./libs/get_next_line/get_next_line.h"
 # include "./libs/libft/libft.h"
-# include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
-// # include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
+// # include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
+# include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
 # include <fcntl.h>
 # include <math.h>
 # include <stdbool.h>
@@ -33,7 +33,7 @@
 # define KEY_RIGHT 65363
 # define KEY_ESC 65307
 
-typedef enum e_direction
+typedef enum s_direction
 {
 	DOWN,
 	UP,
@@ -41,13 +41,14 @@ typedef enum e_direction
 	RIGHT,
 }				e_direction;
 
-// typedef enum e_msg
-// {
-// 	wall,
-// 	floor,
-// 	L,
-// 	R,
-// }				e_msg;
+typedef enum s_msg
+{
+	wall,
+	color,
+	nothing,
+	element,
+	mlx,
+}				e_msg;
 
 typedef struct s_config
 {
@@ -122,6 +123,7 @@ typedef struct s_cub
 {
 	t_config	config;
 	t_texture	texture[4];
+	e_msg		mesaage;
 	int			nm_line;
 	char		**map;
 	char		**map_prsv;
@@ -150,7 +152,7 @@ int				is_cub_file(char *filename);
 // void    ft_free_all(t_list **head);
 void			init_player(t_cub *cub);
 // v oid    move_player(t_cub *cub, double move_x, double move_y);
-void			ft_free_all(void);
+void			ft_free_all(e_msg mesaage);
 void			check_element(t_cub *cub);
 void			read_lines(int fd, t_cub *cub, char *filename);
 void			free_mlx_data(t_cub *cub);
