@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_malloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 16:09:13 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/12 09:05:25 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/15 23:40:37 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void	*ft_malloc(size_t size)
 	head = return_ptr();
 	ptr = malloc(size);
 	if (!ptr)
-		ft_free_all();
+		ft_free_all(nothing);
 	if (!add_ptr(ptr, head))
-		ft_free_all();
+		ft_free_all(nothing);
 	return (ptr);
 }

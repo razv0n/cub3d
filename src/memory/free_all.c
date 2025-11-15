@@ -3,20 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   free_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 16:45:40 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/15 15:16:27 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/15 23:49:31 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
-void	ft_free_all(void)
+static void check_message(e_msg mssg)
+{
+	if(mssg == wall)
+		printf("Error\nInvalid Wall Texture Path\n");
+	else if(mssg == color)
+		printf("Error\nInvalid Color Format\n");
+	else if(mssg == element)
+		printf("Error\nInvalid Map Element\n");
+	else if(mssg == mlx)
+		printf("Error\nMLX Initialization Failed\n");
+}
+
+void	ft_free_all(e_msg message)
 {
 	t_list	**head;
 	t_cub	*cub;
 
+	check_message(message);
 	head = return_ptr();
 	if (!head || !*head)
 		return ;

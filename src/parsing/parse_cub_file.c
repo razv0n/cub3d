@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cub_file.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:37:58 by mowardan          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/11/15 23:21:07 by mfahmi           ###   ########.fr       */
+=======
+/*   Updated: 2025/11/15 23:37:07 by mowardan         ###   ########.fr       */
+>>>>>>> e45dce1e136e13d10cb929468757e90e4db70954
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +39,7 @@ void	flood_fill(t_cub *cub, int i, int j, bool is_zero)
 	if (is_zero && (j < 0 || j >= len_row || i < 0 || i >= cub->game.height
 			|| !cub->map_prsv[i] || cub->map_prsv[i][j] == ' ' || !cub->map_prsv[i][j]
 			|| cub->map_prsv[i][j] == '\t'))
-		ft_free_all();
+		ft_free_all(wall);
 	if (j < 0 || j >= len_row || i < 0 || i >= cub->game.height || !cub->map_prsv[i]
 		|| !cub->map_prsv[i][j] || cub->map_prsv[i][j] == '1' || cub->map_prsv[i][j] == 'F')
 	{
@@ -63,7 +67,7 @@ void	c_check_element(t_cub *cub, int i, int j)
 		flood_fill(cub, i, j, false);
 	}
 	else if (cub->map[i][j] != '0' && cub->map[i][j] != '1')
-		ft_free_all();
+		ft_free_all(element);
 }
 
 void	check_element(t_cub *cub)
@@ -83,7 +87,7 @@ void	check_element(t_cub *cub)
 		i++;
 	}
 	if (!cub->config.position_player)
-		ft_free_all();
+		ft_free_all(element);
 }
 
 bool	parse_cub_file(char *filename, t_cub *cub)
@@ -92,7 +96,7 @@ bool	parse_cub_file(char *filename, t_cub *cub)
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		ft_free_all();
+		ft_free_all(nothing);
 	read_lines(fd, cub, filename);
 	check_element(cub);
 	return (0);
