@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 16:16:49 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/15 23:59:16 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 00:11:19 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,6 @@ bool	check_rbg(char *line, t_cub *cub, char RBG)
 	}
 	if (*line)
 		return (false);
-	put_ciling_floor_color(cub, RBG, rbg_shift(rgb_arr[0], rgb_arr[2], rgb_arr[1]));
+	put_ciling_floor_color(cub, RBG, rbg_shift(rgb_arr[0], rgb_arr[1], rgb_arr[2]));
 	return (true);
 }

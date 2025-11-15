@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 15:23:10 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/15 23:45:47 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/16 00:10:32 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 
 # include "./libs/get_next_line/get_next_line.h"
 # include "./libs/libft/libft.h"
-// # include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
-# include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
+# include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
+// # include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
 # include <fcntl.h>
 # include <math.h>
 # include <stdbool.h>
+#include <stddef.h> // dont forget to remove the unsed heders
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
