@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cub_file.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:37:58 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/16 14:36:21 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 17:19:45 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ void	c_check_element(t_cub *cub, int i, int j)
 		cub->player.y = i * TILE;
 		flood_fill(cub, i, j, false);
 	}
-	else if (cub->map[i][j] != '0' && cub->map[i][j] != '1' && cub->map[i][j] != '\n' && cub->map[i][j] != ' '&& cub->map[i][j] != '\t')
+	else if (cub->map[i][j] != '0' && cub->map[i][j] != '1'
+		&& cub->map[i][j] != '\n' && cub->map[i][j] != ' '
+		&& cub->map[i][j] != '\t')
 		ft_free_all(element);
 }
 
