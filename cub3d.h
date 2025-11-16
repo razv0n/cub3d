@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 15:23:10 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/16 14:32:19 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 17:18:24 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include "./libs/get_next_line/get_next_line.h"
 # include "./libs/libft/libft.h"
-# include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
-// # include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
+// # include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
+# include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
 # include <fcntl.h>
 # include <math.h>
 # include <stdbool.h>
@@ -180,7 +180,7 @@ float			calc_dist(float x1, float y1, float x2, float y2);
 void			ray_casting(t_cub *cub);
 void			rotate(t_cub *cub, t_direction dir);
 void			move_backward(t_cub *cub);
- void	set_player_direction(t_cub *cub);
+void			set_player_direction(t_cub *cub);
 void			move_forward(t_cub *cub);
 void			move_left(t_cub *cub);
 void			draw_wall_line(t_cub *cub, int ray_id);

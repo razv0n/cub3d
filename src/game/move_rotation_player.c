@@ -19,10 +19,10 @@ void	move_forward(t_cub *cub)
 
 	next_x = cub->player.x + (cub->player.dir_x * cub->player.move_speed);
 	next_y = cub->player.y + (cub->player.dir_y * cub->player.move_speed);
-	if (is_walkable(cub, next_x + (0.09 * TILE), next_y) &&
-		is_walkable(cub, next_x, next_y + (0.09 * TILE)) && 
-		is_walkable(cub, next_x - (0.09 * TILE), next_y) && 
-		is_walkable(cub, next_x, next_y - (0.09 * TILE)))
+	if (is_walkable(cub, next_x + (0.09 * TILE), next_y) && is_walkable(cub,
+			next_x, next_y + (0.09 * TILE)) && is_walkable(cub, next_x - (0.09
+				* TILE), next_y) && is_walkable(cub, next_x, next_y - (0.09
+				* TILE)))
 	{
 		cub->player.x = next_x;
 		cub->player.y = next_y;
@@ -36,10 +36,10 @@ void	move_backward(t_cub *cub)
 
 	next_x = cub->player.x - (cub->player.dir_x * cub->player.move_speed);
 	next_y = cub->player.y - (cub->player.dir_y * cub->player.move_speed);
-	if (is_walkable(cub, next_x - (0.09 * TILE), next_y) &&
-		is_walkable(cub, next_x, next_y - (0.09 * TILE)) && 
-		is_walkable(cub, next_x + (0.09 * TILE), next_y) && 
-		is_walkable(cub, next_x, next_y + (0.09 * TILE)))
+	if (is_walkable(cub, next_x - (0.09 * TILE), next_y) && is_walkable(cub,
+			next_x, next_y - (0.09 * TILE)) && is_walkable(cub, next_x + (0.09
+				* TILE), next_y) && is_walkable(cub, next_x, next_y + (0.09
+				* TILE)))
 	{
 		cub->player.x = next_x;
 		cub->player.y = next_y;
@@ -58,10 +58,10 @@ void	move_right(t_cub *cub)
 
 	next_x = cub->player.x + cub->player.dir_y * cub->player.move_speed;
 	next_y = cub->player.y - cub->player.dir_x * cub->player.move_speed;
-	if (is_walkable(cub, next_x + (0.09 * TILE), next_y) &&
-		is_walkable(cub, next_x, next_y - (0.09 * TILE)) && 
-		is_walkable(cub, next_x - (0.09 * TILE), next_y) && 
-		is_walkable(cub, next_x, next_y + (0.09 * TILE)))
+	if (is_walkable(cub, next_x + (0.09 * TILE), next_y) && is_walkable(cub,
+			next_x, next_y - (0.09 * TILE)) && is_walkable(cub, next_x - (0.09
+				* TILE), next_y) && is_walkable(cub, next_x, next_y + (0.09
+				* TILE)))
 	{
 		cub->player.x = next_x;
 		cub->player.y = next_y;
@@ -91,10 +91,10 @@ void	move_left(t_cub *cub)
 
 	next_x = cub->player.x - cub->player.dir_y * cub->player.move_speed;
 	next_y = cub->player.y + cub->player.dir_x * cub->player.move_speed;
-	if (is_walkable(cub, next_x - (0.09 * TILE), next_y + (0.09 * TILE)) &&
-		is_walkable(cub, next_x, next_y - (0.09 * TILE)) 
-		&& is_walkable(cub, next_x + (0.09 * TILE), next_y) 
-		&& is_walkable(cub, next_x, next_y + (0.09 * TILE)))
+	if (is_walkable(cub, next_x - (0.09 * TILE), next_y + (0.09 * TILE))
+		&& is_walkable(cub, next_x, next_y - (0.09 * TILE)) && is_walkable(cub,
+			next_x + (0.09 * TILE), next_y) && is_walkable(cub, next_x, next_y
+			+ (0.09 * TILE)))
 	{
 		cub->player.x = next_x;
 		cub->player.y = next_y;

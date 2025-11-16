@@ -22,7 +22,7 @@ static void	check_message(t_msg mssg)
 		printf("Error\nInvalid Map Element\n");
 	else if (mssg == mlx)
 		printf("Error\nMLX Initialization Failed\n");
-	else if(mssg == empty)
+	else if (mssg == empty)
 		printf("Error\nEmpty File\n");
 }
 

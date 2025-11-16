@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_color.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 16:16:49 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/16 16:27:59 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 17:51:36 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ bool	check_the_colors(char *line, int nm_line, t_cub *cub)
 	static bool	f;
 	static bool	c;
 
+	if (!line)
+		return (false);
 	if (!ft_strncmp("F", line, 1) && !f)
 	{
 		f = true;
@@ -68,24 +70,19 @@ bool	check_rbg(char *line, t_cub *cub, char RBG)
 	int		i;
 
 	i = 0;
-	if (!line)
-		return (false);
 	while (ft_isdigit(*line) && i < 3)
 	{
 		rgb_arr[i] = (short)ft_atoi_byte((const char **)&line);
 		if (rgb_arr[i] == -1)
 			return (false);
-		if(i < 2)
+		if (i < 2)
 		{
-			if(*line != ',')
+			if (*line != ',')
 				return (false);
 			line++;
 		}
-		else if (i == 2)
-		{
-			if(*line)
-				return(false);
-		}
+		else if (i == 2 && *line)
+			return (false);
 		i++;
 	}
 	if (*line)

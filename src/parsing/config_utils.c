@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:36:48 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/16 15:18:45 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 17:18:42 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,28 @@ void	parse_map(char *line, t_cub *cub)
 	cub->rows[cub->index_map] = ft_strlen(cub->map[cub->index_map]);
 }
 
+void	check_rules_map__helper(char **line, t_cub *cub)
+{
+	if (cub->nm_line >= 7 && ft_strlen_remove(*line) == 0)
+		ft_free_all(wall);
+	if (cub->nm_line == 7)
+	{
+		cub->rows = ft_malloc(sizeof(int) * (cub->length_map
+					- cub->index_map + 1));
+		cub->map = ft_malloc(sizeof(char *) * (cub->length_map
+					- cub->index_map + 2));
+		cub->map_prsv = ft_malloc(sizeof(char *) * (cub->length_map
+					- cub->index_map + 2));
+		cub->index_map = 0;
+	}
+}
+
 void	check_rules_map(char **line, t_cub *cub)
 {
-	if(cub->nm_line < 7)
+	if (cub->nm_line < 7)
 		*line = remove_char(*line);
 	if (!**line)
-		return;
+		return ;
 	cub->nm_line++;
 	if (cub->nm_line <= 4)
 	{
@@ -82,18 +98,7 @@ void	check_rules_map(char **line, t_cub *cub)
 	}
 	else
 	{
-		if(cub->nm_line >= 7 && ft_strlen_remove(*line) == 0)
-			ft_free_all(wall);
-		if (cub->nm_line == 7)
-		{
-			cub->rows = ft_malloc(sizeof(int) * (cub->length_map
-						- cub->index_map + 1));
-			cub->map = ft_malloc(sizeof(char *) * (cub->length_map
-						- cub->index_map + 2));
-			cub->map_prsv = ft_malloc(sizeof(char *) * (cub->length_map
-						- cub->index_map + 2));
-			cub->index_map = 0;
-		}
+		check_rules_map__helper(line, cub);
 		parse_map(*line, cub);
 	}
 }

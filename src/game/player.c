@@ -42,7 +42,7 @@ static void	c_set_player_direction(t_cub *cub, char dir)
 	}
 }
 
- void	set_player_direction(t_cub *cub)
+void	set_player_direction(t_cub *cub)
 {
 	char	dir;
 
