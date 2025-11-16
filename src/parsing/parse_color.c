@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_color.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 16:16:49 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/16 10:19:57 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/16 16:27:59 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,23 @@ bool	check_rbg(char *line, t_cub *cub, char RBG)
 	i = 0;
 	if (!line)
 		return (false);
-	line = remove_char(line);
-	while (ft_isdigit(*line))
+	while (ft_isdigit(*line) && i < 3)
 	{
 		rgb_arr[i] = (short)ft_atoi_byte((const char **)&line);
-		if (!*line)
-			break ;
 		if (rgb_arr[i] == -1)
 			return (false);
+		if(i < 2)
+		{
+			if(*line != ',')
+				return (false);
+			line++;
+		}
+		else if (i == 2)
+		{
+			if(*line)
+				return(false);
+		}
 		i++;
-		if (*line != ',' && i != 3)
-			return (false);
-		line++;
 	}
 	if (*line)
 		return (false);
