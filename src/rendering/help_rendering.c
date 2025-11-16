@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_rendering.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 17:09:41 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/15 18:10:43 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 10:18:12 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	find_distance(t_cub *cub)
 		cub->player.is_hr = false;
 	}
 }
+
 void	check_dir(t_cub *cub)
 {
 	double	angle;

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:36:48 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/16 11:30:17 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 14:33:44 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	ft_strlen_remove(char *line)
 	{
 		if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
 			length++;
-		// todo  i add the newline check if there is an error
 		i++;
 	}
 	return (length);
@@ -77,12 +76,12 @@ void	check_rules_map(char **line, t_cub *cub)
 	if (cub->nm_line <= 4)
 	{
 		if (!check_the_texture_wall(*line, cub->nm_line, cub))
-			ft_free_all(wall); // todo free all();
+			ft_free_all(wall);
 	}
 	else if (cub->nm_line >= 5 && cub->nm_line <= 6)
 	{
 		if (!check_the_colors(*line, cub->nm_line, cub))
-			ft_free_all(color); // todo free all();
+			ft_free_all(color);
 	}
 	else
 	{

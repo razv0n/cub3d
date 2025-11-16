@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_config_and_map.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 16:12:34 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/15 16:19:00 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 10:21:17 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	check_ea_we(char *line, t_cub *cub, bool *ea, bool *we)
 			*we = true;
 	}
 }
+
 bool	check_the_texture_wall(char *line, short nm_line, t_cub *cub)
 {
 	static bool	no;
