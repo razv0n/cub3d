@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:36:48 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/16 00:04:08 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 11:30:17 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	ft_strlen_remove(char *line)
 		// todo  i add the newline check if there is an error
 		i++;
 	}
-	printf("the line is: %s and length is: %d\n", line, length); // todo remove this
 	return (length);
 }
 
@@ -52,7 +51,6 @@ char	*remove_char(char *line)
 		}
 		i++;
 	}
-	printf("the ir is: %d\n", ir); // todo remove this
 	res[ir] = '\0';
 	return (res);
 }
@@ -61,17 +59,20 @@ void	parse_map(char *line, t_cub *cub)
 {
 	if (!line)
 		return ;
-	cub->map[cub->index_map] = ft_strtrim(line, " \n\t");
+	cub->map[cub->index_map] = line;
 	cub->map_prsv[cub->index_map] = ft_strdup(cub->map[cub->index_map]);
 	cub->rows[cub->index_map] = ft_strlen(cub->map[cub->index_map]);
 }
 
 void	check_rules_map(char **line, t_cub *cub)
 {
-	while (**line == ' ' || **line == '\t' || **line == '\n')
-		(*line)++;
-	if (!**line)
-		return ;
+	if(cub->nm_line < 7)
+	{
+		while (**line == ' ' || **line == '\t' || **line == '\n')
+			(*line)++;
+		if (!**line)
+			return ;
+	}
 	cub->nm_line++;
 	if (cub->nm_line <= 4)
 	{
