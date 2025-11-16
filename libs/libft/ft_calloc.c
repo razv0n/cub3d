@@ -18,7 +18,7 @@ void	*ft_calloc(size_t nitems, size_t size)
 	size_t	i;
 
 	i = 0;
-	ptr = ft_malloc (nitems * size);
+	ptr = ft_malloc(nitems * size);
 	if (!ptr)
 		return (NULL);
 	while (i < (nitems * size))

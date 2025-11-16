@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cub_file.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:37:58 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/16 00:08:49 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 10:27:05 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,15 @@ void	flood_fill(t_cub *cub, int i, int j, bool is_zero)
 	if (i > 0 && i < cub->game.height && cub->map_prsv[i])
 	{
 		len_row = cub->rows[i];
-		return;
+		return ;
 	}
 	if (is_zero && (j < 0 || j >= len_row || i < 0 || i >= cub->game.height
-			|| !cub->map_prsv[i] || cub->map_prsv[i][j] == ' ' || !cub->map_prsv[i][j]
-			|| cub->map_prsv[i][j] == '\t'))
+			|| !cub->map_prsv[i] || cub->map_prsv[i][j] == ' '
+		|| !cub->map_prsv[i][j] || cub->map_prsv[i][j] == '\t'))
 		ft_free_all(wall);
-	if (j < 0 || j >= len_row || i < 0 || i >= cub->game.height || !cub->map_prsv[i]
-		|| !cub->map_prsv[i][j] || cub->map_prsv[i][j] == '1' || cub->map_prsv[i][j] == 'F')
+	if (j < 0 || j >= len_row || i < 0 || i >= cub->game.height
+		|| !cub->map_prsv[i] || !cub->map_prsv[i][j]
+		|| cub->map_prsv[i][j] == '1' || cub->map_prsv[i][j] == 'F')
 	{
 		is_zero = false;
 		return ;

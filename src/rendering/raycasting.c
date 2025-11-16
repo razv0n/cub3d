@@ -3,49 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 15:38:41 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/15 19:02:39 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 10:17:55 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
-void    calc_x_y_steps_horizontal(t_cub *cub)
+void	calc_x_y_steps_horizontal(t_cub *cub)
 {
-    cub->game.step_y = TILE;
-    if (cub->game.face_up_down == UP)
-        cub->game.step_y = -TILE;
-    cub->game.step_x = (cub->game.step_y) / tan(cub->player.ray_angle);
-    if ((cub->game.face_right_left == LEFT && cub->game.step_x > 0)
-        || (cub->game.face_right_left == RIGHT && cub->game.step_x < 0))
-        cub->game.step_x *= -1;
+	cub->game.step_y = TILE;
+	if (cub->game.face_up_down == UP)
+		cub->game.step_y = -TILE;
+	cub->game.step_x = (cub->game.step_y) / tan(cub->player.ray_angle);
+	if ((cub->game.face_right_left == LEFT && cub->game.step_x > 0)
+		|| (cub->game.face_right_left == RIGHT && cub->game.step_x < 0))
+		cub->game.step_x *= -1;
 }
 
-void    calc_x_y_steps_vertical(t_cub *cub)
+void	calc_x_y_steps_vertical(t_cub *cub)
 {
-    cub->game.step_x = TILE;
-    if (cub->game.face_right_left == LEFT)
-        cub->game.step_x = -TILE;
-    cub->game.step_y = tan(cub->player.ray_angle) * cub->game.step_x;
-    if ((cub->game.face_up_down == DOWN && cub->game.step_y < 0)
-        || (cub->game.face_up_down == UP && cub->game.step_y > 0))
-        cub->game.step_y = -cub->game.step_y;
+	cub->game.step_x = TILE;
+	if (cub->game.face_right_left == LEFT)
+		cub->game.step_x = -TILE;
+	cub->game.step_y = tan(cub->player.ray_angle) * cub->game.step_x;
+	if ((cub->game.face_up_down == DOWN && cub->game.step_y < 0)
+		|| (cub->game.face_up_down == UP && cub->game.step_y > 0))
+		cub->game.step_y = -cub->game.step_y;
 }
 
 void	horizontal(t_cub *cub)
 {
 	double	check_y;
-    double	x_inter;
-    double	y_inter;
+	double	x_inter;
+	double	y_inter;
 
 	y_inter = floor(cub->player.y / TILE) * TILE;
 	if (cub->game.face_up_down == DOWN)
 		y_inter += TILE;
 	x_inter = cub->player.x + (y_inter - cub->player.y)
 		/ tan(cub->player.ray_angle);
-    calc_x_y_steps_horizontal(cub);
+	calc_x_y_steps_horizontal(cub);
 	while (1)
 	{
 		if (cub->game.face_up_down == UP)
@@ -64,42 +64,34 @@ void	horizontal(t_cub *cub)
 void	vertical(t_cub *cub)
 {
 	double	check_x;
-    double	x_inter;
-    double	y_inter;
+	double	x_inter;
+	double	y_inter;
 
 	x_inter = floor(cub->player.x / TILE) * TILE;
 	if (cub->game.face_right_left == RIGHT)
 		x_inter += TILE;
 	y_inter = cub->player.y + (tan(cub->player.ray_angle) * (x_inter
 				- cub->player.x));
-    calc_x_y_steps_vertical(cub);
+	calc_x_y_steps_vertical(cub);
 	while (1)
 	{
-        if (cub->game.face_right_left == LEFT)
-            check_x = x_inter - 0.01;
-        else
-            check_x = x_inter + 0.01;
-        if (!is_walkable(cub, check_x, y_inter))
-            break ;
+		if (cub->game.face_right_left == LEFT)
+			check_x = x_inter - 0.01;
+		else
+			check_x = x_inter + 0.01;
+		if (!is_walkable(cub, check_x, y_inter))
+			break ;
 		x_inter += cub->game.step_x;
 		y_inter += cub->game.step_y;
 	}
 	cub->player.wall_vr_inter_y = y_inter;
 	cub->player.wall_vr_inter_x = x_inter;
 }
-    
+
 void	ray_casting(t_cub *cub)
 {
 	int	ray_count;
 
-	// clear_image(cub);
-	// ! why i dont use the  clear function
-	//? when i use the projection plane like a const it doesnt work well
-	//? why i use the tan in the projection plane calculation and not the cos
-	//?why the texture woorks wiht the function get_pixel but not when i access directly to the img_add
-	// ? why in the dir i use the cos and sin
-	// todo ray casting add the -1 and +1 in the up down or right left check
-	// todo optimise the ray casting
 	ray_count = 0;
 	cub->player.ray_angle = cub->player.player_angle - (cub->game.fov / 2);
 	cub->player.ray_angle = normalize_angle(cub->player.ray_angle);

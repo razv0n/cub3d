@@ -6,7 +6,7 @@
 /*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 22:15:07 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/13 14:09:37 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/16 10:10:15 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ char	*extract_line(char **str)
 		sub_line_lenght = (size_t)(new_line_position - *str + 1);
 		valid_line = ft_substr(*str, 0, sub_line_lenght);
 		tmp = ft_strdup(new_line_position + 1);
-		// free(*str);
 		*str = tmp;
 	}
 	else
@@ -81,7 +80,6 @@ char	*get_next_line(int fd)
 	line = extract_line(&str);
 	if (line == NULL)
 	{
-		// free(str);
 		str = 0;
 	}
 	return (line);

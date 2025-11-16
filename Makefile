@@ -36,7 +36,7 @@ INCLUDES	= -I include -I $(LIBFT_DIR) -I $(GNL_DIR)
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) $(GNL_OBJ)
-	$(CC) $(CFLAGS) $(OBJS) $(GNL_OBJ) $(LIBFT) $(MLX_LIB) -o $@
+	@$(CC) $(CFLAGS) $(OBJS) $(GNL_OBJ) $(LIBFT) $(MLX_LIB) -o $@
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)

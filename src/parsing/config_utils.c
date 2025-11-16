@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:36:48 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/16 00:04:08 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 10:20:51 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,8 @@ int	ft_strlen_remove(char *line)
 	{
 		if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
 			length++;
-		// todo  i add the newline check if there is an error
 		i++;
 	}
-	printf("the line is: %s and length is: %d\n", line, length); // todo remove this
 	return (length);
 }
 
@@ -52,7 +50,6 @@ char	*remove_char(char *line)
 		}
 		i++;
 	}
-	printf("the ir is: %d\n", ir); // todo remove this
 	res[ir] = '\0';
 	return (res);
 }
@@ -76,12 +73,12 @@ void	check_rules_map(char **line, t_cub *cub)
 	if (cub->nm_line <= 4)
 	{
 		if (!check_the_texture_wall(*line, cub->nm_line, cub))
-			ft_free_all(wall); // todo free all();
+			ft_free_all(wall);
 	}
 	else if (cub->nm_line >= 5 && cub->nm_line <= 6)
 	{
 		if (!check_the_colors(*line, cub->nm_line, cub))
-			ft_free_all(color); // todo free all();
+			ft_free_all(color);
 	}
 	else
 	{
