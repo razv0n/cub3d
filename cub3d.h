@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 15:23:10 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/16 00:10:32 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 10:25:44 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 # include "./libs/get_next_line/get_next_line.h"
 # include "./libs/libft/libft.h"
-# include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
-// # include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
+// # include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
+# include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
 # include <fcntl.h>
 # include <math.h>
 # include <stdbool.h>
-#include <stddef.h> // dont forget to remove the unsed heders
+# include <stddef.h> // dont forget to remove the unsed heders
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -40,7 +40,7 @@ typedef enum s_direction
 	UP,
 	LEFT,
 	RIGHT,
-}				e_direction;
+}				t_direction;
 
 typedef enum s_msg
 {
@@ -49,7 +49,7 @@ typedef enum s_msg
 	nothing,
 	element,
 	mlx,
-}				e_msg;
+}				t_msg;
 
 typedef struct s_config
 {
@@ -105,8 +105,8 @@ typedef struct s_game
 	void		*img;
 	char		*img_data;
 	int			bpp;
-	e_direction	face_up_down;
-	e_direction	face_right_left;
+	t_direction	face_up_down;
+	t_direction	face_right_left;
 	int			size_line;
 	int			wall_height;
 	int			endian;
@@ -117,14 +117,14 @@ typedef struct s_game
 	double		inter_x;
 	double		inter_y;
 	double		proj_plane_dist;
-    double      fov;
+	double		fov;
 }				t_game;
 
 typedef struct s_cub
 {
 	t_config	config;
 	t_texture	texture[4];
-	e_msg		mesaage;
+	t_msg		mesaage;
 	int			nm_line;
 	char		**map;
 	char		**map_prsv;
@@ -153,7 +153,7 @@ int				is_cub_file(char *filename);
 // void    ft_free_all(t_list **head);
 void			init_player(t_cub *cub);
 // v oid    move_player(t_cub *cub, double move_x, double move_y);
-void			ft_free_all(e_msg mesaage);
+void			ft_free_all(t_msg mesaage);
 void			check_element(t_cub *cub);
 void			read_lines(int fd, t_cub *cub, char *filename);
 void			free_mlx_data(t_cub *cub);
@@ -177,7 +177,7 @@ double			normalize_angle(double angle);
 // void draw_map(t_cub *cub);
 float			calc_dist(float x1, float y1, float x2, float y2);
 void			ray_casting(t_cub *cub);
-void			rotate(t_cub *cub, e_direction dir);
+void			rotate(t_cub *cub, t_direction dir);
 void			move_backward(t_cub *cub);
 void			move_forward(t_cub *cub);
 void			move_left(t_cub *cub);

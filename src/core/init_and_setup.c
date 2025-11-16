@@ -6,15 +6,14 @@
 /*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:06:54 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/15 23:39:01 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/16 10:14:07 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
-void	texture_init(t_cub *cub)
+static void	set_xpm_to_fimg(t_cub *cub)
 {
-	// todo protect against invalid texture paths
 	cub->texture[0].img = mlx_xpm_file_to_image(cub->game.mlx,
 			cub->config.no_texture, &cub->texture[0].width,
 			&cub->texture[0].height);
@@ -30,6 +29,11 @@ void	texture_init(t_cub *cub)
 	if (!cub->texture[0].img || !cub->texture[1].img || !cub->texture[2].img
 		|| !cub->texture[3].img)
 		ft_free_all(mlx);
+}
+
+void	texture_init(t_cub *cub)
+{
+	set_xpm_to_fimg(cub);
 	cub->texture[0].img_add = mlx_get_data_addr(cub->texture[0].img,
 			&cub->texture[0].bpp, &cub->texture[0].size_line,
 			&cub->texture[0].endian);
@@ -68,7 +72,7 @@ void	init_mlx_fun(t_cub *cub)
 {
 	init_player(cub);
 	cub->game.mlx = mlx_init();
-	if (!cub->game.mlx) // todo checkk all the mlx return values
+	if (!cub->game.mlx)
 		ft_free_all(mlx);
 	mlx_init_and_setup(cub);
 	mlx_hook(cub->game.win, 2, 1L << 0, handle_key, cub);
