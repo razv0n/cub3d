@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 16:50:20 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/16 09:59:47 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 14:35:10 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	move_right(t_cub *cub)
 	}
 }
 
-void	rotate(t_cub *cub, e_direction dir)
+void	rotate(t_cub *cub, t_direction dir)
 {
 	if (dir == RIGHT)
 	{
@@ -86,8 +86,8 @@ void	rotate(t_cub *cub, e_direction dir)
 
 void	move_left(t_cub *cub)
 {
-	double next_x;
-	double next_y;
+	double	next_x;
+	double	next_y;
 
 	next_x = cub->player.x - cub->player.dir_y * cub->player.move_speed;
 	next_y = cub->player.y + cub->player.dir_x * cub->player.move_speed;

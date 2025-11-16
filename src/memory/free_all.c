@@ -6,27 +6,27 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 16:45:40 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/16 11:34:04 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 14:33:03 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
-static void check_message(e_msg mssg)
+static void	check_message(t_msg mssg)
 {
-	if(mssg == wall)
+	if (mssg == wall)
 		printf("Error\nInvalid Wall Texture Path\n");
-	else if(mssg == color)
+	else if (mssg == color)
 		printf("Error\nInvalid Color Format\n");
-	else if(mssg == element)
+	else if (mssg == element)
 		printf("Error\nInvalid Map Element\n");
-	else if(mssg == mlx)
+	else if (mssg == mlx)
 		printf("Error\nMLX Initialization Failed\n");
 	else if(mssg == empty)
 		printf("Error\nEmpty File\n");
 }
 
-void	ft_free_all(e_msg message)
+void	ft_free_all(t_msg message)
 {
 	t_list	**head;
 	t_cub	*cub;
@@ -42,40 +42,9 @@ void	ft_free_all(e_msg message)
 	exit(0);
 }
 
-// void    free_mlx_data(t_cub *cub)
-// {
-//     // int i;
-
-//     if (!cub || !cub->game.mlx)
-//         return ;
-//     if(!cub->texture)
-//         return ;
-//     if (cub->game.img)
-//     {
-//         mlx_destroy_image(cub->game.mlx, cub->game.img);
-//         cub->game.img = NULL;
-//     }
-//     i = -1;
-//     while (++i < 4)
-//     {
-//         if (cub->texture[i].img)
-//         {
-//             mlx_destroy_image(cub->game.mlx, cub->texture[i].img);
-//             cub->texture[i].img = NULL;
-//         }
-//     }
-//     if (cub->game.win)
-//     {
-//         mlx_destroy_window(cub->game.mlx, cub->game.win);
-//         cub->game.win = NULL;
-//     }
-//     mlx_destroy_display(cub->game.mlx);
-//     cub->game.mlx = NULL;
-// }
-
 void	free_mlx_data(t_cub *cub)
 {
-		int i;
+	int	i;
 
 	if (!cub || !cub->game.mlx)
 		return ;

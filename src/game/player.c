@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:34:53 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/15 19:26:19 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 14:32:11 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	c_set_player_direction(t_cub *cub, char dir)
 	}
 }
 
-static void	set_player_direction(t_cub *cub)
+ void	set_player_direction(t_cub *cub)
 {
 	char	dir;
 
@@ -75,15 +75,4 @@ double	normalize_angle(double angle)
 	if (angle >= 2 * M_PI)
 		angle -= 2 * M_PI;
 	return (angle);
-}
-
-void	init_player(t_cub *cub)
-{
-	cub->game.fov = 60 * (M_PI / 180);
-	set_player_direction(cub);
-	cub->player.move_speed = 0.4 * TILE;
-	cub->player.rot_speed = 3 * (M_PI / 180);
-	cub->game.width_t = cub->game.width * TILE;
-	cub->game.height_t = cub->game.height * TILE;
-	cub->game.proj_plane_dist = (cub->game.width_t / 2.0) / tan(cub->game.fov / 2.0);
 }
