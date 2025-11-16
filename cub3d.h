@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 15:23:10 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/16 00:10:32 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 12:10:33 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define TILE 64
+# define TILE 32
 # define KEY_W 119
 # define KEY_A 100
 # define KEY_S 115
@@ -46,6 +46,7 @@ typedef enum s_msg
 {
 	wall,
 	color,
+	empty,
 	nothing,
 	element,
 	mlx,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 16:45:40 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/15 23:49:31 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/16 11:34:04 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static void check_message(e_msg mssg)
 		printf("Error\nInvalid Map Element\n");
 	else if(mssg == mlx)
 		printf("Error\nMLX Initialization Failed\n");
+	else if(mssg == empty)
+		printf("Error\nEmpty File\n");
 }
 
 void	ft_free_all(e_msg message)

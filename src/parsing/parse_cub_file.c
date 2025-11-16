@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:37:58 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/16 00:08:49 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 11:12:28 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,9 @@ void	flood_fill(t_cub *cub, int i, int j, bool is_zero)
 
 	len_row = 0;
 	if (i > 0 && i < cub->game.height && cub->map_prsv[i])
-	{
 		len_row = cub->rows[i];
-		return;
-	}
+	else
+		return ;
 	if (is_zero && (j < 0 || j >= len_row || i < 0 || i >= cub->game.height
 			|| !cub->map_prsv[i] || cub->map_prsv[i][j] == ' ' || !cub->map_prsv[i][j]
 			|| cub->map_prsv[i][j] == '\t'))
@@ -60,9 +59,14 @@ void	c_check_element(t_cub *cub, int i, int j)
 		cub->config.position_player = cub->map[i][j];
 		cub->player.x = j * TILE;
 		cub->player.y = i * TILE;
+		for (int x = 0; cub->map_prsv[x]; x++)
+			printf("row %d: %s\n", x, cub->map_prsv[x]);
+		printf("\n");  
 		flood_fill(cub, i, j, false);
+		for (int x = 0; cub->map_prsv[x]; x++)
+			printf("row %d: %s\n", x, cub->map_prsv[x]);
 	}
-	else if (cub->map[i][j] != '0' && cub->map[i][j] != '1')
+	else if (cub->map[i][j] != '0' && cub->map[i][j] != '1' && cub->map[i][j] != '\n' && cub->map[i][j] != ' '&& cub->map[i][j] != '\t')
 		ft_free_all(element);
 }
 
