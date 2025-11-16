@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:36:48 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/16 14:33:44 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 15:18:45 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,9 @@ void	parse_map(char *line, t_cub *cub)
 void	check_rules_map(char **line, t_cub *cub)
 {
 	if(cub->nm_line < 7)
-	{
-		while (**line == ' ' || **line == '\t' || **line == '\n')
-			(*line)++;
-		if (!**line)
-			return ;
-	}
+		*line = remove_char(*line);
+	if (!**line)
+		return;
 	cub->nm_line++;
 	if (cub->nm_line <= 4)
 	{
@@ -85,6 +82,8 @@ void	check_rules_map(char **line, t_cub *cub)
 	}
 	else
 	{
+		if(cub->nm_line >= 7 && ft_strlen_remove(*line) == 0)
+			ft_free_all(wall);
 		if (cub->nm_line == 7)
 		{
 			cub->rows = ft_malloc(sizeof(int) * (cub->length_map

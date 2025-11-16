@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:34:53 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/16 14:32:11 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/16 17:04:19 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	is_walkable(t_cub *cub, double x_p, double y_p)
 
 	x = x_p / TILE;
 	y = y_p / TILE;
-	if (y < 0 || x < 0 || y >= cub->game.height || x >= cub->game.width)
+	if (y < 0 || x < 0 || y >= cub->game.height || x >= cub->rows[y])
 		return (0);
 	if (!cub->map[y] || !cub->map[y][x])
 		return (0);
