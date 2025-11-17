@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cub_file.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:37:58 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/16 17:19:45 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/17 17:50:10 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,9 @@ void	flood_fill(t_cub *cub, int i, int j, bool is_zero)
 	int	len_row;
 
 	len_row = 0;
-	if (i > 0 && i < cub->game.height && cub->map_prsv[i])
+	if (i >= 0 && i < cub->game.height && cub->map_prsv[i])
 		len_row = cub->rows[i];
-	else
-		return ;
-	if (is_zero && (j < 0 || j >= len_row || i < 0 || i >= cub->game.height
+	if (is_zero && (i < 0 || i >= cub->game.height || j < 0 || j >= len_row
 			|| !cub->map_prsv[i] || cub->map_prsv[i][j] == ' '
 		|| !cub->map_prsv[i][j] || cub->map_prsv[i][j] == '\t'))
 		ft_free_all(wall);
