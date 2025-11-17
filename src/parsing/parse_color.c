@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_color.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 16:16:49 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/11/16 17:51:36 by mowardan         ###   ########.fr       */
+/*   Updated: 2025/11/17 18:20:40 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,16 @@ bool	check_the_colors(char *line, int nm_line, t_cub *cub)
 		return (false);
 	if (!ft_strncmp("F", line, 1) && !f)
 	{
+		if (!*(line + 1))
+			ft_free_all(color);
 		f = true;
 		if (!check_rbg(line + 1, cub, 'F'))
 			return (!f);
 	}
 	else if (!ft_strncmp("C", line, 1) && !c)
 	{
+		if (!*(line + 1))
+			ft_free_all(color);
 		c = true;
 		if (!check_rbg(line + 1, cub, 'C'))
 			return (!c);
@@ -85,7 +89,7 @@ bool	check_rbg(char *line, t_cub *cub, char RBG)
 			return (false);
 		i++;
 	}
-	if (*line)
+	if (*line || i < 3)
 		return (false);
 	put_ciling_floor_color(cub, RBG, rbg_shift(rgb_arr[0], rgb_arr[1],
 			rgb_arr[2]));
