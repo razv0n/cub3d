@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mowardan <mowardan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 15:23:10 by mowardan          #+#    #+#             */
-/*   Updated: 2025/11/17 16:37:14 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/11/17 18:33:04 by mowardan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 
 # include "./libs/get_next_line/get_next_line.h"
 # include "./libs/libft/libft.h"
-# include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
-// # include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
+// # include "/home/mfahmi/Downloads/minilibx-linux/mlx.h"
+# include "/home/mowardan/Downloads/minilibx-linux/mlx.h"
 # include <fcntl.h>
 # include <math.h>
 # include <stdbool.h>
-# include <stddef.h> // dont forget to remove the unsed heders
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -136,29 +135,18 @@ typedef struct s_cub
 	t_game		game;
 }				t_cub;
 
-// typedef struct s_lines {
-//     char *content;
-//     struct s_lines *next;
-// }   t_lines;
 
 int				is_cub_file(char *filename);
-// bool    check_rules_map(char **line, t_cub *cub);
 bool			parse_cub_file(char *filename, t_cub *cub);
-// void read_lines(int fd, t_cub *cub);
 void			check_rules_map(char **line, t_cub *cub);
-
 void			mlx_init_and_setup(t_cub *cub);
 void			init_mlx_fun(t_cub *cub);
 int				is_cub_file(char *filename);
-// void mlx_init_and_setup(t_cub *cub);
-// void    ft_free_all(t_list **head);
 void			init_player(t_cub *cub);
-// v oid    move_player(t_cub *cub, double move_x, double move_y);
 void			ft_free_all(t_msg mesaage);
 void			check_element(t_cub *cub);
 void			read_lines(int fd, t_cub *cub, char *filename);
 void			free_mlx_data(t_cub *cub);
-// void    draw_map(t_cub *cub);
 void			init_player(t_cub *cub);
 int				handle_key(int keycode, t_cub *cub);
 void			find_distance(t_cub *cub);
@@ -170,12 +158,10 @@ bool			check_the_texture_wall(char *line, short nm_line, t_cub *cub);
 void			put_pixel(t_cub *cub, int x, int y, int color);
 unsigned int	get_pixel(t_texture texture, int x, int y);
 void			move_forward(t_cub *cub);
-// int     is_walkable(t_cub *cub, double x, double y)
 void			check_dir(t_cub *cub);
 bool			is_walkable(t_cub *cub, double x_p, double y_p);
 void			move_backward(t_cub *cub);
 double			normalize_angle(double angle);
-// void draw_map(t_cub *cub);
 float			calc_dist(float x1, float y1, float x2, float y2);
 void			ray_casting(t_cub *cub);
 void			rotate(t_cub *cub, t_direction dir);
@@ -186,7 +172,6 @@ void			move_left(t_cub *cub);
 void			draw_wall_line(t_cub *cub, int ray_id);
 void			update_player_dir(t_cub *cub);
 void			move_right(t_cub *cub);
-// double calc_dist(double x1, double y1, double x2, double y2);
 void			free_mlx_data(t_cub *cub);
 
 #endif
